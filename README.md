@@ -1,4 +1,4 @@
-# IncomeOS
+﻿# IncomeOS
 
 
 
@@ -84,91 +84,91 @@ cff19b6 chore: ignore local database artifacts
 
 ```text
 
-&#x20;                   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+&#x20;                   Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
 
-&#x20;                   â”‚   GitHub Evidence     â”‚
+&#x20;                   Ã¢â€â€š   GitHub Evidence     Ã¢â€â€š
 
-&#x20;                   â”‚   Real Repositories   â”‚
+&#x20;                   Ã¢â€â€š   Real Repositories   Ã¢â€â€š
 
-&#x20;                   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+&#x20;                   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 
-&#x20;                              â”‚
+&#x20;                              Ã¢â€â€š
 
-&#x20;                              â–¼
+&#x20;                              Ã¢â€“Â¼
 
-&#x20;                   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+&#x20;                   Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
 
-&#x20;                   â”‚ Repository Analyzer   â”‚
+&#x20;                   Ã¢â€â€š Repository Analyzer   Ã¢â€â€š
 
-&#x20;                   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+&#x20;                   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 
-&#x20;                              â”‚
+&#x20;                              Ã¢â€â€š
 
-&#x20;                              â–¼
+&#x20;                              Ã¢â€“Â¼
 
-&#x20;                   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+&#x20;                   Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
 
-&#x20;                   â”‚   Skill Detection    â”‚
+&#x20;                   Ã¢â€â€š   Skill Detection    Ã¢â€â€š
 
-&#x20;                   â”‚   + Evidence         â”‚
+&#x20;                   Ã¢â€â€š   + Evidence         Ã¢â€â€š
 
-&#x20;                   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+&#x20;                   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 
-&#x20;                              â”‚
+&#x20;                              Ã¢â€â€š
 
-&#x20;                              â–¼
+&#x20;                              Ã¢â€“Â¼
 
-&#x20;                   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+&#x20;                   Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
 
-&#x20;                   â”‚ Capability Profile   â”‚
+&#x20;                   Ã¢â€â€š Capability Profile   Ã¢â€â€š
 
-&#x20;                   â”‚ + Confidence         â”‚
+&#x20;                   Ã¢â€â€š + Confidence         Ã¢â€â€š
 
-&#x20;                   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+&#x20;                   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 
-&#x20;                              â”‚
+&#x20;                              Ã¢â€â€š
 
-&#x20;                              â–¼
+&#x20;                              Ã¢â€“Â¼
 
-&#x20;                   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+&#x20;                   Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
 
-&#x20;                   â”‚ Opportunity Matching â”‚
+&#x20;                   Ã¢â€â€š Opportunity Matching Ã¢â€â€š
 
-&#x20;                   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+&#x20;                   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 
-&#x20;                              â”‚
+&#x20;                              Ã¢â€â€š
 
-&#x20;                              â–¼
+&#x20;                              Ã¢â€“Â¼
 
-&#x20;                   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+&#x20;                   Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
 
-&#x20;                   â”‚ Search + Audit       â”‚
+&#x20;                   Ã¢â€â€š Search + Audit       Ã¢â€â€š
 
-&#x20;                   â”‚ External Evidence    â”‚
+&#x20;                   Ã¢â€â€š External Evidence    Ã¢â€â€š
 
-&#x20;                   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+&#x20;                   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 
-&#x20;                              â”‚
+&#x20;                              Ã¢â€â€š
 
-&#x20;                              â–¼
+&#x20;                              Ã¢â€“Â¼
 
-&#x20;                   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+&#x20;                   Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
 
-&#x20;                   â”‚ Decision Engine      â”‚
+&#x20;                   Ã¢â€â€š Decision Engine      Ã¢â€â€š
 
-&#x20;                   â”‚       V2             â”‚
+&#x20;                   Ã¢â€â€š       V2             Ã¢â€â€š
 
-&#x20;                   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+&#x20;                   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 
-&#x20;                              â”‚
+&#x20;                              Ã¢â€â€š
 
-&#x20;                              â–¼
+&#x20;                              Ã¢â€“Â¼
 
-&#x20;                   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+&#x20;                   Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
 
-&#x20;                   â”‚ Action / Tracking    â”‚
+&#x20;                   Ã¢â€â€š Action / Tracking    Ã¢â€â€š
 
-&#x20;                   â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+&#x20;                   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 
 ```
 
@@ -266,59 +266,32 @@ These values are **system confidence scores**, not percentages of professional c
 
 
 
-# Current Skill Evidence
+# Current Verified Skill Stack
 
+Based on forensic evidence from `ResearchOS` and `IncomeOS` development, the following capabilities are proven:
 
+### 🛠️ Core Engineering & QA
+- **Python Development:** Module structuring, debugging, Python 3.x compatibility, `pytest`/`compileall` pipeline execution.
+- **Software Testing & QA:** Writing/fixing unit tests, regression detection, test suite validation.
+- **Codebase Forensic Audit:** Identifying risk surfaces (`shell=True`, import graphs), differentiating committed vs. untracked code, runtime vs. source evidence.
 
-The current repository corpus contains:
+### ⚙️ Automation & Workflow
+- **Git/GitHub Forensics:** Baseline establishment, diff validation, branch/HEAD inspection, repository health auditing.
+- **PowerShell Automation:** Diagnostic scripting, filesystem/process inspection, automated test/compile pipelines in Windows environments.
 
+### 📊 Data & AI-Assisted Engineering
+- **Data Pipeline Validation:** Schema consistency, duplicate detection, timestamp validation, provenance tracking.
+- **AI-Assisted Debugging Workflow:** Hypothesis → AI-generated command → Output verification → Root cause isolation.
 
+> **Positioning:** This stack positions me for **Python QA / Code Auditor / Data Automation / Technical Support Engineer** roles, rather than unproven Senior/ML/DevOps titles.
 
-```text
-
-ResearchOS
-
-fb-planner-audit
-
-reelautofly
-
-trader
-
-true-roas-complete
-
-```
-
-
-
-Current detected skills:
-
-
-
-| Skill            |       Evidence |
-
-| ---------------- | -------------: |
-
-| Testing          | 5 repositories |
-
-| Python           | 4 repositories |
-
-| Data Engineering | 3 repositories |
-
-| C++              |   1 repository |
-
-| Docker           | 2 repositories |
-
-| CMake            |   1 repository |
-
-
-
-Evidence is collected from actual repository artifacts such as source files, tests, build configuration, and data-engineering modules.
-
-
-
----
-
-
+### 📈 Opportunity Matching Readiness
+| Role / Service | Readiness | Evidence Base |
+|---|---|---|
+| Python Code Audit & Risk Assessment | 0.95 | IncomeOS forensic scripts, `shell=True` remediation |
+| QA Automation & Test Fixing | 0.90 | 54 passing pytest tests, regression detection |
+| Repository Health Audit | 0.85 | Git diff checks, untracked file mapping, dependency auditing |
+| Data Pipeline Validation | 0.80 | ResearchOS dataset validation workflows |
 
 # Capability Profiling
 
@@ -418,7 +391,7 @@ Base opportunity value
 
 Difficulty
 
-&#x20;      â†“
+&#x20;      Ã¢â€ â€œ
 
 Opportunity score
 
@@ -558,129 +531,129 @@ The audit layer is intended to prevent weak or unsupported opportunity recommend
 
 IncomeOS/
 
-â”‚
+Ã¢â€â€š
 
-â”œâ”€â”€ incomeos/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ incomeos/
 
-â”‚   â”œâ”€â”€ applications/
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ applications/
 
-â”‚   â”‚
+Ã¢â€â€š   Ã¢â€â€š
 
-â”‚   â”œâ”€â”€ audit/
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ audit/
 
-â”‚   â”‚
+Ã¢â€â€š   Ã¢â€â€š
 
-â”‚   â”œâ”€â”€ core/
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ core/
 
-â”‚   â”‚   â”œâ”€â”€ github.py
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ github.py
 
-â”‚   â”‚   â””â”€â”€ sync.py
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ sync.py
 
-â”‚   â”‚
+Ã¢â€â€š   Ã¢â€â€š
 
-â”‚   â”œâ”€â”€ matching/
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ matching/
 
-â”‚   â”‚
+Ã¢â€â€š   Ã¢â€â€š
 
-â”‚   â”œâ”€â”€ opportunities/
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ opportunities/
 
-â”‚   â”‚   â””â”€â”€ engine.py
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ engine.py
 
-â”‚   â”‚
+Ã¢â€â€š   Ã¢â€â€š
 
-â”‚   â”œâ”€â”€ reports/
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ reports/
 
-â”‚   â”‚
+Ã¢â€â€š   Ã¢â€â€š
 
-â”‚   â”œâ”€â”€ search/
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ search/
 
-â”‚   â”‚
+Ã¢â€â€š   Ã¢â€â€š
 
-â”‚   â”œâ”€â”€ skills/
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ skills/
 
-â”‚   â”‚   â”œâ”€â”€ aggregator.py
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ aggregator.py
 
-â”‚   â”‚   â”œâ”€â”€ capabilities.py
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ capabilities.py
 
-â”‚   â”‚   â”œâ”€â”€ detector.py
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ detector.py
 
-â”‚   â”‚   â”œâ”€â”€ evidence.py
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ evidence.py
 
-â”‚   â”‚   â”œâ”€â”€ github_analyzer.py
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ github_analyzer.py
 
-â”‚   â”‚   â”œâ”€â”€ ledger.py
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ ledger.py
 
-â”‚   â”‚   â”œâ”€â”€ models.py
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ models.py
 
-â”‚   â”‚   â”œâ”€â”€ portfolio.py
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ portfolio.py
 
-â”‚   â”‚   â”œâ”€â”€ profile.py
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ profile.py
 
-â”‚   â”‚   â””â”€â”€ profile_builder.py
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ profile_builder.py
 
-â”‚   â”‚
+Ã¢â€â€š   Ã¢â€â€š
 
-â”‚   â””â”€â”€ tracking/
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ tracking/
 
-â”‚
+Ã¢â€â€š
 
-â”œâ”€â”€ scripts/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ scripts/
 
-â”‚   â”œâ”€â”€ build_master_profile.py
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ build_master_profile.py
 
-â”‚   â”œâ”€â”€ search_audit.py
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ search_audit.py
 
-â”‚   â””â”€â”€ sync_github.py
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ sync_github.py
 
-â”‚
+Ã¢â€â€š
 
-â”œâ”€â”€ tests/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ tests/
 
-â”‚   â”œâ”€â”€ test_aggregator.py
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ test_aggregator.py
 
-â”‚   â”œâ”€â”€ test_capabilities.py
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ test_capabilities.py
 
-â”‚   â”œâ”€â”€ test_github_analyzer.py
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ test_github_analyzer.py
 
-â”‚   â”œâ”€â”€ test_github_integration.py
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ test_github_integration.py
 
-â”‚   â”œâ”€â”€ test_github_sync.py
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ test_github_sync.py
 
-â”‚   â”œâ”€â”€ test_ledger.py
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ test_ledger.py
 
-â”‚   â”œâ”€â”€ test_opportunities.py
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ test_opportunities.py
 
-â”‚   â”œâ”€â”€ test_portfolio.py
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ test_portfolio.py
 
-â”‚   â”œâ”€â”€ test_search_audit.py
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ test_search_audit.py
 
-â”‚   â”œâ”€â”€ test_skill_detector.py
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ test_skill_detector.py
 
-â”‚   â”œâ”€â”€ test_skills.py
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ test_skills.py
 
-â”‚   â””â”€â”€ test_sync.py
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ test_sync.py
 
-â”‚
+Ã¢â€â€š
 
-â”œâ”€â”€ data/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ data/
 
-â”‚   â”œâ”€â”€ github_repos/
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ github_repos/
 
-â”‚   â””â”€â”€ profile/
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ profile/
 
-â”‚
+Ã¢â€â€š
 
-â”œâ”€â”€ reports/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ reports/
 
-â”‚   â””â”€â”€ search_audit_report.json
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ search_audit_report.json
 
-â”‚
+Ã¢â€â€š
 
-â”œâ”€â”€ pytest.ini
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ pytest.ini
 
-â”œâ”€â”€ .gitignore
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ .gitignore
 
-â””â”€â”€ README.md
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ README.md
 
 ```
 
@@ -814,27 +787,27 @@ The preferred lifecycle is:
 
 Implement
 
-&#x20;  â†“
+&#x20;  Ã¢â€ â€œ
 
 Compile
 
-&#x20;  â†“
+&#x20;  Ã¢â€ â€œ
 
 Unit tests
 
-&#x20;  â†“
+&#x20;  Ã¢â€ â€œ
 
 Integration tests
 
-&#x20;  â†“
+&#x20;  Ã¢â€ â€œ
 
 Real-data execution
 
-&#x20;  â†“
+&#x20;  Ã¢â€ â€œ
 
 Forensic inspection
 
-&#x20;  â†“
+&#x20;  Ã¢â€ â€œ
 
 Git checkpoint
 
@@ -850,19 +823,19 @@ Current verified test progression:
 
 17 tests
 
-&#x20;  â†“
+&#x20;  Ã¢â€ â€œ
 
 20 tests
 
-&#x20;  â†“
+&#x20;  Ã¢â€ â€œ
 
 24 tests
 
-&#x20;  â†“
+&#x20;  Ã¢â€ â€œ
 
 29 tests
 
-&#x20;  â†“
+&#x20;  Ã¢â€ â€œ
 
 36 tests
 
@@ -934,15 +907,15 @@ Every important recommendation should eventually be explainable through:
 
 Evidence
 
-â†’ Skill
+Ã¢â€ â€™ Skill
 
-â†’ Capability
+Ã¢â€ â€™ Capability
 
-â†’ Opportunity
+Ã¢â€ â€™ Opportunity
 
-â†’ Audit
+Ã¢â€ â€™ Audit
 
-â†’ Decision
+Ã¢â€ â€™ Decision
 
 ```
 
@@ -1038,7 +1011,7 @@ Search results also require external-world validation before being treated as ac
 
 
 
-## Phase 1 â€” Evidence Foundation
+## Phase 1 Ã¢â‚¬â€ Evidence Foundation
 
 
 
@@ -1056,7 +1029,7 @@ Search results also require external-world validation before being treated as ac
 
 
 
-## Phase 2 â€” Opportunity Intelligence
+## Phase 2 Ã¢â‚¬â€ Opportunity Intelligence
 
 
 
@@ -1070,7 +1043,7 @@ Search results also require external-world validation before being treated as ac
 
 
 
-## Phase 3 â€” Search & Audit
+## Phase 3 Ã¢â‚¬â€ Search & Audit
 
 
 
@@ -1084,7 +1057,7 @@ Search results also require external-world validation before being treated as ac
 
 
 
-## Phase 4 â€” Decision Engine
+## Phase 4 Ã¢â‚¬â€ Decision Engine
 
 
 
@@ -1102,7 +1075,7 @@ Search results also require external-world validation before being treated as ac
 
 
 
-## Phase 5 â€” Action System
+## Phase 5 Ã¢â‚¬â€ Action System
 
 
 
@@ -1118,7 +1091,7 @@ Search results also require external-world validation before being treated as ac
 
 
 
-## Phase 6 â€” Learning Loop
+## Phase 6 Ã¢â‚¬â€ Learning Loop
 
 
 
@@ -1126,27 +1099,27 @@ Search results also require external-world validation before being treated as ac
 
 Evidence
 
-&#x20;  â†“
+&#x20;  Ã¢â€ â€œ
 
 Opportunity
 
-&#x20;  â†“
+&#x20;  Ã¢â€ â€œ
 
 Decision
 
-&#x20;  â†“
+&#x20;  Ã¢â€ â€œ
 
 Action
 
-&#x20;  â†“
+&#x20;  Ã¢â€ â€œ
 
 Outcome
 
-&#x20;  â†“
+&#x20;  Ã¢â€ â€œ
 
 New Evidence
 
-&#x20;  â†“
+&#x20;  Ã¢â€ â€œ
 
 Improved Decision
 
@@ -1206,27 +1179,27 @@ As of the current checkpoint:
 
 IncomeOS
 
-â”‚
+Ã¢â€â€š
 
-â”œâ”€â”€ Evidence Foundation       âœ“
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Evidence Foundation       Ã¢Å“â€œ
 
-â”œâ”€â”€ Capability Profiling      âœ“
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Capability Profiling      Ã¢Å“â€œ
 
-â”œâ”€â”€ Opportunity Matching      âœ“
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Opportunity Matching      Ã¢Å“â€œ
 
-â”œâ”€â”€ Search                    âœ“
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Search                    Ã¢Å“â€œ
 
-â”œâ”€â”€ Audit                     âœ“
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Audit                     Ã¢Å“â€œ
 
-â”œâ”€â”€ Automated Tests           âœ“
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Automated Tests           Ã¢Å“â€œ
 
-â”œâ”€â”€ Git Checkpoints           âœ“
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Git Checkpoints           Ã¢Å“â€œ
 
-â”‚
+Ã¢â€â€š
 
-â””â”€â”€ Decision â†’ Action â†’ Income
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Decision Ã¢â€ â€™ Action Ã¢â€ â€™ Income
 
-&#x20;                             â†“
+&#x20;                             Ã¢â€ â€œ
 
 &#x20;                        NEXT PHASE
 
