@@ -1295,3 +1295,5 @@ Ask:
 
 
 **IncomeOS exists to turn evidence into income-oriented action.**
+#   I n c o m e O S  
+ 
