@@ -1,0 +1,65 @@
+{
+  "repository_count": 5,
+  "skill_record_count": 16,
+  "unique_skill_count": 6,
+  "skills": [
+    {
+      "name": "Testing",
+      "confidence": 1.0,
+      "evidence_count": 5,
+      "repositories": [
+        "ResearchOS",
+        "fb-planner-audit",
+        "reelautofly",
+        "trader",
+        "true-roas-complete"
+      ]
+    },
+    {
+      "name": "Python",
+      "confidence": 1.0,
+      "evidence_count": 4,
+      "repositories": [
+        "ResearchOS",
+        "fb-planner-audit",
+        "trader",
+        "true-roas-complete"
+      ]
+    },
+    {
+      "name": "Data Engineering",
+      "confidence": 0.95,
+      "evidence_count": 3,
+      "repositories": [
+        "ResearchOS",
+        "trader",
+        "true-roas-complete"
+      ]
+    },
+    {
+      "name": "C++",
+      "confidence": 0.85,
+      "evidence_count": 1,
+      "repositories": [
+        "ResearchOS"
+      ]
+    },
+    {
+      "name": "Docker",
+      "confidence": 0.575,
+      "evidence_count": 2,
+      "repositories": [
+        "fb-planner-audit",
+        "true-roas-complete"
+      ]
+    },
+    {
+      "name": "CMake",
+      "confidence": 0.525,
+      "evidence_count": 1,
+      "repositories": [
+        "ResearchOS"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Test / tooling caches
+.pytest_cache/
+.hypothesis/
+.coverage
+coverage.xml
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Local secrets
+.env
+.env.*
+
+# Generated local runtime artifacts
+data/github_repos/
+
+# Keep generated master profile
+!data/profile/
+!data/profile/master_skill_profile.json
