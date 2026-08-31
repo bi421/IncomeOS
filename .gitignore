@@ -37,3 +37,9 @@ data/github_repos/
 # Keep generated master profile
 !data/profile/
 !data/profile/master_skill_profile.json
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+*.duckdb
