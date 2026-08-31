@@ -1,0 +1,1949 @@
+{
+  "repository_count": 5,
+  "document_count": 1713,
+  "finding_count": 277,
+  "critical_count": 0,
+  "warning_count": 122,
+  "info_count": 155,
+  "findings": [
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "fb-planner-audit",
+      "source": "bot\\app.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "fb-planner-audit",
+      "source": "config.yaml"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "fb-planner-audit",
+      "source": "core\\brain\\__init__.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "fb-planner-audit",
+      "source": "core\\config.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "fb-planner-audit",
+      "source": "core\\models.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "fb-planner-audit",
+      "source": "core\\precheck.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "fb-planner-audit",
+      "source": "core\\qpay.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "fb-planner-audit",
+      "source": "data\\risky_words.json"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "fb-planner-audit",
+      "source": "README.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "fb-planner-audit",
+      "source": "test_v2.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "reelautofly",
+      "source": "apps\\api\\src\\modules\\upload\\upload.controller.ts"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "reelautofly",
+      "source": "packages\\remotion-templates\\src\\render.ts"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "reelautofly",
+      "source": "pnpm-lock.yaml"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": ".github\\PULL_REQUEST_TEMPLATE.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": ".github\\workflows\\security.yml"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "CONTRIBUTING.md"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "cpp_quant_engine\\python\\cpp_quant_engine\\backend.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "cpp_quant_engine\\tests\\benchmark.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "docs\\architecture\\hardening\\DEPENDENCY_GRAPH.md"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "docs\\architecture\\v2\\contracts\\INTELLIGENCE_RUNTIME_CONTRACT.md"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "docs\\architecture\\v2\\protocols\\DECISION_ENGINE_PROTOCOL.md"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "docs\\architecture\\v2\\protocols\\DECISION_PROTOCOL.md"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "docs\\architecture\\v2\\protocols\\VERIFICATION_ENGINE_PROTOCOL.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "docs\\archive\\architecture_history\\MACRO_ADAPTER_ARCHITECTURE.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "docs\\archive\\architecture_history\\MACRO_IMPLEMENTATION_BLUEPRINT.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "docs\\archive\\architecture_history\\MACRO_STORAGE_ARCHITECTURE.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "docs\\archive\\audits\\ARCHITECTURE_INTEGRITY_AUDIT_REPORT.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "docs\\archive\\audits\\MACRO_INTELLIGENCE_ARCHITECTURE_AUDIT.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "docs\\archive\\audits\\QUANT_ENGINE_AUDIT_REPORT.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "docs\\archive\\audits\\QUANT_INFRASTRUCTURE_AUDIT.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "docs\\archive\\todo_history\\TODO_Q17.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "docs\\CHANGELOG.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "docs\\PHASE_5_SUMMARY.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "docs\\PHASE_6_SUMMARY.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "docs\\PHASES_0_6_COMPLETION.md"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "docs\\RELEASE_CANDIDATE_v1.0_EVIDENCE.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "docs\\RELEASE_NOTES.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "docs\\REPOSITORY_FORENSIC_AUDIT.md"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "fix_integration.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "project_audit.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\agents\\__init__.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\benchmarks\\__init__.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\benchmarks\\benchmark_cpp.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\benchmarks\\benchmark_cpp_performance_integration.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\dashboard\\app.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\data_engine\\broker_connectors.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\data_engine\\csv_loader.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\data_engine\\dataset.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\data_engine\\loader.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\data_engine\\repository.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\data_engine\\tests\\test_timezone_hardening.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\decision_engine\\context.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\decision_engine\\probability.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\decision_engine\\reasoner.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\data\\__init__.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\data\\broker_connectors.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\data\\csv_loader.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\data\\dataset.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\data\\loader.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\data\\mt5\\__init__.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\data\\repository.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\data\\sources\\__init__.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\data\\tests\\test_timezone_hardening.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\ml\\__init__.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\ml\\macro_data.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\quant\\__init__.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\quant\\backend.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\quant\\backend_hash.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\quant\\compatibility.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\quant\\dataset_contracts.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\quant\\interface.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\quant\\machine_learning\\features.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\quant\\numerical_validation.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\quant\\python\\cpp_quant_engine\\backend.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\quant\\research_engine.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\quant\\research_registry.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\quant\\router.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\quant\\scheduler.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\quant\\statistics.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\quant\\strategies.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\quant\\strategy.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\quant\\tests\\benchmark.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\reasoning\\__init__.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\reasoning\\validation.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\scenario\\__init__.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\scenario\\context.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\scenario\\lineage.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\scenario\\probability.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\scenario\\reasoner.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\validation\\__init__.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\engines\\validation\\prop_validator.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\evidence\\lineage.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\experiments\\contracts.py"
+    },
+    {
+      "severity": "info",
+      "category": "todo",
+      "message": "TODO marker detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\experiments\\crypto\\run_btc_research.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\experiments\\phase51\\contracts.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\experiments\\phase51\\experiment.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\experiments\\phase51\\probability.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\experiments\\phase51\\self_validation.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\experiments\\phase51\\tests\\test_phase51.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\experiments\\reports.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\experiments\\runner.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\experiments\\validation.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\interfaces\\__init__.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\interfaces\\cli.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\macro\\audit\\engine.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\macro\\audit\\guards.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "researchos\\macro\\audit\\guards.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\macro\\audit\\log.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\macro\\interfaces\\base.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\macro\\interfaces\\events.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\macro\\interfaces\\query.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\macro\\interfaces\\v1_bridge.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\macro\\knowledge\\generator.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\macro\\regime\\interfaces.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\macro\\regime\\transition\\detector.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\macro\\storage\\base.py"
+    },
+    {
+      "severity": "info",
+      "category": "todo",
+      "message": "TODO marker detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\macro\\storage\\skeleton.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\macro\\time\\normalizer.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\market_memory\\conditioning.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\market_memory\\event_schema.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\market_memory\\self_audit.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\market_memory\\temporal_validation.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\market_memory\\tests\\__init__.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\market_memory\\tests\\test_market_memory_v1.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\ml_engine\\macro_data.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "researchos\\monitoring\\trading\\config.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "researchos\\monitoring\\trading\\live_runner.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\objects\\observation.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\objects\\research.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\quant_engine\\backend.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\quant_engine\\backend_hash.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\quant_engine\\compatibility.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\quant_engine\\dataset_contracts.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\quant_engine\\interface.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\quant_engine\\machine_learning\\features.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\quant_engine\\numerical_validation.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\quant_engine\\research_engine.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\quant_engine\\research_registry.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\quant_engine\\router.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\quant_engine\\scheduler.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\quant_engine\\statistics.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\quant_engine\\strategies.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\quant_engine\\strategy.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\reasoning_engine\\validation.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\repository\\interface.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\result_cache.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\storage\\__init__.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\storage\\repository.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\templates\\__init__.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\integration\\__init__.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\test_architecture_boundary_experiment_quant.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\test_architecture_immutability.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\test_cpp_performance_integration.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\test_cpp_router_integration.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\test_dataset_builder.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\test_decision_engine.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\test_decision_engine_evidence.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\test_determinism_closure.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\test_evidence_repository.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\test_experiment_backend_integration.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\test_experiment_backend_router_integration.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\test_experiments.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\test_institutional.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\test_market_memory_q5.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\test_pipeline.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\test_pipeline_verification.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\test_prop_validator.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\test_research_router_integration.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\test_scheduler_router_integration.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\unit\\__init__.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\unit\\test_core\\__init__.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\unit\\test_engines\\__init__.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\unit\\test_macro\\__init__.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\unit\\test_memory\\__init__.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tests\\unit\\test_objects\\__init__.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "researchos\\tools\\audit_mil.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "researchos\\validation\\prop_validator.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "scripts\\auto_healer.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "scripts\\dev\\auto_healer.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "scripts\\h1_feature_sweep.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "setup_integration.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "src\\final_health_check.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "test_integration.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "tests\\unit\\test_backends\\test_backend_hash.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "tests\\unit\\test_backends\\test_numerical_comparator.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "tests\\unit\\test_backends\\test_router.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "tests\\unit\\test_backends\\test_router_structured.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "tests\\unit\\test_backends\\test_scheduler.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "ResearchOS",
+      "source": "tests\\unit\\test_reasoning_engine\\test_evidence.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "ResearchOS",
+      "source": "tools\\audit_mil.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "trader",
+      "source": "backtest\\datasets\\__init__.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "trader",
+      "source": "backtest\\datasets\\loader.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "trader",
+      "source": "backtest\\engines\\__init__.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "trader",
+      "source": "backtest\\engines\\equity_curve.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "trader",
+      "source": "backtest\\montecarlo\\__init__.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "trader",
+      "source": "backtest\\montecarlo\\simulation.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "trader",
+      "source": "backtest\\optimizer\\__init__.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "trader",
+      "source": "backtest\\optimizer\\optimizer.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "trader",
+      "source": "backtest\\walkforward\\__init__.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "trader",
+      "source": "backtest\\walkforward\\runner.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "trader",
+      "source": "config\\__init__.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "trader",
+      "source": "config\\settings.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "trader",
+      "source": "core\\paper_engine.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "trader",
+      "source": "database\\research\\__init__.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "trader",
+      "source": "engine\\risk.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "trader",
+      "source": "engine\\strategy\\filters\\base.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "trader",
+      "source": "engine\\strategy\\xauusd.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "trader",
+      "source": "market\\historical\\__init__.py"
+    },
+    {
+      "severity": "info",
+      "category": "todo",
+      "message": "TODO marker detected.",
+      "repository": "trader",
+      "source": "scripts\\finalize_root.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "trader",
+      "source": "setup_config.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "trader",
+      "source": "tests\\__init__.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "trader",
+      "source": "tests\\test_strategy_imports.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "ARCHITECTURE.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "brt_audit.yml"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "ci.yml"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "DEPLOYMENT_CHECKLIST.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "docker-compose.yml"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "load_test.js"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "prod\\README.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "README.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "RUNBOOK.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\auth.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\audit.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\config.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\config.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\database.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\decision_engine.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\decision_intelligence.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\decisions.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\decisions.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\drift.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\email_service.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\gdpr.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\leads.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\leads.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\migrations.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\payments.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\security.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\subscriptions.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\test_e2e_sandbox.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\test_e2e_sandbox.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\test_zero_knowledge.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\core\\webhooks.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\integration.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\isolate_contract.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\isolate_contract.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\learning\\__init__.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\learning\\auto_tuner.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\learning\\auto_tuner.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\learning\\bootstrap.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\learning\\policy_store.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\learning\\worm_proof.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\learning\\worm_proof.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\LEARNING_SYSTEM.md"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\main.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\migrations\\__init__.py"
+    },
+    {
+      "severity": "info",
+      "category": "todo",
+      "message": "TODO marker detected.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\reports.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\security.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\services\\strategy_content.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\test_api.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\test_coverage_boost.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\test_decision_engine.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\test_logic.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\test_production_gaps.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\test_security.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\test_zero_knowledge.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\workers\\breaker.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\workers\\brt_audit.yml"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\workers\\csv_export.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\workers\\csv_export.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\workers\\Dockerfile"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\workers\\meta_sync.py"
+    },
+    {
+      "severity": "warning",
+      "category": "empty_file",
+      "message": "File contains no readable content.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\workers\\reports.py"
+    },
+    {
+      "severity": "info",
+      "category": "placeholder",
+      "message": "Possible Python placeholder implementation detected.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\workers\\tasks.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\workers\\tasks.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "src\\trueroas\\workers\\webhooks.py"
+    },
+    {
+      "severity": "warning",
+      "category": "credential_marker",
+      "message": "Potential credential/secret marker detected; manual review required.",
+      "repository": "true-roas-complete",
+      "source": "USER_GUIDE.md"
+    }
+  ]
+}
