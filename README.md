@@ -1,4 +1,4 @@
-﻿# IncomeOS
+# IncomeOS
 
 
 
@@ -1181,19 +1181,19 @@ IncomeOS
 
 Ã¢â€â€š
 
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Evidence Foundation       Ã¢Å“â€œ
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Evidence Foundation       [x]
 
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Capability Profiling      Ã¢Å“â€œ
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Capability Profiling      [x]
 
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Opportunity Matching      Ã¢Å“â€œ
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Opportunity Matching      [x]
 
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Search                    Ã¢Å“â€œ
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Search                    [x]
 
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Audit                     Ã¢Å“â€œ
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Audit                     [x]
 
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Automated Tests           Ã¢Å“â€œ
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Automated Tests           [x]
 
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Git Checkpoints           Ã¢Å“â€œ
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Git Checkpoints           [x]
 
 Ã¢â€â€š
 
