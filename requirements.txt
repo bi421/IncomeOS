@@ -1,3 +1,5 @@
 ﻿apscheduler>=3.10.0
 pydantic>=2.0.0
 pyyaml>=6.0
+Add-Content -Path "requirements.txt" -Value "`ntavily-python>=0.3.0`nduckduckgo-search>=6.1.0"
+pip install tavily-python duckduckgo-search
