@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from incomeos.jobs.models.job import Job
-from incomeos.jobs.sources import ArbeitnowSource, RemoteOKSource
+from incomeos.jobs.sources import ArbeitnowSource, RemoteOKSource, LinkedInSource
 from .database import JobDatabase
 from .result import SourceRunResult, PipelineRunResult
 
@@ -21,6 +21,7 @@ def run_pipeline(data_dir: Path) -> PipelineRunResult:
     sources = [
         ("arbeitnow", ArbeitnowSource()),
         ("remoteok", RemoteOKSource()),
+        ("linkedin", LinkedInSource()),
     ]
 
     source_results: list[SourceRunResult] = []
