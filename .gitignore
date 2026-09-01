@@ -43,3 +43,10 @@ data/github_repos/
 *.sqlite
 *.sqlite3
 *.duckdb
+.env
+capability_profile.json
+test_token.py
+run_full_pipeline.py
+export_profile.py
+analyze_repo.py
+analyze_all_repos.py
