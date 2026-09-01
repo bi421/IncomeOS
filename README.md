@@ -57,7 +57,8 @@ Git working tree:      dirty (uncommitted experimental work present; see legend)
 **Status legend**
 - **PROVEN / COMMITTED** — HEAD `15bb99b`, 57 tests pass. Layers: Foundation → Capability → Opportunity → Search/Audit (includes the audit engine bug fix and its regression tests).
 - **INERT / COMMITTED-BUT-DISCONNECTED** — `incomeos/executor/` and `incomeos/tracking/` are committed in HEAD but NOT imported by the package, NOT scheduled by committed code, and perform NO autonomous income or financial action. Prototype scaffold only.
-- **EXPERIMENTAL / UNCOMMITTED** — the untracked on-disk files `incomeos/jobs/`, `tests/jobs/`, and `update_readme.py` are NOT committed and NOT unit-tested.
+- **COMMITTED BUT PARTIALLY DISABLED** — `incomeos/jobs/`, `tests/jobs/`, and `update_readme.py` are all committed in HEAD. `scripts/apply_browser.py` raises RuntimeError requiring manual review before any application action. See `docs/skill_profile.md` for approved workflow.
+- **PLACEHOLDER / COMMITTED-BUT-INERT** — `incomeos/decision/engine.py`'s `ACTION_MAP` contains only print-based stub commands. They perform no real work, generate no income. Do not schedule `make_decision()` autonomously until real actions are implemented.
 
 Latest commits:
 
@@ -1291,5 +1292,5 @@ Ask:
 
 
 **IncomeOS exists to turn evidence into income-oriented action.**
-#   I n c o m e O S  
- 
+# IncomeOS
+

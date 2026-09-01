@@ -3,12 +3,19 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+# WARNING: This script is DISABLED. Any application action (opening browser
+# tabs for job applications) requires explicit manual review first.
+# See docs/skill_profile.md for the approved workflow before re-enabling.
 from incomeos.decision import DecisionEngine
 from incomeos.applications import apply_to_jobs
 from incomeos.skills.aggregator import build_master_profile
 from incomeos.opportunities.engine import match_opportunities
 
 def main():
+    raise RuntimeError(
+        "Manual review required before any application action. "
+        "See docs/skill_profile.md for approved workflow."
+    )
     print("\n🌐 OPENING BROWSER FOR APPLICATIONS")
     profile = build_master_profile("data/github_repos")
     matches = match_opportunities(profile)

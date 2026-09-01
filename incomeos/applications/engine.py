@@ -79,11 +79,11 @@ def apply_to_jobs(skill: str, limit: int = 5, open_browser: bool = True, data_di
             cover_letter_path=str(filename)
         )
 
-        # 3. Хөтөч нээх
+        # 3. Browser tab нээх (бөглөж дуусаад баталгаажуулсны дараа status "SUBMITTED" болно)
         if open_browser and url:
             print(f"🌐 Opening URL: {url}")
             webbrowser.open(url)
-            app.status = "SUBMITTED"
+            app.status = "OPENED_IN_BROWSER"
         else:
             print(f"📄 Application ready for: {title} at {company}")
             print(f"   URL: {url}")

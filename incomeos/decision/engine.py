@@ -8,6 +8,9 @@ from incomeos.tracking.database import get_recent_execution
 from incomeos.jobs.integration import count_jobs_by_skills
 from .models import Decision, DecisionReason, ActionPlan, DecisionSeverity
 
+# ACTION_MAP commands are placeholder stubs — they perform no real work
+# and generate no income. Do not schedule make_decision() autonomously
+# until real actions are implemented.
 ACTION_MAP = {
     "Python Automation": ("python -c 'print(\"Python Automation executed\")'", 5),
     "Data Engineering Support": ("python -c 'print(\"Data Engineering executed\")'", 10),

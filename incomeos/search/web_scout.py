@@ -1,12 +1,12 @@
 from __future__ import annotations
 import json
-import re
 from datetime import datetime
 from typing import List, Dict, Tuple
 import requests
 import feedparser
 from incomeos.skills.aggregator import build_master_profile
 from incomeos.tracking.database import get_db
+from incomeos.jobs.filters import is_relevant
 
 
 def _ensure_web_table() -> None:
@@ -54,12 +54,10 @@ def _search_remotive_api(skill_names: List[str], max_results: int = 15) -> Tuple
             return [], f"Remotive HTTP {resp.status_code}: {resp.text[:200]}"
 
         jobs = resp.json().get("jobs", [])
-        skill_pattern = re.compile(
-            "|".join(re.escape(s.lower()) for s in skill_names), re.IGNORECASE
-        )
         for job in jobs:
-            haystack = f"{job.get('title', '')} {job.get('description', '')}"
-            if not skill_names or skill_pattern.search(haystack):
+            if not skill_names or is_relevant(
+                job.get('title', ''), job.get('description', ''), None, skill_names
+            ):
                 opportunities.append({
                     "title": job.get("title", "Unknown"),
                     "url": job.get("url", ""),
@@ -91,12 +89,11 @@ def _search_arbeitnow_api(skill_names: List[str], max_results: int = 15) -> Tupl
             return [], f"Arbeitnow HTTP {resp.status_code}: {resp.text[:200]}"
 
         jobs = resp.json().get("data", [])
-        skill_pattern = re.compile(
-            "|".join(re.escape(s.lower()) for s in skill_names), re.IGNORECASE
-        )
         for job in jobs:
-            haystack = f"{job.get('title', '')} {job.get('description', '')} {' '.join(job.get('tags', []))}"
-            if not skill_names or skill_pattern.search(haystack):
+            if not skill_names or is_relevant(
+                job.get('title', ''), job.get('description', ''),
+                job.get('tags', []), skill_names,
+            ):
                 opportunities.append({
                     "title": job.get("title", "Unknown"),
                     "url": job.get("url", ""),
@@ -126,10 +123,7 @@ def _search_rss_feeds(skill_names: List[str], max_per_feed: int = 10) -> Tuple[L
 
     opportunities: List[Dict] = []
     errors: List[str] = []
-    skill_pattern = re.compile(
-        "|".join(re.escape(s.lower()) for s in skill_names), re.IGNORECASE
-    )
-
+    
     for name, feed_url in feeds:
         try:
             feed = feedparser.parse(feed_url)
@@ -144,7 +138,7 @@ def _search_rss_feeds(skill_names: List[str], max_per_feed: int = 10) -> Tuple[L
                 summary = entry.get("summary", "")
                 link = entry.get("link", "")
 
-                if skill_pattern.search(title + " " + summary):
+                if not skill_names or is_relevant(title, summary, None, skill_names):
                     opportunities.append({
                         "title": title,
                         "url": link,
