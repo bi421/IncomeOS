@@ -36,7 +36,7 @@ Latest verified state:
 
 ```text
 
-Tests:                 44 passed
+Tests:                 57 passed
 
 Repositories analyzed: 5
 
@@ -54,21 +54,40 @@ Git working tree:      dirty (uncommitted experimental work present; see legend)
 
 
 
+**Status legend**
+- **PROVEN / COMMITTED** — HEAD `15bb99b`, 57 tests pass. Layers: Foundation → Capability → Opportunity → Search/Audit (includes the audit engine bug fix and its regression tests).
+- **INERT / COMMITTED-BUT-DISCONNECTED** — `incomeos/executor/` and `incomeos/tracking/` are committed in HEAD but NOT imported by the package, NOT scheduled by committed code, and perform NO autonomous income or financial action. Prototype scaffold only.
+- **EXPERIMENTAL / UNCOMMITTED** — the untracked on-disk files `incomeos/jobs/`, `tests/jobs/`, and `update_readme.py` are NOT committed and NOT unit-tested.
+
 Latest commits:
 
 
 
 ```text
 
+15bb99b docs: add evidence-based skill profile (human-verified, separate from auto-generated master_skill_profile.json)
+
+32016c0 fix: replace broken job sources with working Remotive/Arbeitnow APIs, surface errors instead of silencing them
+
+0492768 fix: repair corrupted requirements.txt and add missing web_scout dependencies
+
+e185037 docs: fix README encoding artifacts and update current status to 54 tests
+
+8aa9099 docs: fix encoding artifacts and clean up ASCII architecture diagrams in README
+
+1d5409c feat: add multi-source job scout, email notifier, and proof-of-work audit
+
+2f3daad feat: generate repository health audit proof-of-work and update web scout targeting
+
+acf2885 first commit
+
+d7a4514 feat: autonomous web scout successfully finds and saves opportunities to db
+
+a75469e feat: add autonomous web opportunity scout and normalize scheduler line endings
+
+50e5c2d fix: remove BOM, secure shell=True, normalize line endings, and update README test count
+
 fee25bb feat: add evidence-based search and audit system
-
-e6dd1b2 feat: add evidence-based opportunity matching
-
-707504c feat: add evidence-based capability profiling
-
-cff19b6 chore: ignore local database artifacts
-
-15a0cc9 feat: establish IncomeOS evidence-based skill foundation
 
 ```
 
@@ -1089,6 +1108,8 @@ Search results also require external-world validation before being treated as ac
 
 * [ ] Income attribution
 
+> Committed prototype scaffold in `incomeos/executor/` and `incomeos/tracking/`: NOT imported by the package, NOT scheduled by committed code, NOT unit-tested. No autonomous income or financial action is performed. All five components above remain unimplemented.
+
 
 
 ## Phase 6 Ã¢â‚¬â€ Learning Loop
@@ -1206,6 +1227,8 @@ IncomeOS
 ```
 
 
+
+> **Note:** This milestone describes the committed baseline. The on-disk `incomeos/executor/` and `incomeos/tracking/` code is a separate, *quarantined* prototype (not imported, not scheduled). It is referenced only as a possible future scaffold, not as an active component.
 
 The next architectural milestone is:
 
