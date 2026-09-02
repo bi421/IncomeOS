@@ -5,6 +5,7 @@ from typing import Optional
 from incomeos.skills.aggregator import build_master_profile
 from incomeos.opportunities.engine import match_opportunities
 from incomeos.tracking.database import get_recent_execution
+from incomeos.tracking.models import ActionState
 from incomeos.jobs.integration import count_jobs_by_skills
 from .models import Decision, DecisionReason, ActionPlan, DecisionSeverity
 
@@ -43,7 +44,11 @@ def make_decision(repos_root: str | Path, force: bool = False, data_dir: Path = 
     )
 
     recent = get_recent_execution(opp_name, hours=6)
-    skip_due_to_recent = (recent is not None and recent.status == "success" and not force)
+    skip_due_to_recent = (
+        recent is not None
+        and recent.state is ActionState.CONFIRMED
+        and not force
+    )
 
     reasons = [
         DecisionReason(f"Skill readiness = {top.readiness:.3f}", confidence=top.readiness),

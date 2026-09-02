@@ -1,0 +1,11 @@
+﻿Дараах загварыг ашиглан cover letter бичнэ үү.
+(Senior) Software Developer Frontend / React (m/w/d) – Ажлын нэр
+Athereon – Компанийн нэр
+python, fastapi, postgresql, git – Таны ур чадвар (автоматаар орно)
+
+# ЖИШЭЭ:
+# Date: 2026-09-02
+# 
+# To the Hiring Team of Athereon,
+# 
+# I am applying for the position of (Senior) Software Developer Frontend / React (m/w/d). My experience in python, fastapi, postgresql, git aligns with your requirements.

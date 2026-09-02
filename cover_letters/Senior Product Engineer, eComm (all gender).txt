@@ -1,0 +1,11 @@
+﻿Дараах загварыг ашиглан cover letter бичнэ үү.
+Senior Product Engineer, eComm (all gender) – Ажлын нэр
+Distribusion Technologies – Компанийн нэр
+python, fastapi, docker, testing – Таны ур чадвар (автоматаар орно)
+
+# ЖИШЭЭ:
+# Date: 2026-09-02
+# 
+# To the Hiring Team of Distribusion Technologies,
+# 
+# I am applying for the position of Senior Product Engineer, eComm (all gender). My experience in python, fastapi, docker, testing aligns with your requirements.

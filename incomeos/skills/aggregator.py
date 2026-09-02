@@ -1,6 +1,8 @@
-﻿from __future__ import annotations
+﻿
+from __future__ import annotations
 
 import json
+import sqlite3
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -16,6 +18,9 @@ DIMENSION_WEIGHTS: dict[EvidenceDimension, float] = {
     EvidenceDimension.IMPLEMENTATION: 1.00,
 }
 
+VERIFIED_EVIDENCE_BONUS = 0.05
+MAX_VERIFIED_EVIDENCE_BONUS = 0.15
+
 
 @dataclass(frozen=True)
 class MasterSkill:
@@ -23,6 +28,8 @@ class MasterSkill:
     confidence: float
     evidence_count: int
     repositories: tuple[str, ...]
+    verified_evidence_count: int = 0
+    verified_decision_ids: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -32,10 +39,69 @@ class MasterSkillProfile:
     skills: tuple[MasterSkill, ...]
 
 
+def _load_verified_records(
+    root: Path,
+) -> tuple[object, ...]:
+    """
+    Load human-verified outcome evidence when the verification ledger exists.
+
+    The ledger is optional. A missing database produces an empty set and
+    therefore preserves the previous profile behavior.
+
+    Verified outcomes never create a new skill by themselves. They may only
+    strengthen a skill that already has real project evidence.
+    """
+
+    db_path = root.parent.parent / "verification.db"
+
+    if not db_path.exists():
+        db_path = Path("data/verification.db")
+
+    if not db_path.exists():
+        return ()
+
+    try:
+        from incomeos.skills.verification import VerificationStore
+
+        store = VerificationStore(db_path)
+        return store.list_verified()
+    except (OSError, ValueError, sqlite3.Error, ImportError):
+        return ()
+
+
+def _verified_skill_map(
+    root: Path,
+) -> dict[str, tuple[object, ...]]:
+    records = _load_verified_records(root)
+
+    grouped: dict[str, list[object]] = {}
+
+    for record in records:
+        skill = str(
+            getattr(record, "skill", "")
+        ).strip()
+
+        if not skill:
+            continue
+
+        grouped.setdefault(
+            skill,
+            [],
+        ).append(record)
+
+    return {
+        skill: tuple(items)
+        for skill, items in grouped.items()
+    }
+
+
 def build_master_profile(
     root: str | Path,
 ) -> MasterSkillProfile:
-    portfolio = build_portfolio(root)
+    root_path = Path(root)
+
+    portfolio = build_portfolio(root_path)
+    verified_by_skill = _verified_skill_map(root_path)
 
     aggregated: dict[str, dict] = {}
 
@@ -80,7 +146,7 @@ def build_master_profile(
         repository_scores = data["repository_scores"]
 
         if not repository_scores:
-            confidence = 0.0
+            raw_confidence = 0.0
         else:
             strongest_score = max(
                 repository_scores.values()
@@ -93,18 +159,61 @@ def build_master_profile(
                 0.05 * max(repository_count - 1, 0),
             )
 
-            confidence = min(
+            raw_confidence = min(
                 1.0,
                 strongest_score + repetition_bonus,
             )
 
+        verified_records = verified_by_skill.get(
+            name,
+            (),
+        )
+
+        verified_count = len(
+            verified_records
+        )
+
+        verified_bonus = min(
+            MAX_VERIFIED_EVIDENCE_BONUS,
+            VERIFIED_EVIDENCE_BONUS
+            * verified_count,
+        )
+
+        confidence = min(
+            1.0,
+            raw_confidence + verified_bonus,
+        )
+
         master_skills.append(
             MasterSkill(
                 name=name,
-                confidence=round(confidence, 4),
+                confidence=round(
+                    confidence,
+                    4,
+                ),
                 evidence_count=data["evidence_count"],
                 repositories=tuple(
                     sorted(data["repositories"])
+                ),
+                verified_evidence_count=verified_count,
+                verified_decision_ids=tuple(
+                    sorted(
+                        {
+                            str(
+                                getattr(
+                                    record,
+                                    "decision_id",
+                                    "",
+                                )
+                            )
+                            for record in verified_records
+                            if getattr(
+                                record,
+                                "decision_id",
+                                "",
+                            )
+                        }
+                    )
                 ),
             )
         )
@@ -113,6 +222,7 @@ def build_master_profile(
         key=lambda skill: (
             -skill.confidence,
             -skill.evidence_count,
+            -skill.verified_evidence_count,
             skill.name.lower(),
         )
     )
@@ -155,3 +265,4 @@ def save_master_profile(
     )
 
     return output_path
+

@@ -1,21 +1,38 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
 
 from incomeos.skills.aggregator import build_master_profile
+from incomeos.skills.levels import (
+    CapabilityLevel,
+    classify_capability_level,
+)
 from incomeos.skills.github_analyzer import analyze_repository
 from incomeos.skills.detector import detect_skills
 
 
 @dataclass(frozen=True)
 class Capability:
+    """
+    A capability is a higher-level professional ability supported by
+    one or more verified skills.
+
+    ``confidence`` measures evidence confidence.
+
+    ``level`` measures evidence-backed capability breadth.
+
+    These are intentionally separate concepts.
+    """
+
     name: str
     category: str
     skills: tuple[str, ...]
     evidence_count: int
     repository_count: int
     confidence: float
+    level: CapabilityLevel = CapabilityLevel.UNKNOWN
+    level_reason: str = ""
 
 
 CAPABILITY_RULES: dict[str, tuple[str, ...]] = {
@@ -56,25 +73,7 @@ CAPABILITY_CATEGORIES: dict[str, str] = {
 
 def build_capabilities(root: str | Path) -> tuple[Capability, ...]:
     root_path = Path(root)
-
     profile = build_master_profile(root_path)
-
-    repository_skill_evidence: dict[str, dict[str, list[float]]] = {}
-
-    for repository in sorted(root_path.iterdir()):
-        if not repository.is_dir():
-            continue
-
-        if not (repository / ".git").exists():
-            continue
-
-        evidence = analyze_repository(repository)
-        skills = detect_skills(evidence)
-
-        repository_skill_evidence[repository.name] = {
-            skill.skill: [skill.strength]
-            for skill in skills
-        }
 
     master_skills = {
         skill.name: skill
@@ -109,14 +108,25 @@ def build_capabilities(root: str | Path) -> tuple[Capability, ...]:
             / len(available),
         )
 
+        confidence = round(confidence, 4)
+        repository_count = len(repositories)
+
+        level, reason = classify_capability_level(
+            confidence=confidence,
+            evidence_count=evidence_count,
+            repository_count=repository_count,
+        )
+
         capabilities.append(
             Capability(
                 name=capability_name,
                 category=CAPABILITY_CATEGORIES[capability_name],
                 skills=tuple(required_skills),
                 evidence_count=evidence_count,
-                repository_count=len(repositories),
-                confidence=round(confidence, 4),
+                repository_count=repository_count,
+                confidence=confidence,
+                level=level,
+                level_reason=reason,
             )
         )
 
@@ -145,11 +155,13 @@ def main() -> None:
     for capability in capabilities:
         print(
             f"{capability.name}: "
-            f"{capability.confidence:.2f} "
+            f"{capability.level.value} "
+            f"confidence={capability.confidence:.2f} "
             f"(category={capability.category}; "
             f"evidence={capability.evidence_count}; "
             f"repos={capability.repository_count}; "
-            f"skills={', '.join(capability.skills)})"
+            f"skills={', '.join(capability.skills)}; "
+            f"reason={capability.level_reason})"
         )
 
 

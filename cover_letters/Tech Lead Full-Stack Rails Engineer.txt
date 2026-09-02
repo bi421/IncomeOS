@@ -1,0 +1,11 @@
+﻿Дараах загварыг ашиглан cover letter бичнэ үү.
+Tech Lead Full-Stack Rails Engineer – Ажлын нэр
+Mitre Media – Компанийн нэр
+postgresql, docker, redis, git – Таны ур чадвар (автоматаар орно)
+
+# ЖИШЭЭ:
+# Date: 2026-09-02
+# 
+# To the Hiring Team of Mitre Media,
+# 
+# I am applying for the position of Tech Lead Full-Stack Rails Engineer. My experience in postgresql, docker, redis, git aligns with your requirements.

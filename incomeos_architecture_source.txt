@@ -1,0 +1,1232 @@
+﻿===== incomeos/skills/capabilities.py =====
+from __future__ import annotations
+
+from dataclasses import dataclass
+from pathlib import Path
+
+from incomeos.skills.aggregator import build_master_profile
+from incomeos.skills.github_analyzer import analyze_repository
+from incomeos.skills.detector import detect_skills
+
+
+@dataclass(frozen=True)
+class Capability:
+    name: str
+    category: str
+    skills: tuple[str, ...]
+    evidence_count: int
+    repository_count: int
+    confidence: float
+
+
+CAPABILITY_RULES: dict[str, tuple[str, ...]] = {
+    "Python Application Development": (
+        "Python",
+    ),
+    "Python Automation": (
+        "Python",
+    ),
+    "Automated Testing": (
+        "Testing",
+    ),
+    "Data Processing & Pipeline Development": (
+        "Data Engineering",
+    ),
+    "C++ Systems Development": (
+        "C++",
+    ),
+    "Containerized Application Deployment": (
+        "Docker",
+    ),
+    "C++ Build System Engineering": (
+        "CMake",
+    ),
+}
+
+
+CAPABILITY_CATEGORIES: dict[str, str] = {
+    "Python Application Development": "software",
+    "Python Automation": "automation",
+    "Automated Testing": "quality",
+    "Data Processing & Pipeline Development": "data",
+    "C++ Systems Development": "systems",
+    "Containerized Application Deployment": "deployment",
+    "C++ Build System Engineering": "engineering",
+}
+
+
+def build_capabilities(root: str | Path) -> tuple[Capability, ...]:
+    root_path = Path(root)
+
+    profile = build_master_profile(root_path)
+
+    repository_skill_evidence: dict[str, dict[str, list[float]]] = {}
+
+    for repository in sorted(root_path.iterdir()):
+        if not repository.is_dir():
+            continue
+
+        if not (repository / ".git").exists():
+            continue
+
+        evidence = analyze_repository(repository)
+        skills = detect_skills(evidence)
+
+        repository_skill_evidence[repository.name] = {
+            skill.skill: [skill.strength]
+            for skill in skills
+        }
+
+    master_skills = {
+        skill.name: skill
+        for skill in profile.skills
+    }
+
+    capabilities: list[Capability] = []
+
+    for capability_name, required_skills in CAPABILITY_RULES.items():
+        available = [
+            master_skills[skill_name]
+            for skill_name in required_skills
+            if skill_name in master_skills
+        ]
+
+        if not available:
+            continue
+
+        evidence_count = sum(
+            skill.evidence_count
+            for skill in available
+        )
+
+        repositories: set[str] = set()
+
+        for skill in available:
+            repositories.update(skill.repositories)
+
+        confidence = min(
+            1.0,
+            sum(skill.confidence for skill in available)
+            / len(available),
+        )
+
+        capabilities.append(
+            Capability(
+                name=capability_name,
+                category=CAPABILITY_CATEGORIES[capability_name],
+                skills=tuple(required_skills),
+                evidence_count=evidence_count,
+                repository_count=len(repositories),
+                confidence=round(confidence, 4),
+            )
+        )
+
+    capabilities.sort(
+        key=lambda capability: (
+            -capability.confidence,
+            -capability.evidence_count,
+            capability.name.lower(),
+        )
+    )
+
+    return tuple(capabilities)
+
+
+def main() -> None:
+    root = Path("data/github_repos")
+
+    capabilities = build_capabilities(root)
+
+    print()
+    print("INCOMEOS CAPABILITY PROFILE")
+    print("===========================")
+    print(f"CAPABILITIES: {len(capabilities)}")
+    print()
+
+    for capability in capabilities:
+        print(
+            f"{capability.name}: "
+            f"{capability.confidence:.2f} "
+            f"(category={capability.category}; "
+            f"evidence={capability.evidence_count}; "
+            f"repos={capability.repository_count}; "
+            f"skills={', '.join(capability.skills)})"
+        )
+
+
+if __name__ == "__main__":
+    main()
+
+===== incomeos/skills/models.py =====
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from enum import StrEnum
+
+
+class EvidenceType(StrEnum):
+    REPOSITORY = "repository"
+    CODE = "code"
+    TEST = "test"
+    DOCUMENTATION = "documentation"
+    BENCHMARK = "benchmark"
+    DEPLOYMENT = "deployment"
+
+
+class EvidenceDimension(StrEnum):
+    PRESENCE = "presence"
+    USAGE = "usage"
+    IMPLEMENTATION = "implementation"
+    VALIDATION = "validation"
+    ENGINEERING = "engineering"
+
+
+@dataclass(frozen=True)
+class SkillEvidence:
+    skill: str
+    evidence_type: EvidenceType
+    source: str
+    description: str
+    strength: float
+    dimension: EvidenceDimension = EvidenceDimension.PRESENCE
+
+    def __post_init__(self) -> None:
+        if not self.skill.strip():
+            raise ValueError("skill must not be empty")
+
+        if not self.source.strip():
+            raise ValueError("source must not be empty")
+
+        if not 0.0 <= self.strength <= 1.0:
+            raise ValueError("strength must be between 0 and 1")
+
+
+@dataclass(frozen=True)
+class Skill:
+    name: str
+    category: str
+    evidence: tuple[SkillEvidence, ...] = field(
+        default_factory=tuple
+    )
+
+    @property
+    def evidence_strength(self) -> float:
+        if not self.evidence:
+            return 0.0
+
+        return max(
+            item.strength
+            for item in self.evidence
+        )
+
+===== incomeos/skills/aggregator.py =====
+from __future__ import annotations
+
+import json
+from dataclasses import asdict, dataclass
+from pathlib import Path
+
+from .models import EvidenceDimension
+from .portfolio import build_portfolio
+
+
+DIMENSION_WEIGHTS: dict[EvidenceDimension, float] = {
+    EvidenceDimension.PRESENCE: 0.40,
+    EvidenceDimension.USAGE: 0.70,
+    EvidenceDimension.ENGINEERING: 0.75,
+    EvidenceDimension.VALIDATION: 0.90,
+    EvidenceDimension.IMPLEMENTATION: 1.00,
+}
+
+
+@dataclass(frozen=True)
+class MasterSkill:
+    name: str
+    confidence: float
+    evidence_count: int
+    repositories: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class MasterSkillProfile:
+    repository_count: int
+    skill_record_count: int
+    skills: tuple[MasterSkill, ...]
+
+
+def build_master_profile(
+    root: str | Path,
+) -> MasterSkillProfile:
+    portfolio = build_portfolio(root)
+
+    aggregated: dict[str, dict] = {}
+
+    for report in portfolio.repositories:
+        for skill in report.skills:
+            name = skill.name
+
+            if name not in aggregated:
+                aggregated[name] = {
+                    "repository_scores": {},
+                    "evidence_count": 0,
+                    "repositories": set(),
+                }
+
+            repository = report.repository
+
+            if repository not in aggregated[name]["repository_scores"]:
+                aggregated[name]["repository_scores"][repository] = 0.0
+
+            for evidence in skill.evidence:
+                dimension_weight = DIMENSION_WEIGHTS[
+                    evidence.dimension
+                ]
+
+                weighted_strength = (
+                    float(evidence.strength)
+                    * dimension_weight
+                )
+
+                aggregated[name]["repository_scores"][repository] = max(
+                    aggregated[name]["repository_scores"][repository],
+                    weighted_strength,
+                )
+
+                aggregated[name]["evidence_count"] += 1
+
+            aggregated[name]["repositories"].add(repository)
+
+    master_skills: list[MasterSkill] = []
+
+    for name, data in aggregated.items():
+        repository_scores = data["repository_scores"]
+
+        if not repository_scores:
+            confidence = 0.0
+        else:
+            strongest_score = max(
+                repository_scores.values()
+            )
+
+            repository_count = len(repository_scores)
+
+            repetition_bonus = min(
+                0.20,
+                0.05 * max(repository_count - 1, 0),
+            )
+
+            confidence = min(
+                1.0,
+                strongest_score + repetition_bonus,
+            )
+
+        master_skills.append(
+            MasterSkill(
+                name=name,
+                confidence=round(confidence, 4),
+                evidence_count=data["evidence_count"],
+                repositories=tuple(
+                    sorted(data["repositories"])
+                ),
+            )
+        )
+
+    master_skills.sort(
+        key=lambda skill: (
+            -skill.confidence,
+            -skill.evidence_count,
+            skill.name.lower(),
+        )
+    )
+
+    return MasterSkillProfile(
+        repository_count=portfolio.repository_count,
+        skill_record_count=portfolio.total_skill_count,
+        skills=tuple(master_skills),
+    )
+
+
+def save_master_profile(
+    profile: MasterSkillProfile,
+    output: str | Path,
+) -> Path:
+    output_path = Path(output)
+
+    output_path.parent.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    payload = {
+        "repository_count": profile.repository_count,
+        "skill_record_count": profile.skill_record_count,
+        "unique_skill_count": len(profile.skills),
+        "skills": [
+            asdict(skill)
+            for skill in profile.skills
+        ],
+    }
+
+    output_path.write_text(
+        json.dumps(
+            payload,
+            indent=2,
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+
+    return output_path
+
+===== incomeos/opportunities/engine.py =====
+from __future__ import annotations
+from dataclasses import dataclass
+from typing import Any, Iterable
+
+@dataclass(frozen=True)
+class IncomeOpportunity:
+    name: str
+    description: str
+    required_skills: tuple[str, ...]
+    skill_weights: tuple[float, ...]
+    base_value: float
+    difficulty: float
+
+    def __post_init__(self):
+        if not self.name.strip():
+            raise ValueError("name must not be empty")
+        if not self.required_skills:
+            raise ValueError("required_skills must not be empty")
+        if len(self.required_skills) != len(self.skill_weights):
+            raise ValueError("required_skills and skill_weights must have equal length")
+        if any(w < 0.0 for w in self.skill_weights):
+            raise ValueError("skill weights must not be negative")
+        if sum(self.skill_weights) <= 0.0:
+            raise ValueError("skill weights must have positive total")
+        if not 0.0 <= self.base_value <= 1.0:
+            raise ValueError("base_value must be between 0 and 1")
+        if not 0.0 <= self.difficulty <= 1.0:
+            raise ValueError("difficulty must be between 0 and 1")
+
+@dataclass(frozen=True)
+class OpportunityMatch:
+    opportunity: IncomeOpportunity
+    readiness: float
+    opportunity_score: float
+    matched_skills: tuple[str, ...]
+    missing_skills: tuple[str, ...]
+
+DEFAULT_OPPORTUNITIES = (
+    IncomeOpportunity(
+        name="Python Automation",
+        description="Python scripting and automation work.",
+        required_skills=("Python", "Testing"),
+        skill_weights=(0.5, 0.5),
+        base_value=0.9,
+        difficulty=0.35,
+    ),
+    IncomeOpportunity(
+        name="Data Engineering Support",
+        description="Data pipelines, databases, and data processing support.",
+        required_skills=("Python", "Data Engineering"),
+        skill_weights=(0.4, 0.6),
+        base_value=0.85,
+        difficulty=0.45,
+    ),
+    IncomeOpportunity(
+        name="C++ Quant / Performance Engineering",
+        description="C++ performance and quantitative engineering work.",
+        required_skills=("C++", "Python", "Testing"),
+        skill_weights=(0.4, 0.25, 0.35),
+        base_value=0.95,
+        difficulty=0.7,
+    ),
+    IncomeOpportunity(
+        name="Docker Deployment Support",
+        description="Containerization and deployment support.",
+        required_skills=("Docker", "Python"),
+        skill_weights=(0.6, 0.4),
+        base_value=0.75,
+        difficulty=0.5,
+    ),
+    IncomeOpportunity(
+        name="Build System Engineering",
+        description="CMake and software build-system support.",
+        required_skills=("CMake", "C++"),
+        skill_weights=(0.45, 0.55),
+        base_value=0.7,
+        difficulty=0.6,
+    ),
+)
+
+def _extract_skills(profile: Any) -> Iterable[Any]:
+    if isinstance(profile, dict):
+        return profile.get("skills", ())
+    skills = getattr(profile, "skills", None)
+    if skills is not None:
+        return skills
+    raise TypeError("profile must be a mapping with 'skills' or an object with a 'skills' attribute")
+
+def _skill_name(item: Any) -> str:
+    if isinstance(item, dict):
+        return str(item.get("name", ""))
+    return str(getattr(item, "name", ""))
+
+def _skill_confidence(item: Any) -> float:
+    if isinstance(item, dict):
+        value = item.get("confidence", 0.0)
+    else:
+        value = getattr(item, "confidence", 0.0)
+    try:
+        return max(0.0, min(1.0, float(value)))
+    except (TypeError, ValueError):
+        return 0.0
+
+def _normalise_profile(profile: Any) -> dict[str, float]:
+    result: dict[str, float] = {}
+    for item in _extract_skills(profile):
+        name = _skill_name(item).strip()
+        if not name:
+            continue
+        confidence = _skill_confidence(item)
+        current = result.get(name, 0.0)
+        result[name] = max(current, confidence)
+    return result
+
+# 🔥 ШИНЭ: Шүүлтүүр (filter)
+def filter_opportunities_by_skills(profile: Any, opportunities: Iterable[IncomeOpportunity], min_confidence: float = 0.5) -> tuple[IncomeOpportunity, ...]:
+    """
+    Зөвхөн тухайн хүний хийж чадах боломжуудыг үлдээх.
+    min_confidence: Тухайн ур чадварын итгэлцүүр дор хаяж энэ хэмжээнд хүрсэн байх ёстой.
+    """
+    skill_confidence = _normalise_profile(profile)
+    result = []
+    for opp in opportunities:
+        can_do = True
+        for skill in opp.required_skills:
+            # Хэрэв ур чадвар сул эсвэл байхгүй бол хасах
+            if skill_confidence.get(skill, 0.0) < min_confidence:
+                can_do = False
+                break
+        if can_do:
+            result.append(opp)
+    return tuple(result)
+
+def match_opportunities(
+    profile: Any,
+    opportunities: Iterable[IncomeOpportunity] = DEFAULT_OPPORTUNITIES,
+    min_skill_confidence: float | None = None,
+) -> tuple[OpportunityMatch, ...]:
+    filtered = (
+        filter_opportunities_by_skills(
+            profile,
+            opportunities,
+            min_skill_confidence,
+        )
+        if min_skill_confidence is not None
+        else tuple(opportunities)
+    )
+
+    skill_confidence = _normalise_profile(profile)
+    results: list[OpportunityMatch] = []
+
+    for opportunity in filtered:
+        total_weight = sum(opportunity.skill_weights)
+        weighted_readiness = 0.0
+        matched: list[str] = []
+        missing: list[str] = []
+
+        for skill, weight in zip(opportunity.required_skills, opportunity.skill_weights):
+            confidence = skill_confidence.get(skill, 0.0)
+            weighted_readiness += confidence * weight
+            if confidence > 0.0:
+                matched.append(skill)
+            else:
+                missing.append(skill)
+
+        readiness = weighted_readiness / total_weight if total_weight > 0.0 else 0.0
+        opportunity_score = readiness * opportunity.base_value * (1.0 - 0.5 * opportunity.difficulty)
+
+        results.append(
+            OpportunityMatch(
+                opportunity=opportunity,
+                readiness=round(readiness, 6),
+                opportunity_score=round(opportunity_score, 6),
+                matched_skills=tuple(matched),
+                missing_skills=tuple(missing),
+            )
+        )
+
+    results.sort(key=lambda item: (item.opportunity_score, item.readiness, item.opportunity.base_value), reverse=True)
+    return tuple(results)
+
+if __name__ == "__main__":
+    from incomeos.skills.aggregator import build_master_profile
+    profile = build_master_profile("data/github_repos")
+    matches = match_opportunities(profile, min_skill_confidence=0.5)
+    print("INCOMEOS OPPORTUNITY PROFILE (FILTERED)")
+    print("=======================================")
+    for i, item in enumerate(matches, start=1):
+        print(f"{i}. {item.opportunity.name} | readiness={item.readiness:.3f} | score={item.opportunity_score:.3f} | matched={item.matched_skills} | missing={item.missing_skills}")
+
+===== incomeos/applications/engine.py =====
+from __future__ import annotations
+import sqlite3
+import webbrowser
+from pathlib import Path
+from datetime import datetime
+from typing import Optional
+
+from incomeos.jobs.integration import get_jobs_by_skill
+from incomeos.applications.templates import generate_cover_letter
+from incomeos.applications.models import JobApplication
+
+def _get_applications_db_path(data_dir: Path = Path("data")) -> Path:
+    path = data_dir / "applications.db"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    return path
+
+def _init_applications_table(data_dir: Path = Path("data")) -> None:
+    db_path = _get_applications_db_path(data_dir)
+    conn = sqlite3.connect(str(db_path))
+    try:
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS applications (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                job_id INTEGER,
+                job_title TEXT,
+                job_url TEXT,
+                company TEXT,
+                applied_at TEXT,
+                status TEXT,
+                cover_letter_path TEXT,
+                error_message TEXT
+            )
+        """)
+        conn.commit()
+    finally:
+        conn.close()
+
+def _application_is_prepared(job_id: int, job_url: str, data_dir: Path) -> bool:
+    _init_applications_table(data_dir)
+    db_path = _get_applications_db_path(data_dir)
+    conn = sqlite3.connect(str(db_path))
+    try:
+        row = conn.execute(
+            """
+            SELECT 1 FROM applications
+            WHERE job_id=? AND job_url=? AND status='PENDING'
+            LIMIT 1
+            """,
+            (job_id, job_url),
+        ).fetchone()
+        return row is not None
+    finally:
+        conn.close()
+
+
+def _save_application(app: JobApplication, data_dir: Path) -> None:
+    _init_applications_table(data_dir)
+    db_path = _get_applications_db_path(data_dir)
+    conn = sqlite3.connect(str(db_path))
+    try:
+        conn.execute("""
+            INSERT INTO applications (job_id, job_title, job_url, company, applied_at, status, cover_letter_path, error_message)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """, (app.job_id, app.job_title, app.job_url, app.company, app.applied_at.isoformat(), app.status, app.cover_letter_path, app.error_message))
+        conn.commit()
+    finally:
+        conn.close()
+
+def apply_to_jobs(skill: str, limit: int = 5, open_browser: bool = True, data_dir: Path = Path("data")) -> list[JobApplication]:
+    jobs = get_jobs_by_skill(skill, limit=limit, db_path=data_dir / "jobs" / "incomeos_jobs.sqlite3")
+    if not jobs:
+        print(f"⚠️ No jobs found for skill: {skill}")
+        return []
+
+    results: list[JobApplication] = []
+    cover_dir = data_dir / "cover_letters"
+    cover_dir.mkdir(parents=True, exist_ok=True)
+    _init_applications_table(data_dir)
+
+    for job in jobs:
+        company = job.get('company', 'Unknown')
+        title = job.get('title', 'N/A')
+        url = job.get('url', '')
+
+        if _application_is_prepared(job['id'], url, data_dir):
+            print(f"â„¹ï¸ Already prepared: {title} at {company}")
+            continue
+        
+        # 1. Хамрах бичиг (бодит болгосон)
+        filename = cover_dir / f"cover_{job['id']}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+        cover_text = generate_cover_letter(title, company, ["Python", "Testing", "System Architecture"])
+        filename.write_text(cover_text, encoding="utf-8")
+
+        # 2. Лог (ЗАСВАР: SUBMITTED биш PENDING)
+        app = JobApplication(
+            job_id=job['id'],
+            job_title=title,
+            job_url=url,
+            company=company,
+            applied_at=datetime.now(),
+            status="PENDING",  # ✅ Зөвхөн URL нээгдсэн, илгээгээгүй
+            cover_letter_path=str(filename)
+        )
+
+        # 3. Хөтөч нээх эсвэл URL хэвлэх
+        if open_browser and url:
+            print(f"🌐 Opening: {title} at {company}")
+            webbrowser.open(url)
+            # ❌ app.status = "SUBMITTED" гэж бичихгүй
+        else:
+            print(f"📄 {title} at {company}")
+            print(f"   URL: {url}")
+
+        _save_application(app, data_dir)
+        results.append(app)
+
+    print(f"\n✅ {len(results)} applications prepared for skill: {skill}")
+    return results
+
+def run_application_pipeline(opportunity_name: str, required_skills: list[str], limit_per_skill: int = 3):
+    print(f"\n🚀 Preparing applications for: {opportunity_name}")
+    all_apps = []
+    for skill in required_skills:
+        print(f"\n📌 Skill: {skill}")
+        apps = apply_to_jobs(skill, limit=limit_per_skill, open_browser=False)
+        all_apps.extend(apps)
+    print(f"\n✅ Total {len(all_apps)} applications ready.")
+    print("📋 Now open browser manually or use open_browser=True")
+    return all_apps
+
+===== incomeos/applications/models.py =====
+from __future__ import annotations
+from dataclasses import dataclass
+from datetime import datetime
+from typing import Optional
+
+@dataclass
+class JobApplication:
+    job_id: int
+    job_title: str
+    job_url: str
+    company: str
+    applied_at: datetime
+    status: str  # "PENDING", "SUBMITTED", "FAILED", "SKIPPED"
+    cover_letter_path: Optional[str] = None
+    error_message: Optional[str] = None
+
+===== incomeos/tracking/models.py =====
+from __future__ import annotations
+from dataclasses import dataclass
+from datetime import datetime
+from enum import Enum
+from typing import Optional
+
+
+class ActionState(Enum):
+    """The observed state of an action, not an inferred business outcome."""
+
+    PLANNED = "planned"
+    PREPARED = "prepared"
+    DISABLED = "disabled"
+    EXECUTED = "executed"
+    FAILED = "failed"
+    SUBMITTED = "submitted"
+    CONFIRMED = "confirmed"
+
+
+@dataclass(frozen=True)
+class ActionResult:
+    """A truthful record of local execution and any external outcome.
+
+    ``EXECUTED`` only means that a local command completed successfully. It
+    never implies that an external application was submitted or confirmed.
+    """
+
+    action_name: str
+    requested_command: str
+    state: ActionState
+    executed_command: tuple[str, ...] = ()
+    exit_code: Optional[int] = None
+    output_log: str = ""
+    error_log: str = ""
+    externally_submitted: bool = False
+    externally_confirmed: bool = False
+
+    def __post_init__(self) -> None:
+        if self.externally_confirmed and not self.externally_submitted:
+            raise ValueError("confirmation requires an external submission")
+        if self.state is ActionState.SUBMITTED and not self.externally_submitted:
+            raise ValueError("SUBMITTED requires an external submission")
+        if self.state is ActionState.CONFIRMED and not self.externally_confirmed:
+            raise ValueError("CONFIRMED requires external confirmation")
+
+@dataclass
+class ExecutionLog:
+    id: Optional[int]
+    opportunity_name: str
+    action_command: str
+    state: ActionState
+    started_at: datetime
+    finished_at: Optional[datetime]
+    exit_code: Optional[int]
+    output_log: str
+    error_log: str
+    executed_command: str = ""
+    externally_submitted: bool = False
+    externally_confirmed: bool = False
+
+    @property
+    def status(self) -> str:
+        """Compatibility view for callers that previously read ``status``."""
+        return self.state.value
+
+===== incomeos/executor/orchestrator.py =====
+from __future__ import annotations
+import subprocess
+from pathlib import Path
+
+from incomeos.skills.aggregator import build_master_profile
+from incomeos.opportunities.engine import match_opportunities
+from incomeos.tracking.database import log_start, log_finish, get_recent_execution
+from incomeos.tracking.models import ActionResult, ActionState
+
+ACTION_MAP = {
+    "Python Automation": "python -c 'print(\"Python Automation executed\")'",
+    "Data Engineering Support": "python -c 'print(\"Data Engineering executed\")'",
+    "C++ Quant / Performance Engineering": "python -c 'print(\"C++ Quant executed\")'",
+    "Docker Deployment Support": "docker --version",
+    "Build System Engineering": "cmake --version",
+}
+
+def plan_action(action_name: str, command: str) -> ActionResult:
+    return ActionResult(
+        action_name=action_name,
+        requested_command=command,
+        state=ActionState.PLANNED,
+    )
+
+
+def execute_local_command(
+    action_name: str,
+    command: tuple[str, ...],
+    timeout: float = 300,
+) -> ActionResult:
+    """Run a controlled local command without claiming external completion."""
+    requested_command = " ".join(command)
+    try:
+        completed = subprocess.run(
+            command,
+            shell=False,
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+        )
+    except subprocess.TimeoutExpired as error:
+        return ActionResult(
+            action_name=action_name,
+            requested_command=requested_command,
+            state=ActionState.FAILED,
+            executed_command=command,
+            error_log=f"command timed out after {timeout} seconds: {error}",
+        )
+    except OSError as error:
+        return ActionResult(
+            action_name=action_name,
+            requested_command=requested_command,
+            state=ActionState.FAILED,
+            executed_command=command,
+            error_log=str(error),
+        )
+
+    return ActionResult(
+        action_name=action_name,
+        requested_command=requested_command,
+        state=ActionState.EXECUTED if completed.returncode == 0 else ActionState.FAILED,
+        executed_command=command,
+        exit_code=completed.returncode,
+        output_log=completed.stdout,
+        error_log=completed.stderr,
+    )
+
+
+def run_opportunity(repos_root: str | Path, force: bool = False) -> ActionResult | None:
+    root = Path(repos_root)
+    profile = build_master_profile(root)
+    matches = match_opportunities(profile)
+    if not matches:
+        print("No opportunities found.")
+        return
+
+    top = matches[0]
+    opp_name = top.opportunity.name
+    command = ACTION_MAP.get(opp_name)
+
+    if not command:
+        print(f"Ã¢Å¡Â Ã¯Â¸Â No action defined for {opp_name}")
+        return
+
+    if not force:
+        recent = get_recent_execution(opp_name, hours=6)
+        if recent and recent.state is ActionState.CONFIRMED:
+            print(f"Ã¢ÂÂ³ {opp_name} already succeeded recently. Skipping.")
+            return
+
+    print(f"Ã¢â€“Â¶Ã¯Â¸Â Preparing: {opp_name} (score={top.opportunity_score:.3f})")
+    log_id = log_start(opp_name, command)
+    result = ActionResult(
+        action_name=opp_name,
+        requested_command=command,
+        state=ActionState.DISABLED,
+        error_log="IncomeOS has no real action implementation for this opportunity.",
+    )
+    log_finish(log_id, result)
+    print("Ã¢â€žÂ¹Ã¯Â¸Â Disabled: no real business action was executed.")
+    return result
+
+if __name__ == "__main__":
+    run_opportunity("data/github_repos")
+
+===== tests/test_capabilities.py =====
+from incomeos.skills.capabilities import (
+    build_capabilities,
+)
+
+
+def test_capabilities_are_built():
+    capabilities = build_capabilities(
+        "data/github_repos"
+    )
+
+    assert len(capabilities) >= 1
+
+
+def test_python_capability_exists():
+    capabilities = build_capabilities(
+        "data/github_repos"
+    )
+
+    names = {
+        capability.name
+        for capability in capabilities
+    }
+
+    assert "Python Application Development" in names
+
+
+def test_data_capability_exists():
+    capabilities = build_capabilities(
+        "data/github_repos"
+    )
+
+    names = {
+        capability.name
+        for capability in capabilities
+    }
+
+    assert "Data Processing & Pipeline Development" in names
+
+
+def test_capability_confidence_is_bounded():
+    capabilities = build_capabilities(
+        "data/github_repos"
+    )
+
+    for capability in capabilities:
+        assert 0.0 <= capability.confidence <= 1.0
+
+
+def test_capability_has_evidence():
+    capabilities = build_capabilities(
+        "data/github_repos"
+    )
+
+    for capability in capabilities:
+        assert capability.evidence_count >= 1
+        assert capability.repository_count >= 1
+
+===== tests/test_opportunities.py =====
+from incomeos.opportunities.engine import (
+    DEFAULT_OPPORTUNITIES,
+    IncomeOpportunity,
+    match_opportunities,
+)
+
+
+def profile(*skills):
+    return {
+        "skills": [
+            {
+                "name": name,
+                "confidence": confidence,
+            }
+            for name, confidence in skills
+        ]
+    }
+
+
+def test_empty_profile_produces_zero_readiness():
+    matches = match_opportunities(profile())
+
+    assert matches
+    assert all(item.readiness == 0.0 for item in matches)
+
+
+def test_python_and_testing_match_automation():
+    matches = match_opportunities(
+        profile(
+            ("Python", 1.0),
+            ("Testing", 1.0),
+        )
+    )
+
+    automation = next(
+        item for item in matches
+        if item.opportunity.name == "Python Automation"
+    )
+
+    assert automation.readiness == 1.0
+    assert set(automation.matched_skills) == {"Python", "Testing"}
+    assert automation.missing_skills == ()
+
+
+def test_missing_skill_reduces_readiness():
+    matches = match_opportunities(
+        profile(
+            ("Python", 1.0),
+        )
+    )
+
+    data_engineering = next(
+        item for item in matches
+        if item.opportunity.name == "Data Engineering Support"
+    )
+
+    assert 0.0 < data_engineering.readiness < 1.0
+    assert "Data Engineering" in data_engineering.missing_skills
+
+
+def test_cplusplus_opportunity_requires_multiple_skills():
+    matches = match_opportunities(
+        profile(
+            ("C++", 0.9),
+            ("Python", 0.8),
+            ("Testing", 0.9),
+        )
+    )
+
+    quant = next(
+        item for item in matches
+        if item.opportunity.name == "C++ Quant / Performance Engineering"
+    )
+
+    assert quant.readiness > 0.8
+    assert quant.missing_skills == ()
+
+
+def test_results_are_sorted_by_score():
+    matches = match_opportunities(
+        profile(
+            ("Python", 1.0),
+            ("Testing", 1.0),
+            ("Data Engineering", 1.0),
+        )
+    )
+
+    scores = [item.opportunity_score for item in matches]
+
+    assert scores == sorted(scores, reverse=True)
+
+
+def test_custom_opportunity_is_supported():
+    custom = IncomeOpportunity(
+        name="Custom Python Work",
+        description="Custom opportunity.",
+        required_skills=("Python",),
+        skill_weights=(1.0,),
+        base_value=0.8,
+        difficulty=0.4,
+    )
+
+    matches = match_opportunities(
+        profile(("Python", 0.75)),
+        opportunities=(custom,),
+    )
+
+    assert len(matches) == 1
+    assert matches[0].readiness == 0.75
+    assert matches[0].opportunity.name == "Custom Python Work"
+
+
+def test_all_default_opportunities_are_valid():
+    assert len(DEFAULT_OPPORTUNITIES) == 5
+
+    for opportunity in DEFAULT_OPPORTUNITIES:
+        assert opportunity.name
+        assert opportunity.required_skills
+        assert len(opportunity.required_skills) == len(
+            opportunity.skill_weights
+        )
+
+===== tests/test_execution_contract.py =====
+from __future__ import annotations
+
+import sqlite3
+import subprocess
+
+import pytest
+
+from incomeos.applications import engine as applications_engine
+from incomeos.executor import orchestrator
+from incomeos.opportunities.engine import IncomeOpportunity, OpportunityMatch
+from incomeos.tracking import database as tracking_database
+from incomeos.tracking.models import ActionResult, ActionState
+
+
+@pytest.fixture
+def isolated_tracking_db(monkeypatch, tmp_path):
+    monkeypatch.setattr(tracking_database, "DB_PATH", tmp_path / "incomeos.db")
+
+
+def test_planned_action_has_no_execution_or_external_outcome():
+    result = orchestrator.plan_action("Example", "example-command")
+
+    assert result.state is ActionState.PLANNED
+    assert result.executed_command == ()
+    assert not result.externally_submitted
+    assert not result.externally_confirmed
+
+
+def test_placeholder_is_disabled_and_persisted(monkeypatch, tmp_path, isolated_tracking_db):
+    opportunity = IncomeOpportunity(
+        name="Python Automation",
+        description="Test opportunity.",
+        required_skills=("Python",),
+        skill_weights=(1.0,),
+        base_value=0.9,
+        difficulty=0.2,
+    )
+    match = OpportunityMatch(opportunity, 1.0, 0.8, ("Python",), ())
+    monkeypatch.setattr(orchestrator, "build_master_profile", lambda _: object())
+    monkeypatch.setattr(orchestrator, "match_opportunities", lambda _: (match,))
+
+    result = orchestrator.run_opportunity(tmp_path, force=True)
+    persisted = tracking_database.get_recent_execution("Python Automation")
+
+    assert result is not None
+    assert result.state is ActionState.DISABLED
+    assert not result.externally_submitted
+    assert not result.externally_confirmed
+    assert persisted is not None
+    assert persisted.state is ActionState.DISABLED
+    assert persisted.executed_command == ""
+
+
+def test_successful_local_execution_is_not_submission_or_confirmation(monkeypatch):
+    monkeypatch.setattr(
+        orchestrator.subprocess,
+        "run",
+        lambda *args, **kwargs: subprocess.CompletedProcess(
+            args[0],
+            0,
+            stdout="ok\n",
+            stderr="",
+        ),
+    )
+    result = orchestrator.execute_local_command(
+        "local-test",
+        ("local-command", "--safe"),
+    )
+
+    assert result.state is ActionState.EXECUTED
+    assert result.exit_code == 0
+    assert result.output_log.strip() == "ok"
+    assert not result.externally_submitted
+    assert not result.externally_confirmed
+
+
+def test_failed_local_execution_reports_failed_state(monkeypatch):
+    monkeypatch.setattr(
+        orchestrator.subprocess,
+        "run",
+        lambda *args, **kwargs: subprocess.CompletedProcess(
+            args[0],
+            7,
+            stdout="",
+            stderr="failed",
+        ),
+    )
+    result = orchestrator.execute_local_command(
+        "local-test",
+        ("local-command", "--fails"),
+    )
+
+    assert result.state is ActionState.FAILED
+    assert result.exit_code == 7
+    assert not result.externally_submitted
+    assert not result.externally_confirmed
+
+
+def test_timed_out_local_execution_reports_failed_state(monkeypatch):
+    def timeout(*args, **kwargs):
+        raise subprocess.TimeoutExpired(args[0], kwargs["timeout"])
+
+    monkeypatch.setattr(orchestrator.subprocess, "run", timeout)
+    result = orchestrator.execute_local_command(
+        "local-test",
+        ("local-command", "--slow"),
+        timeout=0.01,
+    )
+
+    assert result.state is ActionState.FAILED
+    assert "timed out" in result.error_log
+    assert not result.externally_submitted
+    assert not result.externally_confirmed
+
+
+def test_submitted_and_confirmed_states_require_external_evidence():
+    with pytest.raises(ValueError):
+        ActionResult("test", "command", ActionState.SUBMITTED)
+
+    with pytest.raises(ValueError):
+        ActionResult(
+            "test",
+            "command",
+            ActionState.CONFIRMED,
+            externally_submitted=True,
+        )
+
+
+def test_application_preparation_stays_pending_and_is_idempotent(monkeypatch, tmp_path):
+    job = {
+        "id": 42,
+        "title": "Python Engineer",
+        "url": "https://example.test/jobs/42",
+        "company": "Example Co",
+    }
+    monkeypatch.setattr(
+        applications_engine,
+        "get_jobs_by_skill",
+        lambda *args, **kwargs: [job],
+    )
+
+    first = applications_engine.apply_to_jobs(
+        "Python",
+        open_browser=False,
+        data_dir=tmp_path,
+    )
+    second = applications_engine.apply_to_jobs(
+        "Python",
+        open_browser=False,
+        data_dir=tmp_path,
+    )
+    conn = sqlite3.connect(tmp_path / "applications.db")
+    rows = conn.execute("SELECT status, COUNT(*) FROM applications GROUP BY status").fetchall()
+    conn.close()
+
+    assert len(first) == 1
+    assert first[0].status == "PENDING"
+    assert second == []
+    assert rows == [("PENDING", 1)]

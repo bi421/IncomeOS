@@ -1,0 +1,11 @@
+﻿Дараах загварыг ашиглан cover letter бичнэ үү.
+Product Engineer (m/f/d) – Ажлын нэр
+Buying Labs – Компанийн нэр
+python, postgresql, docker, testing, git – Таны ур чадвар (автоматаар орно)
+
+# ЖИШЭЭ:
+# Date: 2026-09-02
+# 
+# To the Hiring Team of Buying Labs,
+# 
+# I am applying for the position of Product Engineer (m/f/d). My experience in python, postgresql, docker, testing, git aligns with your requirements.

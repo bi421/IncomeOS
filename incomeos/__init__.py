@@ -1,2 +1,2 @@
-﻿"""IncomeOS - Evidence-Based Personal Income Operating System."""
-__version__ = "0.1.0"
+﻿"""IncomeOS - Evidence-Driven Opportunity Intelligence Platform."""
+__version__ = "2.0.0"

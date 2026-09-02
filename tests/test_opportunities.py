@@ -1,8 +1,9 @@
-﻿from incomeos.opportunities.engine import (
+from incomeos.opportunities.engine import (
     DEFAULT_OPPORTUNITIES,
     IncomeOpportunity,
     match_opportunities,
 )
+from incomeos.skills.levels import CapabilityLevel
 
 
 def profile(*skills):
@@ -17,11 +18,33 @@ def profile(*skills):
     }
 
 
+def capability_profile(
+    *,
+    name="Python Application Development",
+    skills=("Python",),
+    confidence=0.9,
+    level=CapabilityLevel.A,
+):
+    return {
+        "capabilities": [
+            {
+                "name": name,
+                "skills": list(skills),
+                "confidence": confidence,
+                "level": level.value,
+            }
+        ]
+    }
+
+
 def test_empty_profile_produces_zero_readiness():
     matches = match_opportunities(profile())
 
     assert matches
-    assert all(item.readiness == 0.0 for item in matches)
+    assert all(
+        item.readiness == 0.0
+        for item in matches
+    )
 
 
 def test_python_and_testing_match_automation():
@@ -33,13 +56,18 @@ def test_python_and_testing_match_automation():
     )
 
     automation = next(
-        item for item in matches
+        item
+        for item in matches
         if item.opportunity.name == "Python Automation"
     )
 
     assert automation.readiness == 1.0
-    assert set(automation.matched_skills) == {"Python", "Testing"}
+    assert set(automation.matched_skills) == {
+        "Python",
+        "Testing",
+    }
     assert automation.missing_skills == ()
+    assert automation.readiness_basis == "skill_confidence"
 
 
 def test_missing_skill_reduces_readiness():
@@ -50,7 +78,8 @@ def test_missing_skill_reduces_readiness():
     )
 
     data_engineering = next(
-        item for item in matches
+        item
+        for item in matches
         if item.opportunity.name == "Data Engineering Support"
     )
 
@@ -68,8 +97,10 @@ def test_cplusplus_opportunity_requires_multiple_skills():
     )
 
     quant = next(
-        item for item in matches
-        if item.opportunity.name == "C++ Quant / Performance Engineering"
+        item
+        for item in matches
+        if item.opportunity.name
+        == "C++ Quant / Performance Engineering"
     )
 
     assert quant.readiness > 0.8
@@ -85,9 +116,15 @@ def test_results_are_sorted_by_score():
         )
     )
 
-    scores = [item.opportunity_score for item in matches]
+    scores = [
+        item.opportunity_score
+        for item in matches
+    ]
 
-    assert scores == sorted(scores, reverse=True)
+    assert scores == sorted(
+        scores,
+        reverse=True,
+    )
 
 
 def test_custom_opportunity_is_supported():
@@ -119,3 +156,71 @@ def test_all_default_opportunities_are_valid():
         assert len(opportunity.required_skills) == len(
             opportunity.skill_weights
         )
+
+
+def test_a_capability_preserves_high_confidence():
+    matches = match_opportunities(
+        capability_profile(
+            confidence=0.92,
+            level=CapabilityLevel.A,
+        ),
+        opportunities=(
+            IncomeOpportunity(
+                name="Python Work",
+                description="Python work",
+                required_skills=("Python",),
+                skill_weights=(1.0,),
+                base_value=1.0,
+                difficulty=0.0,
+            ),
+        ),
+    )
+
+    assert matches[0].readiness == 0.92
+    assert (
+        matches[0].readiness_basis
+        == "capability_level_and_evidence_confidence"
+    )
+
+
+def test_b_capability_is_not_treated_as_full_a_readiness():
+    matches = match_opportunities(
+        capability_profile(
+            confidence=0.95,
+            level=CapabilityLevel.B,
+        ),
+        opportunities=(
+            IncomeOpportunity(
+                name="Python Work",
+                description="Python work",
+                required_skills=("Python",),
+                skill_weights=(1.0,),
+                base_value=1.0,
+                difficulty=0.0,
+            ),
+        ),
+    )
+
+    assert matches[0].readiness == 0.70
+
+
+def test_unknown_capability_produces_no_readiness():
+    matches = match_opportunities(
+        capability_profile(
+            confidence=1.0,
+            level=CapabilityLevel.UNKNOWN,
+        ),
+        opportunities=(
+            IncomeOpportunity(
+                name="Python Work",
+                description="Python work",
+                required_skills=("Python",),
+                skill_weights=(1.0,),
+                base_value=1.0,
+                difficulty=0.0,
+            ),
+        ),
+    )
+
+    assert matches[0].readiness == 0.0
+    assert matches[0].missing_skills == ("Python",)

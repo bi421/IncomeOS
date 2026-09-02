@@ -1,0 +1,11 @@
+﻿Дараах загварыг ашиглан cover letter бичнэ үү.
+{job_title} – Ажлын нэр
+{company} – Компанийн нэр
+{skills} – Таны ур чадвар (автоматаар орно)
+
+# ЖИШЭЭ:
+# Date: 2026-09-02
+# 
+# To the Hiring Team of {company},
+# 
+# I am applying for the position of {job_title}. My experience in {skills} aligns with your requirements.

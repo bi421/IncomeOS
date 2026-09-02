@@ -1,0 +1,11 @@
+﻿Дараах загварыг ашиглан cover letter бичнэ үү.
+Infrastructure Engineer - Deployments (d/f/m) – Ажлын нэр
+Arculus – Компанийн нэр
+docker, testing, git – Таны ур чадвар (автоматаар орно)
+
+# ЖИШЭЭ:
+# Date: 2026-09-02
+# 
+# To the Hiring Team of Arculus,
+# 
+# I am applying for the position of Infrastructure Engineer - Deployments (d/f/m). My experience in docker, testing, git aligns with your requirements.
