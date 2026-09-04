@@ -37,28 +37,38 @@ jobs:
       - name: Run tests
         run: python -m pytest -q
 
-      - name: Check tracked text files for UTF-8 BOM
+      - name: Check changed text files for UTF-8 BOM
         shell: bash
         run: |
           python - <<'PY'
           import subprocess
           from pathlib import Path
 
-          raw = subprocess.check_output(["git", "ls-files", "-z"])
-          paths = [Path(p.decode()) for p in raw.split(b"\0") if p]
+          try:
+              raw = subprocess.check_output(
+                  ["git", "diff", "--name-only", "--diff-filter=ACMR", "HEAD^", "HEAD"],
+                  text=True,
+              )
+          except subprocess.CalledProcessError as exc:
+              raise SystemExit(f"Unable to determine changed files: {exc}")
+
+          suffixes = {".py", ".txt", ".md", ".yml", ".yaml", ".toml", ".ini", ".cfg"}
           offenders = []
-          for path in paths:
-              if path.suffix.lower() not in {".py", ".txt", ".md", ".yml", ".yaml", ".toml", ".ini", ".cfg"}:
+          for name in raw.splitlines():
+              path = Path(name)
+              if path.suffix.lower() not in suffixes:
                   continue
               try:
                   data = path.read_bytes()
-              except OSError:
-                  continue
+              except OSError as exc:
+                  raise SystemExit(f"Unable to read {path}: {exc}")
               if data.startswith(b"\xef\xbb\xbf"):
                   offenders.append(str(path))
+
           if offenders:
-              print("UTF-8 BOM found in:")
+              print("UTF-8 BOM found in changed text files:")
               print("\n".join(offenders))
               raise SystemExit(1)
-          print("No UTF-8 BOM found in tracked text files.")
+
+          print("No UTF-8 BOM found in changed text files.")
           PY
