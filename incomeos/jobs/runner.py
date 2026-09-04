@@ -6,22 +6,40 @@ import urllib.error
 from pathlib import Path
 from typing import Any
 
-from .database import JobDatabase
-from .result import SourceRunResult
+from.database import JobDatabase
+from.result import SourceRunResult
 
-# Энгийн валидаци
-def _valid_job(job: dict[str, Any]) -> bool:
-    return bool(job.get("title") and job.get("url"))
+def _valid_job(job: Any) -> bool:
+    if isinstance(job, dict):
+        return bool(job.get("title") and job.get("url"))
+    # Job dataclass
+    title = getattr(job, "title", "")
+    url = getattr(job, "url", "") or getattr(job, "source_url", "")
+    return bool(title and url)
 
-# Эх үүсвэрүүдийг динамикаар импортлох
 def _get_source(name: str):
     if name == "arbeitnow":
-        from .sources import arbeitnow
-        return arbeitnow
+        from.sources.arbeitnow import ArbeitnowSource
+        return ArbeitnowSource()
     elif name == "remoteok":
-        from .sources import remoteok
-        return remoteok
+        from.sources.remoteok import RemoteOKSource
+        return RemoteOKSource()
     raise ValueError(f"Unknown source: {name}")
+
+def _to_dict(job: Any) -> dict[str, Any]:
+    if isinstance(job, dict):
+        return job
+    if hasattr(job, "to_dict"):
+        return job.to_dict()
+    return {
+        "source": getattr(job, "source", ""),
+        "title": getattr(job, "title", ""),
+        "url": getattr(job, "url", "") or getattr(job, "source_url", ""),
+        "company": getattr(job, "company", ""),
+        "description": getattr(job, "description", ""),
+        "created_at": getattr(job, "created_at", ""),
+        "raw_data": str(getattr(job, "raw_data", {})),
+    }
 
 def run_pipeline(data_dir: Path) -> list[SourceRunResult]:
     db_path = data_dir / "jobs" / "incomeos_jobs.sqlite3"
@@ -34,12 +52,10 @@ def run_pipeline(data_dir: Path) -> list[SourceRunResult]:
         try:
             source = _get_source(name)
             raw = list(source.fetch())
-
-            validated_jobs = [j for j in raw if _valid_job(j)]
-            skipped = len(raw) - len(validated_jobs)
-
+            dict_jobs = [_to_dict(j) for j in raw]
+            validated_jobs = [j for j in dict_jobs if _valid_job(j)]
+            skipped = len(dict_jobs) - len(validated_jobs)
             inserted, existing = db.upsert_many(validated_jobs)
-
             results.append(SourceRunResult(
                 source=name,
                 fetched=len(raw),

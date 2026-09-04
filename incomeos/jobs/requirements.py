@@ -5,7 +5,6 @@ import html
 import re
 from dataclasses import dataclass
 
-
 @dataclass(frozen=True)
 class ParsedJob:
     job_id: str
@@ -13,357 +12,125 @@ class ParsedJob:
     company: str
     url: str
     description: str
-    required_skills: tuple[str, ...]
-    preferred_skills: tuple[str, ...]
+    required_skills: tuple[str,...]
+    preferred_skills: tuple[str,...]
 
-
-SKILL_ALIASES: dict[str, tuple[str, ...]] = {
-    "Python": (
-        "python",
-        "python 3",
-    ),
-    "C++": (
-        "c++",
-        "cpp",
-    ),
-    "Docker": (
-        "docker",
-        "docker environments",
-    ),
-    "Kubernetes": (
-        "kubernetes",
-        "k8s",
-    ),
-    "Linux": (
-        "linux",
-    ),
-    "AWS": (
-        "aws",
-        "amazon web services",
-    ),
-    "SQL": (
-        "sql",
-    ),
-    "Go": (
-        "go",
-        "golang",
-    ),
-    "CMake": (
-        "cmake",
-        "cmake build",
-    ),
-    "Testing": (
-        "automated testing",
-        "test automation",
-        "testing",
-        "pytest",
-        "unit testing",
-        "integration testing",
-    ),
-    "Data Engineering": (
-        "data engineering",
-        "data pipeline",
-        "data pipelines",
-        "data processing",
-        "etl",
-        "data infrastructure",
-    ),
-    "Flask": (
-        "flask",
-    ),
-    "SQLite": (
-        "sqlite",
-    ),
-    "Pydantic": (
-        "pydantic",
-    ),
-    "Polars": (
-        "polars",
-    ),
-    "Pandas": (
-        "pandas",
-    ),
-    "NumPy": (
-        "numpy",
-        "numpy",
-    ),
+SKILL_ALIASES: dict[str, tuple[str,...]] = {
+    "Python": ("python", "python 3",),
+    "C++": ("c++", "cpp",),
+    "Docker": ("docker", "docker environments",),
+    "Kubernetes": ("kubernetes", "k8s",),
+    "Linux": ("linux",),
+    "AWS": ("aws", "amazon web services",),
+    "SQL": ("sql",),
+    "Go": ("go", "golang",),
+    "CMake": ("cmake", "cmake build",),
+    "Testing": ("automated testing", "test automation", "testing", "pytest", "unit testing", "integration testing",),
+    "Data Engineering": ("data engineering", "data pipeline", "data pipelines", "data processing", "etl", "data infrastructure",),
+    "Flask": ("flask",),
+    "SQLite": ("sqlite",),
+    "Pydantic": ("pydantic",),
+    "Polars": ("polars",),
+    "Pandas": ("pandas",),
+    "NumPy": ("numpy", "numpy",),
 }
-
 
 def parse_raw_job(raw_data: str | dict) -> dict:
     if isinstance(raw_data, dict):
         return raw_data
-
     if not isinstance(raw_data, str):
-        raise TypeError(
-            "raw_data must be str or dict"
-        )
-
+        raise TypeError("raw_data must be str or dict")
     value = raw_data.strip()
-
     if not value:
-        raise ValueError(
-            "raw_data is empty"
-        )
-
+        raise ValueError("raw_data is empty")
     parsed = ast.literal_eval(value)
-
     if not isinstance(parsed, dict):
-        raise ValueError(
-            "raw_data must decode to a dictionary"
-        )
-
+        raise ValueError("raw_data must decode to a dictionary")
     return parsed
 
-
 def clean_html(value: str) -> str:
-    text = html.unescape(
-        value or ""
-    )
-
-    text = re.sub(
-        r"<script\b[^>]*>.*?</script>",
-        " ",
-        text,
-        flags=re.IGNORECASE | re.DOTALL,
-    )
-
-    text = re.sub(
-        r"<style\b[^>]*>.*?</style>",
-        " ",
-        text,
-        flags=re.IGNORECASE | re.DOTALL,
-    )
-
-    text = re.sub(
-        r"</(p|li|h1|h2|h3|h4|h5|h6|div|br|ul|ol)>",
-        "\n",
-        text,
-        flags=re.IGNORECASE,
-    )
-
-    text = re.sub(
-        r"<[^>]+>",
-        " ",
-        text,
-    )
-
+    text = html.unescape(value or "")
+    text = re.sub(r"<script\b[^>]*>.*?</script>", " ", text, flags=re.IGNORECASE | re.DOTALL)
+    text = re.sub(r"<style\b[^>]*>.*?</style>", " ", text, flags=re.IGNORECASE | re.DOTALL)
+    text = re.sub(r"</(p|li|h1|h2|h3|h4|h5|h6|div|br|ul|ol)>", "\n", text, flags=re.IGNORECASE)
+    text = re.sub(r"<[^>]+>", " ", text)
     text = html.unescape(text)
-
-    text = re.sub(
-        r"[ \t]+",
-        " ",
-        text,
-    )
-
-    text = re.sub(
-        r"\n[ \t]+",
-        "\n",
-        text,
-    )
-
+    text = re.sub(r"[ \t]+", " ", text)
+    text = re.sub(r"\n[ \t]+", "\n", text)
     return text.strip()
 
-
-def _section(
-    description: str,
-    starts: tuple[str, ...],
-    stops: tuple[str, ...],
-) -> str:
+def _section(description: str, starts: tuple[str,...], stops: tuple[str,...]) -> str:
     lower = description.lower()
-
-    start_positions = [
-        lower.find(marker.lower())
-        for marker in starts
-    ]
-
-    valid_starts = [
-        position
-        for position in start_positions
-        if position >= 0
-    ]
-
+    start_positions = [lower.find(marker.lower()) for marker in starts]
+    valid_starts = [position for position in start_positions if position >= 0]
     if not valid_starts:
         return ""
-
     start = min(valid_starts)
     end = len(description)
-
     for marker in stops:
-        position = lower.find(
-            marker.lower(),
-            start + 1,
-        )
-
+        position = lower.find(marker.lower(), start + 1)
         if position >= 0:
             end = min(end, position)
-
     return description[start:end]
 
-
-def _find_skills(
-    text: str,
-    available_skills: tuple[str, ...],
-) -> tuple[str, ...]:
+def _find_skills(text: str, available_skills: tuple[str,...]) -> tuple[str,...]:
     lower = text.lower()
-
     matches: list[tuple[int, str]] = []
-
     for skill in available_skills:
-        aliases = SKILL_ALIASES.get(
-            skill,
-            (skill.lower(),),
-        )
-
+        aliases = SKILL_ALIASES.get(skill, (skill.lower(),))
         positions = []
-
         for alias in aliases:
-            match = re.search(
-                rf"(?<!\w){re.escape(alias.lower())}(?!\w)",
-                lower,
-            )
+            match = re.search(rf"(?<!\w){re.escape(alias.lower())}(?!\w)", lower)
             if match:
                 positions.append(match.start())
-
         if positions:
             matches.append((min(positions), skill))
-
     matches.sort(key=lambda item: item[0])
-
     seen: set[str] = set()
     result: list[str] = []
-
     for _, skill in matches:
         if skill not in seen:
             seen.add(skill)
             result.append(skill)
-
     return tuple(result)
 
-
-def extract_requirements(
-    *,
-    description: str,
-    available_skills: tuple[str, ...],
-) -> tuple[tuple[str, ...], tuple[str, ...]]:
+def extract_requirements(*, description: str, available_skills: tuple[str,...]) -> tuple[tuple[str,...], tuple[str,...]]:
     required_section = _section(
         description,
-        starts=(
-            "required skills",
-            "required skills & experiences",
-            "required background & skills",
-            "required skills and experience",
-            "required:",
-        ),
-        stops=(
-            "preferred skills",
-            "preferred background",
-            "preferred",
-            "nice to have",
-            "nice to haves",
-            "benefits",
-            "salary",
-            "compensation",
-        ),
+        starts=("required skills", "required skills & experiences", "required background & skills", "required skills and experience", "required:", "requirements:", "what you'll need", "you should have", "qualifications", "must have", "required qualifications", "requirements & qualifications"),
+        stops=("preferred skills", "preferred background", "preferred", "nice to have", "nice to haves", "benefits", "salary", "compensation", "what we offer"),
     )
-
     preferred_section = _section(
         description,
-        starts=(
-            "preferred skills",
-            "preferred background",
-            "preferred",
-            "nice to have",
-            "nice to haves",
-        ),
-        stops=(
-            "benefits",
-            "salary",
-            "compensation",
-        ),
+        starts=("preferred skills", "preferred background", "preferred", "nice to have", "nice to haves", "bonus", "plus"),
+        stops=("benefits", "salary", "compensation"),
     )
-
-    required = _find_skills(
-        required_section,
-        available_skills,
-    )
-
-    preferred = _find_skills(
-        preferred_section,
-        available_skills,
-    )
-
-    preferred = tuple(
-        skill
-        for skill in preferred
-        if skill not in required
-    )
-
+    # FALLBACK: section олдоогүй бол бүтэн description дээр хай - энэ л сүлжээг хаана
+    search_for_required = required_section if required_section.strip() else description
+    required = _find_skills(search_for_required, available_skills)
+    preferred = _find_skills(preferred_section, available_skills)
+    preferred = tuple(skill for skill in preferred if skill not in required)
     return required, preferred
 
-
-def parse_job_record(
-    job_id: str | int | dict,
-    *,
-    title: str = "",
-    company: str = "",
-    url: str = "",
-    raw_data: str | dict | None = None,
-    available_skills: tuple[str, ...] = tuple(SKILL_ALIASES),
-) -> ParsedJob:
+def parse_job_record(job_id: str | int | dict, *, title: str = "", company: str = "", url: str = "", raw_data: str | dict | None = None, available_skills: tuple[str,...] = tuple(SKILL_ALIASES),) -> ParsedJob:
     legacy_job: dict = job_id if isinstance(job_id, dict) else {}
-
     if isinstance(job_id, dict):
         job_id = legacy_job.get("id", "")
         title = legacy_job.get("title", title)
         company = legacy_job.get("company_name", company)
         url = legacy_job.get("url", url)
-
     if raw_data is None:
         raw_data = legacy_job
-
-    data = parse_raw_job(
-        raw_data or {}
-    )
-
-    raw_description = str(
-        data.get(
-            "description",
-            "",
-        )
-    )
-
-    description = clean_html(
-        raw_description
-    )
-
-    required, preferred = extract_requirements(
-        description=description,
-        available_skills=available_skills,
-    )
-
+    data = parse_raw_job(raw_data or {})
+    raw_description = str(data.get("description", ""))
+    description = clean_html(raw_description)
+    required, preferred = extract_requirements(description=description, available_skills=available_skills)
     return ParsedJob(
         job_id=str(job_id),
-        title=str(
-            data.get(
-                "title",
-                title,
-            )
-        ),
-        company=str(
-            data.get(
-                "company_name",
-                company,
-            )
-        ),
-        url=str(
-            data.get(
-                "url",
-                url,
-            )
-        ),
+        title=str(data.get("title", title)),
+        company=str(data.get("company_name", company)),
+        url=str(data.get("url", url)),
         description=description,
         required_skills=required,
         preferred_skills=preferred,
     )
-
