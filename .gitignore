@@ -1,4 +1,4 @@
-﻿# Python
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
@@ -15,17 +15,25 @@ htmlcov/
 venv/
 env/
 
-# IDE
+# IDE / editor backups
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Temporary files
+# Temporary / backup artifacts
 *.tmp
 *.temp
+*.bak
+*_backup_*/
+_incomeos_migration_backup/
+_recovery-archive-*/
+*_source_snapshot_*.zip
 
 # Local secrets
 .env
@@ -34,20 +42,16 @@ Thumbs.db
 # Generated local runtime artifacts
 data/github_repos/
 
-# Keep generated master profile
-!data/profile/
-!data/profile/master_skill_profile.json
-
 # Local databases
 *.db
 *.sqlite
 *.sqlite3
 *.duckdb
-.env
+
+# Generated/local helper artifacts
 capability_profile.json
 test_token.py
 run_full_pipeline.py
 export_profile.py
 analyze_repo.py
 analyze_all_repos.py
-_recovery-archive-20260902/

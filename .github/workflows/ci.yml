@@ -1,0 +1,62 @@
+name: IncomeOS CI
+
+on:
+  push:
+    branches: [main, "feat/**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+          python -m pip install pytest
+
+      - name: Compile package
+        run: python -m compileall -q incomeos
+
+      - name: Run tests
+        run: python -m pytest -q
+
+      - name: Check tracked text files for UTF-8 BOM
+        shell: bash
+        run: |
+          python - <<'PY'
+          import subprocess
+          from pathlib import Path
+
+          raw = subprocess.check_output(["git", "ls-files", "-z"])
+          paths = [Path(p.decode()) for p in raw.split(b"\0") if p]
+          offenders = []
+          for path in paths:
+              if path.suffix.lower() not in {".py", ".txt", ".md", ".yml", ".yaml", ".toml", ".ini", ".cfg"}:
+                  continue
+              try:
+                  data = path.read_bytes()
+              except OSError:
+                  continue
+              if data.startswith(b"\xef\xbb\xbf"):
+                  offenders.append(str(path))
+          if offenders:
+              print("UTF-8 BOM found in:")
+              print("\n".join(offenders))
+              raise SystemExit(1)
+          print("No UTF-8 BOM found in tracked text files.")
+          PY
