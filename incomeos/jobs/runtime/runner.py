@@ -6,7 +6,8 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from incomeos.jobs.models.job import Job
-from incomeos.jobs.sources import ArbeitnowSource, RemoteOKSource, LinkedInSource
+from incomeos.jobs.sources import ArbeitnowSource, RemoteOKSource, WeWorkRemotelySource
+from incomeos.jobs.normalization.normalizer import normalize_job
 from .database import JobDatabase
 from .result import SourceRunResult, PipelineRunResult
 
@@ -21,7 +22,7 @@ def run_pipeline(data_dir: Path) -> PipelineRunResult:
     sources = [
         ("arbeitnow", ArbeitnowSource()),
         ("remoteok", RemoteOKSource()),
-        ("linkedin", LinkedInSource()),
+        ("weworkremotely", WeWorkRemotelySource()),
     ]
 
     source_results: list[SourceRunResult] = []
@@ -34,7 +35,7 @@ def run_pipeline(data_dir: Path) -> PipelineRunResult:
 
     for name, source in sources:
         try:
-            raw_jobs = list(source.fetch())
+            raw_jobs = [normalize_job(j) for j in source.fetch()]
             valid_jobs = [j for j in raw_jobs if _valid_job(j)]
             inserted, existing = db.upsert_many(valid_jobs)
             skipped = len(raw_jobs) - len(valid_jobs)
