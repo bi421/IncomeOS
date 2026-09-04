@@ -22,6 +22,10 @@ def github_repos_fixture(tmp_path: Path) -> Path:
         "def load_data():\n    return []\n",
         encoding="utf-8",
     )
+    (repo / "engine.cpp").write_text(
+        "int run_engine() { return 0; }\n",
+        encoding="utf-8",
+    )
     (repo / "Dockerfile").write_text(
         "FROM python:3.12-slim\n",
         encoding="utf-8",
