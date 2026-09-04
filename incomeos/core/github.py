@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import json
-import shutil
+import os
 import subprocess
+import urllib.parse
+import urllib.request
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -20,37 +22,60 @@ def list_repositories(
     owner: str,
     limit: int = 100,
 ) -> tuple[GitHubRepository, ...]:
-    gh = _find_gh()
+    """List repositories without requiring the GitHub CLI.
 
-    result = subprocess.run(
-    [
-        gh,
-        "repo",
-        "list",
-        owner,
-        "--limit",
-        str(limit),
-        "--json",
-        "name,isPrivate,isFork,isArchived,url",
-    ],
-    check=True,
-    capture_output=True,
-    text=True,
-    stdin=subprocess.DEVNULL,
-)
+    The public GitHub API is used by default. If ``GITHUB_TOKEN`` is present,
+    it is sent as a bearer token so private repositories visible to the token
+    can also be returned.
+    """
 
-    payload = json.loads(result.stdout)
+    if not owner.strip():
+        raise ValueError("owner must not be empty")
+    if not 1 <= limit <= 100:
+        raise ValueError("limit must be between 1 and 100")
 
-    return tuple(
-        GitHubRepository(
-            name=item["name"],
-            url=item["url"],
-            is_private=item["isPrivate"],
-            is_fork=item["isFork"],
-            is_archived=item["isArchived"],
-        )
-        for item in payload
+    encoded_owner = urllib.parse.quote(owner.strip(), safe="")
+    query = urllib.parse.urlencode({"per_page": limit})
+    url = f"https://api.github.com/users/{encoded_owner}/repos?{query}"
+
+    request = urllib.request.Request(
+        url,
+        headers={
+            "Accept": "application/vnd.github+json",
+            "User-Agent": "IncomeOS",
+        },
     )
+
+    token = os.environ.get("GITHUB_TOKEN", "").strip()
+    if token:
+        request.add_header("Authorization", f"Bearer {token}")
+
+    try:
+        with urllib.request.urlopen(request, timeout=20) as response:
+            payload = json.load(response)
+    except (urllib.error.HTTPError, urllib.error.URLError) as exc:
+        raise RuntimeError(
+            f"GitHub repository listing failed: {exc}"
+        ) from exc
+
+    if not isinstance(payload, list):
+        raise RuntimeError("GitHub returned an invalid repository payload")
+
+    repositories: list[GitHubRepository] = []
+    for item in payload:
+        if not isinstance(item, dict):
+            continue
+        repositories.append(
+            GitHubRepository(
+                name=str(item["name"]),
+                url=str(item["html_url"]),
+                is_private=bool(item["private"]),
+                is_fork=bool(item["fork"]),
+                is_archived=bool(item["archived"]),
+            )
+        )
+
+    return tuple(repositories)
 
 
 def sync_repository(
@@ -64,37 +89,15 @@ def sync_repository(
 
     if (target / ".git").exists():
         subprocess.run(
-            [
-                "git",
-                "-C",
-                str(target),
-                "pull",
-                "--ff-only",
-            ],
+            ["git", "-C", str(target), "pull", "--ff-only"],
             check=True,
             stdin=subprocess.DEVNULL,
         )
     else:
         subprocess.run(
-            [
-                "git",
-                "clone",
-                repository.url,
-                str(target),
-            ],
+            ["git", "clone", repository.url, str(target)],
             check=True,
             stdin=subprocess.DEVNULL,
         )
 
     return target
-
-
-def _find_gh() -> str:
-    gh = shutil.which("gh")
-
-    if gh is None:
-        raise RuntimeError(
-            "GitHub CLI 'gh' was not found on PATH."
-        )
-
-    return gh
