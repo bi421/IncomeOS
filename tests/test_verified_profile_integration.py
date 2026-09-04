@@ -17,6 +17,11 @@ def test_verified_evidence_strengthens_existing_skill(
 ):
     from incomeos.skills import aggregator
 
+    baseline = build_master_profile(github_repos_fixture)
+    baseline_python = next(
+        skill for skill in baseline.skills if skill.name == "Python"
+    )
+
     class FakeRecord:
         def __init__(self, skill, decision_id):
             self.skill = skill
@@ -29,14 +34,13 @@ def test_verified_evidence_strengthens_existing_skill(
     )
 
     profile = build_master_profile(github_repos_fixture)
-
     python = next(
         skill for skill in profile.skills if skill.name == "Python"
     )
 
     assert python.verified_evidence_count == 1
     assert python.verified_decision_ids == ("dec_verified_1",)
-    assert python.confidence > 1.0 - 0.001 or python.confidence == 1.0
+    assert python.confidence > baseline_python.confidence
 
 
 def test_multiple_verified_records_are_bounded(
@@ -60,7 +64,6 @@ def test_multiple_verified_records_are_bounded(
     )
 
     profile = build_master_profile(github_repos_fixture)
-
     cpp = next(skill for skill in profile.skills if skill.name == "C++")
 
     assert cpp.verified_evidence_count == 20
@@ -85,7 +88,6 @@ def test_unverified_new_skill_is_not_created(
     )
 
     profile = build_master_profile(github_repos_fixture)
-
     names = {skill.name for skill in profile.skills}
 
     assert "ImaginarySkill" not in names
