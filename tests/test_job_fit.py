@@ -1,7 +1,5 @@
-from incomeos.jobs.fit import (
-    JobRequirement,
-    evaluate_job_fit,
-)
+from incomeos.jobs.fit import JobRequirement, evaluate_job_fit
+from incomeos.skills.aggregator import build_master_profile
 from incomeos.skills.levels import CapabilityLevel
 
 
@@ -108,11 +106,8 @@ def test_common_python_alias_matches_without_fuzzy_matching():
     assert result.matched_requirements == ("Python 3",)
 
 
-from incomeos.skills.aggregator import build_master_profile
-
-
-def test_master_skill_profile_matches_job_requirements():
-    profile = build_master_profile("data/github_repos")
+def test_master_skill_profile_matches_job_requirements(github_repos_fixture):
+    profile = build_master_profile(github_repos_fixture)
 
     result = evaluate_job_fit(
         job_id="real-job-1",
