@@ -28,36 +28,22 @@ def test_job_fit_matches_required_capabilities():
     result = evaluate_job_fit(
         job_id="job-1",
         requirements=(
-            JobRequirement(
-                "Python",
-                CapabilityLevel.B,
-            ),
-            JobRequirement(
-                "C++",
-                CapabilityLevel.B,
-            ),
+            JobRequirement("Python", CapabilityLevel.B),
+            JobRequirement("C++", CapabilityLevel.B),
         ),
         profile=capability_profile(),
     )
 
     assert result.fit_score == 1.0
     assert result.missing_requirements == ()
-    assert set(result.matched_requirements) == {
-        "Python",
-        "C++",
-    }
+    assert set(result.matched_requirements) == {"Python", "C++"}
     assert result.is_qualified
 
 
 def test_a_capability_satisfies_b_requirement():
     result = evaluate_job_fit(
         job_id="job-2",
-        requirements=(
-            JobRequirement(
-                "Python",
-                CapabilityLevel.B,
-            ),
-        ),
+        requirements=(JobRequirement("Python", CapabilityLevel.B),),
         profile=capability_profile(),
     )
 
@@ -67,12 +53,7 @@ def test_a_capability_satisfies_b_requirement():
 def test_b_capability_does_not_satisfy_a_requirement():
     result = evaluate_job_fit(
         job_id="job-3",
-        requirements=(
-            JobRequirement(
-                "C++",
-                CapabilityLevel.A,
-            ),
-        ),
+        requirements=(JobRequirement("C++", CapabilityLevel.A),),
         profile=capability_profile(),
     )
 
@@ -84,21 +65,13 @@ def test_b_capability_does_not_satisfy_a_requirement():
 def test_missing_requirement_is_explained():
     result = evaluate_job_fit(
         job_id="job-4",
-        requirements=(
-            JobRequirement(
-                "Docker",
-                CapabilityLevel.B,
-            ),
-        ),
+        requirements=(JobRequirement("Docker", CapabilityLevel.B),),
         profile=capability_profile(),
     )
 
     assert result.fit_score == 0.0
     assert "Docker" in result.missing_requirements
-    assert any(
-        "no capability evidence" in reason
-        for reason in result.reasons
-    )
+    assert any("no capability evidence" in reason for reason in result.reasons)
 
 
 def test_empty_requirements_are_not_automatically_a_perfect_fit():
@@ -110,6 +83,30 @@ def test_empty_requirements_are_not_automatically_a_perfect_fit():
 
     assert result.fit_score == 0.0
     assert not result.is_qualified
+
+
+def test_skill_matching_is_case_and_whitespace_insensitive():
+    result = evaluate_job_fit(
+        job_id="job-6",
+        requirements=(JobRequirement("  PYTHON  ", CapabilityLevel.B),),
+        profile=capability_profile(),
+    )
+
+    assert result.fit_score == 1.0
+    assert result.matched_requirements == ("  PYTHON  ",)
+    assert result.missing_requirements == ()
+
+
+def test_common_python_alias_matches_without_fuzzy_matching():
+    result = evaluate_job_fit(
+        job_id="job-7",
+        requirements=(JobRequirement("Python 3", CapabilityLevel.B),),
+        profile=capability_profile(),
+    )
+
+    assert result.fit_score == 1.0
+    assert result.matched_requirements == ("Python 3",)
+
 
 from incomeos.skills.aggregator import build_master_profile
 
