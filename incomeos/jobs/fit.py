@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from typing import Any, Iterable
 
@@ -11,6 +12,24 @@ _LEVEL_RANK = {
     CapabilityLevel.B: 1,
     CapabilityLevel.A: 2,
 }
+
+
+# Conservative aliases only. Matching must remain evidence-based and must
+# not turn arbitrary text similarity into a capability claim.
+_SKILL_ALIASES = {
+    "python 3": "python",
+    "python3": "python",
+    "py": "python",
+    "c plus plus": "c++",
+    "cplusplus": "c++",
+}
+
+
+def _normalize_skill(value: str) -> str:
+    """Normalize harmless presentation differences without fuzzy matching."""
+
+    normalized = re.sub(r"\s+", " ", value.strip().casefold())
+    return _SKILL_ALIASES.get(normalized, normalized)
 
 
 @dataclass(frozen=True)
@@ -136,6 +155,7 @@ def _extract_capabilities(profile: Any) -> tuple[Any, ...]:
     value = getattr(profile, "capabilities", ())
     return tuple(value or ())
 
+
 def evaluate_job_fit(
     *,
     job_id: str,
@@ -163,11 +183,14 @@ def evaluate_job_fit(
         )
 
     for requirement in requirements:
+        required_skill = _normalize_skill(requirement.skill)
         candidates = [
             capability
             for capability in capabilities
-            if requirement.skill
-            in _capability_skills(capability)
+            if any(
+                _normalize_skill(skill) == required_skill
+                for skill in _capability_skills(capability)
+            )
         ]
 
         if not candidates:
@@ -220,6 +243,3 @@ def evaluate_job_fit(
         missing_requirements=tuple(missing),
         reasons=tuple(reasons),
     )
-
-
-
