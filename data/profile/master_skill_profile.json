@@ -5,7 +5,7 @@
   "skills": [
     {
       "name": "Testing",
-      "confidence": 1.0,
+      "confidence": 0.65,
       "evidence_count": 5,
       "repositories": [
         "ResearchOS",
@@ -13,53 +13,65 @@
         "reelautofly",
         "trader",
         "true-roas-complete"
-      ]
+      ],
+      "verified_evidence_count": 0,
+      "verified_decision_ids": []
     },
     {
       "name": "Python",
-      "confidence": 1.0,
+      "confidence": 0.65,
       "evidence_count": 4,
       "repositories": [
         "ResearchOS",
         "fb-planner-audit",
         "trader",
         "true-roas-complete"
-      ]
+      ],
+      "verified_evidence_count": 0,
+      "verified_decision_ids": []
     },
     {
       "name": "Data Engineering",
-      "confidence": 0.95,
+      "confidence": 0.65,
       "evidence_count": 3,
       "repositories": [
         "ResearchOS",
         "trader",
         "true-roas-complete"
-      ]
+      ],
+      "verified_evidence_count": 0,
+      "verified_decision_ids": []
     },
     {
       "name": "C++",
-      "confidence": 0.85,
+      "confidence": 0.595,
       "evidence_count": 1,
       "repositories": [
         "ResearchOS"
-      ]
+      ],
+      "verified_evidence_count": 0,
+      "verified_decision_ids": []
     },
     {
       "name": "Docker",
-      "confidence": 0.575,
+      "confidence": 0.4025,
       "evidence_count": 2,
       "repositories": [
         "fb-planner-audit",
         "true-roas-complete"
-      ]
+      ],
+      "verified_evidence_count": 0,
+      "verified_decision_ids": []
     },
     {
       "name": "CMake",
-      "confidence": 0.525,
+      "confidence": 0.3675,
       "evidence_count": 1,
       "repositories": [
         "ResearchOS"
-      ]
+      ],
+      "verified_evidence_count": 0,
+      "verified_decision_ids": []
     }
   ]
 }
