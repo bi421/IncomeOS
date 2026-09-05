@@ -13,17 +13,18 @@ def _valid_job(job) -> bool:
 
 # Эх үүсвэрүүдийг динамикаар импортлох
 def _get_source(name: str):
-    if name == "arbeitnow":
-        from .sources.arbeitnow import ArbeitnowSource
-        return ArbeitnowSource()
-    elif name == "remoteok":
-        from .sources.remoteok import RemoteOKSource
-        return RemoteOKSource()
+    from .sources.registry import build_sources
+    for source in build_sources():
+        if source.source_name == name:
+            return source
     raise ValueError(f"Unknown source: {name}")
 
 def run_pipeline(
     data_dir: Path,
-    sources: tuple[str, ...] = ("arbeitnow", "remoteok"),
+    sources: tuple[str, ...] = (
+        "arbeitnow", "arbeitnow_uk", "himalayas", "remotive",
+        "remoteok", "weworkremotely",
+    ),
 ) -> list[SourceRunResult]:
     db_path = data_dir / "jobs" / "incomeos_jobs.sqlite3"
     db_path.parent.mkdir(parents=True, exist_ok=True)

@@ -62,7 +62,9 @@ def analyze(record: dict[str, Any], profile: dict[str, dict[str, Any]]) -> dict[
     if not title or not record.get("url") or not is_relevant(title, description, tags):
         return None
 
-    available = tuple(profile)
+    # Parse against the complete known vocabulary, not only the user's skills.
+    # Otherwise every unknown required skill disappears and the score is inflated.
+    available = tuple(SKILL_ALIASES)
     required, preferred = extract_requirements(
         description=description,
         available_skills=available,
@@ -75,11 +77,14 @@ def analyze(record: dict[str, Any], profile: dict[str, dict[str, Any]]) -> dict[
     evidence_mode = "explicit_sections" if required or preferred else "explicit_mentions_only"
     target = required or mentioned
     matched_required = tuple(skill for skill in required if skill in profile)
+    missing_required = tuple(skill for skill in required if skill not in profile)
     matched_preferred = tuple(skill for skill in preferred if skill in profile)
     matched_mentions = tuple(skill for skill in mentioned if skill not in matched_required and skill not in matched_preferred)
     if required:
         fit = len(matched_required) / len(required)
-        score = fit * 0.75 + (len(matched_preferred) / max(1, len(preferred))) * 0.15
+        preferred_fit = len(matched_preferred) / max(1, len(preferred))
+        confidence = sum(float(profile[s].get("confidence", 0.0)) for s in matched_required) / max(1, len(matched_required))
+        score = fit * 0.60 + preferred_fit * 0.10 + confidence * 0.30
     elif mentioned:
         fit = len(matched_mentions) / len(mentioned)
         score = min(0.55, 0.25 + 0.05 * len(matched_mentions))
@@ -101,6 +106,7 @@ def analyze(record: dict[str, Any], profile: dict[str, dict[str, Any]]) -> dict[
         "evidence_mode": evidence_mode,
         "score": round(float(score), 4),
         "required_profile_skills": list(matched_required),
+        "missing_required_skills": list(missing_required),
         "preferred_profile_skills": list(matched_preferred),
         "other_explicit_mentions": list(matched_mentions),
         "declared_required_skills": list(required),
@@ -144,7 +150,9 @@ def main() -> int:
     print(f"Produced {len(opportunities)} evidence-backed opportunities")
     print(f"Wrote {args.output}")
     for index, item in enumerate(opportunities, 1):
-        skills = ", ".join(item["required_profile_skills"] or item["other_explicit_mentions"])
+        skills = ", ".join(item["profile_evidence"])
+        if not skills:
+            skills = "no profile evidence"
         print(f"{index:02d}. {item['score']:.0%} | {item['title']} | {item['company']} | {skills} | {item['url']}")
     return 0
 

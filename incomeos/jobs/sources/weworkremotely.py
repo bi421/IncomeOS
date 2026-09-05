@@ -66,12 +66,15 @@ class WeWorkRemotelySource(JobSourceAdapter):
 
             yield Job(
                 title=title,
-                company=None,
+                company="",
                 description=description,
                 source=self.source_name,
                 source_url=link,
-                posted_at=posted_at or observed_at,
-                location=", ".join(location_parts) or None,
-                employment_type=employment_type or None,
-                compensation=None,
+                created_at=posted_at or observed_at,
+                raw_data={
+                    "region": region,
+                    "country": country,
+                    "state": state,
+                    "employment_type": employment_type,
+                },
             )

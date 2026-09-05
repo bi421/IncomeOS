@@ -1,13 +1,17 @@
 ﻿"""Job source registry."""
 
-from incomeos.jobs.sources.arbeitnow import ArbeitnowSource
+from incomeos.jobs.sources.arbeitnow import ArbeitnowSource, ArbeitnowUKSource
 from incomeos.jobs.sources.remoteok import RemoteOKSource
 from incomeos.jobs.sources.weworkremotely import WeWorkRemotelySource
+from incomeos.jobs.sources.public_apis import HimalayasSource, RemotiveSource
 
 
 REAL_JOB_SOURCES = (
-    RemoteOKSource,
     ArbeitnowSource,
+    ArbeitnowUKSource,
+    HimalayasSource,
+    RemotiveSource,
+    RemoteOKSource,
     WeWorkRemotelySource,
 )
 

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-05T07:02:41.268358+00:00",
+  "generated_at": "2026-09-05T07:21:44.038502+00:00",
   "source": "https://www.arbeitnow.com/api/job-board-api",
   "source_records": 175,
   "profile": "/home/ubuntu/IncomeOS/data/profile/master_skill_profile.json",
@@ -14,130 +14,6 @@
   "results": [
     {
       "source": "arbeitnow",
-      "title": "Test Automation Engineer (m/f/d)",
-      "company": "Quantum-Systems GmbH",
-      "url": "https://www.arbeitnow.com/jobs/companies/quantum-systems-gmbh/test-automation-engineer-gilching-80166",
-      "posted_at": "2026-09-05T05:30:19+00:00",
-      "location": "Gilching, Bayern, Germany",
-      "salary": "",
-      "evidence_mode": "explicit_mentions_only",
-      "score": 0.45,
-      "required_profile_skills": [],
-      "preferred_profile_skills": [],
-      "other_explicit_mentions": [
-        "Testing",
-        "Python",
-        "Data Engineering",
-        "Docker"
-      ],
-      "declared_required_skills": [],
-      "declared_preferred_skills": [],
-      "profile_evidence": {
-        "Testing": {
-          "confidence": 1.0,
-          "evidence_count": 5,
-          "repositories": [
-            "ResearchOS",
-            "fb-planner-audit",
-            "reelautofly",
-            "trader",
-            "true-roas-complete"
-          ]
-        },
-        "Python": {
-          "confidence": 1.0,
-          "evidence_count": 4,
-          "repositories": [
-            "ResearchOS",
-            "fb-planner-audit",
-            "trader",
-            "true-roas-complete"
-          ]
-        },
-        "Data Engineering": {
-          "confidence": 0.95,
-          "evidence_count": 3,
-          "repositories": [
-            "ResearchOS",
-            "trader",
-            "true-roas-complete"
-          ]
-        },
-        "Docker": {
-          "confidence": 0.575,
-          "evidence_count": 2,
-          "repositories": [
-            "fb-planner-audit",
-            "true-roas-complete"
-          ]
-        }
-      },
-      "description_excerpt": "As a Test Automation Engineer (m/f/d), you will be an important part of our software team. You will design, optimize, and expand our test automation system to fully automate the release process and software quality of the ground station and our drone software. In a highly skilled team, you will play a key role in pushing the boundaries of modern software solutions for our high-tech drones. You will work closely with stakeholders from our software teams as well as adjacent departments (such as ha"
-    },
-    {
-      "source": "arbeitnow",
-      "title": "Software quality engineer (UK)",
-      "company": "Writer",
-      "url": "https://www.arbeitnow.co.uk/jobs/companies/writer/software-quality-engineer-uk-london-220045",
-      "posted_at": "2026-09-05T03:40:07+00:00",
-      "location": "London, UK",
-      "salary": "",
-      "evidence_mode": "explicit_mentions_only",
-      "score": 0.45,
-      "required_profile_skills": [],
-      "preferred_profile_skills": [],
-      "other_explicit_mentions": [
-        "Testing",
-        "Python",
-        "Data Engineering",
-        "Docker"
-      ],
-      "declared_required_skills": [],
-      "declared_preferred_skills": [],
-      "profile_evidence": {
-        "Testing": {
-          "confidence": 1.0,
-          "evidence_count": 5,
-          "repositories": [
-            "ResearchOS",
-            "fb-planner-audit",
-            "reelautofly",
-            "trader",
-            "true-roas-complete"
-          ]
-        },
-        "Python": {
-          "confidence": 1.0,
-          "evidence_count": 4,
-          "repositories": [
-            "ResearchOS",
-            "fb-planner-audit",
-            "trader",
-            "true-roas-complete"
-          ]
-        },
-        "Data Engineering": {
-          "confidence": 0.95,
-          "evidence_count": 3,
-          "repositories": [
-            "ResearchOS",
-            "trader",
-            "true-roas-complete"
-          ]
-        },
-        "Docker": {
-          "confidence": 0.575,
-          "evidence_count": 2,
-          "repositories": [
-            "fb-planner-audit",
-            "true-roas-complete"
-          ]
-        }
-      },
-      "description_excerpt": "🚀 About WRITER WRITER is where the world's leading enterprises orchestrate AI-powered work. Our vision is to expand human capacity through superintelligence. And we're proving it's possible – through powerful, trustworthy AI that unites IT and business teams together to unlock enterprise-wide transformation. With WRITER's end-to-end platform, hundreds of companies like Mars, Marriott, Uber, and Vanguard are building and deploying AI agents that are grounded in their company's data and fueled by "
-    },
-    {
-      "source": "arbeitnow",
       "title": "Senior Data Engineer",
       "company": "Liqid Lig",
       "url": "https://www.arbeitnow.com/jobs/companies/liqid-lig/senior-data-engineer-berlin-462279",
@@ -145,17 +21,31 @@
       "location": "Berlin",
       "salary": "",
       "evidence_mode": "explicit_mentions_only",
-      "score": 0.4,
+      "score": 0.55,
       "required_profile_skills": [],
+      "missing_required_skills": [],
       "preferred_profile_skills": [],
       "other_explicit_mentions": [
-        "Testing",
         "Python",
+        "AWS",
+        "SQL",
+        "Go",
+        "Testing",
         "Data Engineering"
       ],
       "declared_required_skills": [],
       "declared_preferred_skills": [],
       "profile_evidence": {
+        "Python": {
+          "confidence": 1.0,
+          "evidence_count": 4,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
         "Testing": {
           "confidence": 1.0,
           "evidence_count": 5,
@@ -163,16 +53,6 @@
             "ResearchOS",
             "fb-planner-audit",
             "reelautofly",
-            "trader",
-            "true-roas-complete"
-          ]
-        },
-        "Python": {
-          "confidence": 1.0,
-          "evidence_count": 4,
-          "repositories": [
-            "ResearchOS",
-            "fb-planner-audit",
             "trader",
             "true-roas-complete"
           ]
@@ -191,24 +71,46 @@
     },
     {
       "source": "arbeitnow",
-      "title": "Senior AI Systems Engineer – Robotics/Swarming (all genders)",
-      "company": "Stark",
-      "url": "https://www.arbeitnow.com/jobs/companies/stark/senior-ai-systems-engineer-robotics-swarming-all-genders-munich-229092",
-      "posted_at": "2026-09-05T02:09:08+00:00",
-      "location": "Munich",
+      "title": "Software quality engineer (UK)",
+      "company": "Writer",
+      "url": "https://www.arbeitnow.co.uk/jobs/companies/writer/software-quality-engineer-uk-london-220045",
+      "posted_at": "2026-09-05T03:40:07+00:00",
+      "location": "London, UK",
       "salary": "",
       "evidence_mode": "explicit_mentions_only",
-      "score": 0.4,
+      "score": 0.55,
       "required_profile_skills": [],
+      "missing_required_skills": [],
       "preferred_profile_skills": [],
       "other_explicit_mentions": [
-        "Testing",
         "Python",
-        "C++"
+        "Docker",
+        "Kubernetes",
+        "AWS",
+        "Testing",
+        "Data Engineering"
       ],
       "declared_required_skills": [],
       "declared_preferred_skills": [],
       "profile_evidence": {
+        "Python": {
+          "confidence": 1.0,
+          "evidence_count": 4,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "Docker": {
+          "confidence": 0.575,
+          "evidence_count": 2,
+          "repositories": [
+            "fb-planner-audit",
+            "true-roas-complete"
+          ]
+        },
         "Testing": {
           "confidence": 1.0,
           "evidence_count": 5,
@@ -220,6 +122,155 @@
             "true-roas-complete"
           ]
         },
+        "Data Engineering": {
+          "confidence": 0.95,
+          "evidence_count": 3,
+          "repositories": [
+            "ResearchOS",
+            "trader",
+            "true-roas-complete"
+          ]
+        }
+      },
+      "description_excerpt": "🚀 About WRITER WRITER is where the world's leading enterprises orchestrate AI-powered work. Our vision is to expand human capacity through superintelligence. And we're proving it's possible – through powerful, trustworthy AI that unites IT and business teams together to unlock enterprise-wide transformation. With WRITER's end-to-end platform, hundreds of companies like Mars, Marriott, Uber, and Vanguard are building and deploying AI agents that are grounded in their company's data and fueled by "
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Senior Python Engineer (Full Stack)",
+      "company": "Lendable",
+      "url": "https://www.arbeitnow.co.uk/jobs/companies/lendable/senior-python-engineer-full-stack-london-132406",
+      "posted_at": "2026-09-04T21:40:13+00:00",
+      "location": "London",
+      "salary": "",
+      "evidence_mode": "explicit_mentions_only",
+      "score": 0.55,
+      "required_profile_skills": [],
+      "missing_required_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "Python",
+        "Docker",
+        "Kubernetes",
+        "AWS",
+        "SQL",
+        "Testing",
+        "Flask"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [],
+      "profile_evidence": {
+        "Python": {
+          "confidence": 1.0,
+          "evidence_count": 4,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "Docker": {
+          "confidence": 0.575,
+          "evidence_count": 2,
+          "repositories": [
+            "fb-planner-audit",
+            "true-roas-complete"
+          ]
+        },
+        "Testing": {
+          "confidence": 1.0,
+          "evidence_count": 5,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "reelautofly",
+            "trader",
+            "true-roas-complete"
+          ]
+        }
+      },
+      "description_excerpt": "About Lendable Lendable is on a mission to build the world's best technology to help people get credit and save money. We're building one of the world’s leading fintech companies and are off to a strong start: One of the UK’s newest unicorns with a team of just over 700 people Among the fastest-growing tech companies in the UK Profitable since 2017 Backed by top investors including Balderton Capital and Goldman Sachs Loved by customers with the best reviews in the market (4.9 across 10,000s of r"
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Senior Full Stack Engineer",
+      "company": "Lendable",
+      "url": "https://www.arbeitnow.co.uk/jobs/companies/lendable/senior-full-stack-engineer-london-285522",
+      "posted_at": "2026-09-04T21:40:13+00:00",
+      "location": "London",
+      "salary": "",
+      "evidence_mode": "explicit_mentions_only",
+      "score": 0.55,
+      "required_profile_skills": [],
+      "missing_required_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "Python",
+        "Docker",
+        "Kubernetes",
+        "AWS",
+        "SQL",
+        "Testing",
+        "Flask"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [],
+      "profile_evidence": {
+        "Python": {
+          "confidence": 1.0,
+          "evidence_count": 4,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "Docker": {
+          "confidence": 0.575,
+          "evidence_count": 2,
+          "repositories": [
+            "fb-planner-audit",
+            "true-roas-complete"
+          ]
+        },
+        "Testing": {
+          "confidence": 1.0,
+          "evidence_count": 5,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "reelautofly",
+            "trader",
+            "true-roas-complete"
+          ]
+        }
+      },
+      "description_excerpt": "About Lendable Lendable is on a mission to build the world's best technology to help people get credit and save money. We're building one of the world’s leading fintech companies and are off to a strong start: One of the UK’s newest unicorns with a team of just over 700 people Among the fastest-growing tech companies in the UK Profitable since 2017 Backed by top investors including Balderton Capital and Goldman Sachs Loved by customers with the best reviews in the market (4.9 across 10,000s of r"
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Staff Offensive Security Engineer",
+      "company": "Samsara",
+      "url": "https://www.arbeitnow.co.uk/jobs/companies/samsara/staff-offensive-security-engineer-london-85924",
+      "posted_at": "2026-09-04T21:45:25+00:00",
+      "location": "London, England, United Kingdom",
+      "salary": "",
+      "evidence_mode": "explicit_mentions_only",
+      "score": 0.5,
+      "required_profile_skills": [],
+      "missing_required_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "Python",
+        "C++",
+        "AWS",
+        "Go",
+        "Testing"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [],
+      "profile_evidence": {
         "Python": {
           "confidence": 1.0,
           "evidence_count": 4,
@@ -236,30 +287,7 @@
           "repositories": [
             "ResearchOS"
           ]
-        }
-      },
-      "description_excerpt": "About Us STARK is a new kind of defence technology company revolutionizing the way autonomous systems are deployed across multiple domains. We design, develop and manufacture high-performance unmanned systems that are software-defined, mass-scalable, and cost-effective. This provides our operators with a decisive edge in highly contested environments. We're focused on delivering deployable, high-performance systems - not future promises. In a time of rising threats, STARK is bolstering the techn"
-    },
-    {
-      "source": "arbeitnow",
-      "title": "Security engineer, application security (UK)",
-      "company": "Writer",
-      "url": "https://www.arbeitnow.co.uk/jobs/companies/writer/security-engineer-application-security-uk-london-420016",
-      "posted_at": "2026-09-05T03:40:07+00:00",
-      "location": "London, UK",
-      "salary": "",
-      "evidence_mode": "explicit_mentions_only",
-      "score": 0.4,
-      "required_profile_skills": [],
-      "preferred_profile_skills": [],
-      "other_explicit_mentions": [
-        "Testing",
-        "Python",
-        "Data Engineering"
-      ],
-      "declared_required_skills": [],
-      "declared_preferred_skills": [],
-      "profile_evidence": {
+        },
         "Testing": {
           "confidence": 1.0,
           "evidence_count": 5,
@@ -270,7 +298,33 @@
             "trader",
             "true-roas-complete"
           ]
-        },
+        }
+      },
+      "description_excerpt": "Who we are Samsara (NYSE: IOT) is the pioneer of the Connected Operations™ Cloud, which is a platform that enables organizations that depend on physical operations to harness Internet of Things (IoT) data to develop actionable insights and improve their operations. At Samsara, we are helping improve the safety, efficiency and sustainability of the physical operations that power our global economy. Representing more than 40% of global GDP, these industries are the infrastructure of our planet, in"
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Data Platform Engineer",
+      "company": "Lendable",
+      "url": "https://www.arbeitnow.co.uk/jobs/companies/lendable/data-platform-engineer-london-230787",
+      "posted_at": "2026-09-04T21:40:13+00:00",
+      "location": "London",
+      "salary": "",
+      "evidence_mode": "explicit_mentions_only",
+      "score": 0.5,
+      "required_profile_skills": [],
+      "missing_required_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "Python",
+        "Kubernetes",
+        "AWS",
+        "SQL",
+        "Data Engineering"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [],
+      "profile_evidence": {
         "Python": {
           "confidence": 1.0,
           "evidence_count": 4,
@@ -291,7 +345,640 @@
           ]
         }
       },
+      "description_excerpt": "About Lendable Lendable is on a mission to build the world's best technology to help people get credit and save money. We're building one of the world’s leading fintech companies and are off to a strong start: One of the UK’s newest unicorns with a team of just over 700 people Among the fastest-growing tech companies in the UK Profitable since 2017 Backed by top investors including Balderton Capital and Goldman Sachs Loved by customers with the best reviews in the market (4.9 across 10,000s of r"
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Test Automation Engineer (m/f/d)",
+      "company": "Quantum-Systems GmbH",
+      "url": "https://www.arbeitnow.com/jobs/companies/quantum-systems-gmbh/test-automation-engineer-gilching-80166",
+      "posted_at": "2026-09-05T05:30:19+00:00",
+      "location": "Gilching, Bayern, Germany",
+      "salary": "",
+      "evidence_mode": "explicit_mentions_only",
+      "score": 0.45,
+      "required_profile_skills": [],
+      "missing_required_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "Python",
+        "Docker",
+        "Testing",
+        "Data Engineering"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [],
+      "profile_evidence": {
+        "Python": {
+          "confidence": 1.0,
+          "evidence_count": 4,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "Docker": {
+          "confidence": 0.575,
+          "evidence_count": 2,
+          "repositories": [
+            "fb-planner-audit",
+            "true-roas-complete"
+          ]
+        },
+        "Testing": {
+          "confidence": 1.0,
+          "evidence_count": 5,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "reelautofly",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "Data Engineering": {
+          "confidence": 0.95,
+          "evidence_count": 3,
+          "repositories": [
+            "ResearchOS",
+            "trader",
+            "true-roas-complete"
+          ]
+        }
+      },
+      "description_excerpt": "As a Test Automation Engineer (m/f/d), you will be an important part of our software team. You will design, optimize, and expand our test automation system to fully automate the release process and software quality of the ground station and our drone software. In a highly skilled team, you will play a key role in pushing the boundaries of modern software solutions for our high-tech drones. You will work closely with stakeholders from our software teams as well as adjacent departments (such as ha"
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Senior Data Engineer (m/w/d) – Snowflake",
+      "company": "JobRad Loop",
+      "url": "https://www.arbeitnow.com/jobs/companies/jobrad-loop/senior-data-engineer-snowflake-munchen-375493",
+      "posted_at": "2026-09-04T23:09:58+00:00",
+      "location": "München",
+      "salary": "",
+      "evidence_mode": "explicit_mentions_only",
+      "score": 0.45,
+      "required_profile_skills": [],
+      "missing_required_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "Python",
+        "AWS",
+        "SQL",
+        "Data Engineering"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [],
+      "profile_evidence": {
+        "Python": {
+          "confidence": 1.0,
+          "evidence_count": 4,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "Data Engineering": {
+          "confidence": 0.95,
+          "evidence_count": 3,
+          "repositories": [
+            "ResearchOS",
+            "trader",
+            "true-roas-complete"
+          ]
+        }
+      },
+      "description_excerpt": "Lust auf eine besondere Herausforderung? Du möchtest die technische Grundlage für datengetriebene Entscheidungen aktiv mitgestalten und nicht nur bestehende Systeme verwalten? Dann werde Teil unseres Teams als Senior Data Engineer und bring unsere Datenlandschaft auf das nächste Level. Du entwickelst skalierbare Datenarchitekturen, verantwortest geschäftskritische Pipelines und gestaltest aktiv, wie Daten im Unternehmen genutzt werden. Bei uns arbeitest du an Lösungen, die echten Impact haben: f"
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Security engineer, application security (UK)",
+      "company": "Writer",
+      "url": "https://www.arbeitnow.co.uk/jobs/companies/writer/security-engineer-application-security-uk-london-420016",
+      "posted_at": "2026-09-05T03:40:07+00:00",
+      "location": "London, UK",
+      "salary": "",
+      "evidence_mode": "explicit_mentions_only",
+      "score": 0.45,
+      "required_profile_skills": [],
+      "missing_required_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "Python",
+        "Go",
+        "Testing",
+        "Data Engineering"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [],
+      "profile_evidence": {
+        "Python": {
+          "confidence": 1.0,
+          "evidence_count": 4,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "Testing": {
+          "confidence": 1.0,
+          "evidence_count": 5,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "reelautofly",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "Data Engineering": {
+          "confidence": 0.95,
+          "evidence_count": 3,
+          "repositories": [
+            "ResearchOS",
+            "trader",
+            "true-roas-complete"
+          ]
+        }
+      },
       "description_excerpt": "🚀 About WRITER WRITER is where the world's leading enterprises orchestrate AI-powered work. Our vision is to expand human capacity through superintelligence. And we're proving it's possible – through powerful, trustworthy AI that unites IT and business teams together to unlock enterprise-wide transformation. With WRITER's end-to-end platform, hundreds of companies like Mars, Marriott, Uber, and Vanguard are building and deploying AI agents that are grounded in their company's data and fueled by "
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Infrastructure engineer (UK)",
+      "company": "Writer",
+      "url": "https://www.arbeitnow.co.uk/jobs/companies/writer/infrastructure-engineer-uk-london-60403",
+      "posted_at": "2026-09-05T03:40:07+00:00",
+      "location": "London, UK",
+      "salary": "",
+      "evidence_mode": "explicit_sections",
+      "score": 0.45,
+      "required_profile_skills": [],
+      "missing_required_skills": [],
+      "preferred_profile_skills": [
+        "Python"
+      ],
+      "other_explicit_mentions": [
+        "Kubernetes",
+        "AWS",
+        "Go",
+        "Testing"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [
+        "Kubernetes",
+        "AWS",
+        "Python",
+        "Go"
+      ],
+      "profile_evidence": {
+        "Python": {
+          "confidence": 1.0,
+          "evidence_count": 4,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "Testing": {
+          "confidence": 1.0,
+          "evidence_count": 5,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "reelautofly",
+            "trader",
+            "true-roas-complete"
+          ]
+        }
+      },
+      "description_excerpt": "🚀 About WRITER WRITER is where the world's leading enterprises orchestrate AI-powered work. Our vision is to expand human capacity through superintelligence. And we're proving it's possible – through powerful, trustworthy AI that unites IT and business teams together to unlock enterprise-wide transformation. With WRITER's end-to-end platform, hundreds of companies like Mars, Marriott, Uber, and Vanguard are building and deploying AI agents that are grounded in their company's data and fueled by "
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Senior Software Engineer - Full Stack (Merchants)",
+      "company": "Deliveroo",
+      "url": "https://www.arbeitnow.co.uk/jobs/companies/deliveroo/senior-software-engineer-full-stack-merchants-london-330430",
+      "posted_at": "2026-09-05T03:40:02+00:00",
+      "location": "United Kingdom - Home Office",
+      "salary": "",
+      "evidence_mode": "explicit_sections",
+      "score": 0.45,
+      "required_profile_skills": [],
+      "missing_required_skills": [],
+      "preferred_profile_skills": [
+        "Docker"
+      ],
+      "other_explicit_mentions": [
+        "Kubernetes",
+        "AWS",
+        "Go",
+        "Testing"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [
+        "AWS",
+        "Kubernetes",
+        "Docker"
+      ],
+      "profile_evidence": {
+        "Docker": {
+          "confidence": 0.575,
+          "evidence_count": 2,
+          "repositories": [
+            "fb-planner-audit",
+            "true-roas-complete"
+          ]
+        },
+        "Testing": {
+          "confidence": 1.0,
+          "evidence_count": 5,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "reelautofly",
+            "trader",
+            "true-roas-complete"
+          ]
+        }
+      },
+      "description_excerpt": "About the Team Merchant EMEA Engineering builds the technology that helps merchants join, grow, and operate successfully across our markets. Our organization brings together the strengths of Wolt and Deliveroo and supports merchants across 37 countries. We work across the merchant journey, including onboarding, business growth and support, analytics and recommendations, menu and order management, integrations, and merchant applications. Our teams sit close to the business. Rather than primarily "
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Software Engineer (.NET C#)",
+      "company": "TransPerfect",
+      "url": "https://www.arbeitnow.co.uk/jobs/companies/transperfect/software-engineer-net-c-london-314586",
+      "posted_at": "2026-09-05T00:30:34+00:00",
+      "location": "London, Greater London, United Kingdom",
+      "salary": "",
+      "evidence_mode": "explicit_mentions_only",
+      "score": 0.45,
+      "required_profile_skills": [],
+      "missing_required_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "Docker",
+        "AWS",
+        "SQL",
+        "Testing"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [],
+      "profile_evidence": {
+        "Docker": {
+          "confidence": 0.575,
+          "evidence_count": 2,
+          "repositories": [
+            "fb-planner-audit",
+            "true-roas-complete"
+          ]
+        },
+        "Testing": {
+          "confidence": 1.0,
+          "evidence_count": 5,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "reelautofly",
+            "trader",
+            "true-roas-complete"
+          ]
+        }
+      },
+      "description_excerpt": "We’re looking for a Software Engineer to join our global team to be responsible for the quality, development, and execution of our software products. You will be part of a technology department that is comprised of a successful and multidisciplinary group of professionals located across the globe – Barcelona, New York, London, Manchester, Bucharest and India. If you’re ready to join a growing company and make an immediate impact, we want to hear from you! You will be joining at TransPerfect – Te"
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Senior Software Engineer (C# .NET) | London",
+      "company": "TransPerfect",
+      "url": "https://www.arbeitnow.co.uk/jobs/companies/transperfect/senior-software-engineer-c-net-london-196243",
+      "posted_at": "2026-09-05T00:30:34+00:00",
+      "location": "London, Greater London, United Kingdom",
+      "salary": "",
+      "evidence_mode": "explicit_mentions_only",
+      "score": 0.45,
+      "required_profile_skills": [],
+      "missing_required_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "Docker",
+        "AWS",
+        "SQL",
+        "Testing"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [],
+      "profile_evidence": {
+        "Docker": {
+          "confidence": 0.575,
+          "evidence_count": 2,
+          "repositories": [
+            "fb-planner-audit",
+            "true-roas-complete"
+          ]
+        },
+        "Testing": {
+          "confidence": 1.0,
+          "evidence_count": 5,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "reelautofly",
+            "trader",
+            "true-roas-complete"
+          ]
+        }
+      },
+      "description_excerpt": "We’re looking for a Senior Software Engineer to join our global team to be responsible for the quality, development, and execution of our software products. You will be part of a technology department that is comprised of a successful and multidisciplinary group of professionals located across the globe – Barcelona, New York, London, Manchester, Bucharest and India. If you’re ready to join a growing company and make an immediate impact, we want to hear from you! You will be joining at TransPerfe"
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Principal Thermal Solutions Engineer - Munich, Germany",
+      "company": "Vinci4D",
+      "url": "https://www.arbeitnow.com/jobs/companies/vinci4d/principal-thermal-solutions-engineer-munich-germany-208810",
+      "posted_at": "2026-09-05T02:40:02+00:00",
+      "location": "Munich, Germany",
+      "salary": "",
+      "evidence_mode": "explicit_sections",
+      "score": 0.4,
+      "required_profile_skills": [],
+      "missing_required_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "Python",
+        "C++",
+        "Go"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [
+        "Go"
+      ],
+      "profile_evidence": {
+        "Python": {
+          "confidence": 1.0,
+          "evidence_count": 4,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "C++": {
+          "confidence": 0.85,
+          "evidence_count": 1,
+          "repositories": [
+            "ResearchOS"
+          ]
+        }
+      },
+      "description_excerpt": "About Vinci We are building Physics AI for hardware design . Our software platform helps hardware designers and physics simulation engineers explore, analyze, and optimize hardware systems, leveraging cutting-edge AI to deliver ultrafast, accurate physics intelligence within the realities of engineering design workflows. Our first product bridges the gap between the accuracy & determinism of traditional simulation and the speed & scaling of AI, and is redefining how the world’s most advanced sem"
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Senior Software Engineer - Mission Autonomy (All Genders)",
+      "company": "Stark",
+      "url": "https://www.arbeitnow.com/jobs/companies/stark/senior-software-engineer-mission-autonomy-all-genders-munich-57865",
+      "posted_at": "2026-09-05T02:09:08+00:00",
+      "location": "Munich",
+      "salary": "",
+      "evidence_mode": "explicit_mentions_only",
+      "score": 0.4,
+      "required_profile_skills": [],
+      "missing_required_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "C++",
+        "Linux",
+        "Testing"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [],
+      "profile_evidence": {
+        "C++": {
+          "confidence": 0.85,
+          "evidence_count": 1,
+          "repositories": [
+            "ResearchOS"
+          ]
+        },
+        "Testing": {
+          "confidence": 1.0,
+          "evidence_count": 5,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "reelautofly",
+            "trader",
+            "true-roas-complete"
+          ]
+        }
+      },
+      "description_excerpt": "About Us STARK is a new kind of defence technology company revolutionizing the way autonomous systems are deployed across multiple domains. We design, develop and manufacture high-performance unmanned systems that are software-defined, mass-scalable, and cost-effective. This provides our operators with a decisive edge in highly contested environments. We're focused on delivering deployable, high-performance systems - not future promises. In a time of rising threats, STARK is bolstering the techn"
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Senior AI Systems Engineer – Robotics/Swarming (all genders)",
+      "company": "Stark",
+      "url": "https://www.arbeitnow.com/jobs/companies/stark/senior-ai-systems-engineer-robotics-swarming-all-genders-munich-229092",
+      "posted_at": "2026-09-05T02:09:08+00:00",
+      "location": "Munich",
+      "salary": "",
+      "evidence_mode": "explicit_mentions_only",
+      "score": 0.4,
+      "required_profile_skills": [],
+      "missing_required_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "Python",
+        "C++",
+        "Testing"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [],
+      "profile_evidence": {
+        "Python": {
+          "confidence": 1.0,
+          "evidence_count": 4,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "C++": {
+          "confidence": 0.85,
+          "evidence_count": 1,
+          "repositories": [
+            "ResearchOS"
+          ]
+        },
+        "Testing": {
+          "confidence": 1.0,
+          "evidence_count": 5,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "reelautofly",
+            "trader",
+            "true-roas-complete"
+          ]
+        }
+      },
+      "description_excerpt": "About Us STARK is a new kind of defence technology company revolutionizing the way autonomous systems are deployed across multiple domains. We design, develop and manufacture high-performance unmanned systems that are software-defined, mass-scalable, and cost-effective. This provides our operators with a decisive edge in highly contested environments. We're focused on delivering deployable, high-performance systems - not future promises. In a time of rising threats, STARK is bolstering the techn"
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Senior Fullstack Engineer (m/f/d)",
+      "company": "Verivox",
+      "url": "https://www.arbeitnow.com/jobs/companies/verivox/senior-fullstack-engineer-berlin-223657",
+      "posted_at": "2026-09-05T02:09:05+00:00",
+      "location": "Berlin",
+      "salary": "",
+      "evidence_mode": "explicit_mentions_only",
+      "score": 0.4,
+      "required_profile_skills": [],
+      "missing_required_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "Docker",
+        "Kubernetes",
+        "Testing"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [],
+      "profile_evidence": {
+        "Docker": {
+          "confidence": 0.575,
+          "evidence_count": 2,
+          "repositories": [
+            "fb-planner-audit",
+            "true-roas-complete"
+          ]
+        },
+        "Testing": {
+          "confidence": 1.0,
+          "evidence_count": 5,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "reelautofly",
+            "trader",
+            "true-roas-complete"
+          ]
+        }
+      },
+      "description_excerpt": "Become part of the Verivox Team We oﬀer a fulltime position (40h/week) in one of our locations in either Heidelberg, Berlin, Leipzig or Munich . The oﬀer includes the option of working several days per week in the mobile oﬃce. Your mission Through your expertise, you provide excellent user experience to our insurance comparison platform using Angular and modern full-stack technologies You are part of a cross-functional team in close cooperation with UX Designer, Backend engineers, QA engineers a"
+    },
+    {
+      "source": "arbeitnow",
+      "title": "(Senior) Backend Engineer - idealo Intelligence  (m|w|d)",
+      "company": "idealo internet GmbH",
+      "url": "https://www.arbeitnow.com/jobs/companies/idealo-internet-gmbh/senior-backend-engineer-idealo-intelligence-mwd-berlin-448058",
+      "posted_at": "2026-09-04T23:30:31+00:00",
+      "location": "Berlin, Berlin, Deutschland",
+      "salary": "",
+      "evidence_mode": "explicit_mentions_only",
+      "score": 0.4,
+      "required_profile_skills": [],
+      "missing_required_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "Docker",
+        "Kubernetes",
+        "AWS"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [],
+      "profile_evidence": {
+        "Docker": {
+          "confidence": 0.575,
+          "evidence_count": 2,
+          "repositories": [
+            "fb-planner-audit",
+            "true-roas-complete"
+          ]
+        }
+      },
+      "description_excerpt": "Als (Senior) Backend Engineer im idealo Intelligence Team entwickelst du die technische Grundlage, um unsere Nutzer besser zu verstehen und unseren Händlern datenbasierte Marketinglösungen bereitzustellen. Gemeinsam mit einem neu entstehenden Team baust du eine moderne Datenplattform auf und gestaltest Architektur, Systeme und Prozesse von Anfang an aktiv mit. Die Position ist in Voll- oder Teilzeit verfügbar. Deine Aufgaben Du entwickelst und betreibst Backend-Services sowie Data Workflows für "
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Technical Support Engineer",
+      "company": "Plaid",
+      "url": "https://www.arbeitnow.co.uk/jobs/companies/plaid/remote-technical-support-engineer-241358",
+      "posted_at": "2026-09-05T03:40:03+00:00",
+      "location": "London Office",
+      "salary": "",
+      "evidence_mode": "explicit_mentions_only",
+      "score": 0.4,
+      "required_profile_skills": [],
+      "missing_required_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "Python",
+        "SQL",
+        "Go"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [],
+      "profile_evidence": {
+        "Python": {
+          "confidence": 1.0,
+          "evidence_count": 4,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "trader",
+            "true-roas-complete"
+          ]
+        }
+      },
+      "description_excerpt": "We believe that the way people interact with their finances will drastically improve in the next few years. We’re dedicated to empowering this transformation by building the tools and experiences that thousands of developers use to create their own products. Plaid powers the tools millions of people rely on to live a healthier financial life. We work with thousands of companies like Venmo, SoFi, several of the Fortune 500, and many of the largest banks to make it easy for people to connect their"
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Solutions Engineer",
+      "company": "Digicert",
+      "url": "https://www.arbeitnow.co.uk/jobs/companies/digicert/solutions-engineer-london-38230",
+      "posted_at": "2026-09-04T21:55:09+00:00",
+      "location": "London",
+      "salary": "",
+      "evidence_mode": "explicit_mentions_only",
+      "score": 0.4,
+      "required_profile_skills": [],
+      "missing_required_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "Python",
+        "Kubernetes",
+        "AWS"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [],
+      "profile_evidence": {
+        "Python": {
+          "confidence": 1.0,
+          "evidence_count": 4,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "trader",
+            "true-roas-complete"
+          ]
+        }
+      },
+      "description_excerpt": "Who we are DigiCert is a global leader in intelligent trust. We protect the digital world by ensuring the security, privacy, and authenticity of every interaction. Our AI-powered DigiCert ONE platform unifies PKI, DNS, and certificate lifecycle management, to secure infrastructure, software, devices, messages, AI content and agents. Learn why more than 100,000 organizations, including 90% of the Fortune 500, choose DigiCert to stop today’s threats and prepare for a quantum-safe future at www.dig"
     }
   ]
 }
