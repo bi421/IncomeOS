@@ -4,41 +4,42 @@ import socket
 import sqlite3
 import urllib.error
 from pathlib import Path
-from typing import Any
-
 from .database import JobDatabase
 from .result import SourceRunResult
 
-# Энгийн валидаци
-def _valid_job(job: dict[str, Any]) -> bool:
-    return bool(job.get("title") and job.get("url"))
+def _valid_job(job) -> bool:
+    """Validate the common Job adapter contract before persistence."""
+    return bool(getattr(job, "title", "") and getattr(job, "source_url", ""))
 
 # Эх үүсвэрүүдийг динамикаар импортлох
 def _get_source(name: str):
     if name == "arbeitnow":
-        from .sources import arbeitnow
-        return arbeitnow
+        from .sources.arbeitnow import ArbeitnowSource
+        return ArbeitnowSource()
     elif name == "remoteok":
-        from .sources import remoteok
-        return remoteok
+        from .sources.remoteok import RemoteOKSource
+        return RemoteOKSource()
     raise ValueError(f"Unknown source: {name}")
 
-def run_pipeline(data_dir: Path) -> list[SourceRunResult]:
+def run_pipeline(
+    data_dir: Path,
+    sources: tuple[str, ...] = ("arbeitnow", "remoteok"),
+) -> list[SourceRunResult]:
     db_path = data_dir / "jobs" / "incomeos_jobs.sqlite3"
     db_path.parent.mkdir(parents=True, exist_ok=True)
     db = JobDatabase(db_path)
     results: list[SourceRunResult] = []
 
-    sources = ["arbeitnow", "remoteok"]
     for name in sources:
         try:
-            source = _get_source(name)
-            raw = list(source.fetch())
+            raw = list(_get_source(name).fetch())
 
             validated_jobs = [j for j in raw if _valid_job(j)]
             skipped = len(raw) - len(validated_jobs)
 
-            inserted, existing = db.upsert_many(validated_jobs)
+            inserted, existing = db.upsert_many(
+                [job.to_dict() for job in validated_jobs]
+            )
 
             results.append(SourceRunResult(
                 source=name,

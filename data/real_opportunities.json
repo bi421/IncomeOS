@@ -1,0 +1,297 @@
+{
+  "generated_at": "2026-09-05T07:02:41.268358+00:00",
+  "source": "https://www.arbeitnow.com/api/job-board-api",
+  "source_records": 175,
+  "profile": "/home/ubuntu/IncomeOS/data/profile/master_skill_profile.json",
+  "profile_skills": [
+    "Testing",
+    "Python",
+    "Data Engineering",
+    "C++",
+    "Docker",
+    "CMake"
+  ],
+  "results": [
+    {
+      "source": "arbeitnow",
+      "title": "Test Automation Engineer (m/f/d)",
+      "company": "Quantum-Systems GmbH",
+      "url": "https://www.arbeitnow.com/jobs/companies/quantum-systems-gmbh/test-automation-engineer-gilching-80166",
+      "posted_at": "2026-09-05T05:30:19+00:00",
+      "location": "Gilching, Bayern, Germany",
+      "salary": "",
+      "evidence_mode": "explicit_mentions_only",
+      "score": 0.45,
+      "required_profile_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "Testing",
+        "Python",
+        "Data Engineering",
+        "Docker"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [],
+      "profile_evidence": {
+        "Testing": {
+          "confidence": 1.0,
+          "evidence_count": 5,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "reelautofly",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "Python": {
+          "confidence": 1.0,
+          "evidence_count": 4,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "Data Engineering": {
+          "confidence": 0.95,
+          "evidence_count": 3,
+          "repositories": [
+            "ResearchOS",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "Docker": {
+          "confidence": 0.575,
+          "evidence_count": 2,
+          "repositories": [
+            "fb-planner-audit",
+            "true-roas-complete"
+          ]
+        }
+      },
+      "description_excerpt": "As a Test Automation Engineer (m/f/d), you will be an important part of our software team. You will design, optimize, and expand our test automation system to fully automate the release process and software quality of the ground station and our drone software. In a highly skilled team, you will play a key role in pushing the boundaries of modern software solutions for our high-tech drones. You will work closely with stakeholders from our software teams as well as adjacent departments (such as ha"
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Software quality engineer (UK)",
+      "company": "Writer",
+      "url": "https://www.arbeitnow.co.uk/jobs/companies/writer/software-quality-engineer-uk-london-220045",
+      "posted_at": "2026-09-05T03:40:07+00:00",
+      "location": "London, UK",
+      "salary": "",
+      "evidence_mode": "explicit_mentions_only",
+      "score": 0.45,
+      "required_profile_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "Testing",
+        "Python",
+        "Data Engineering",
+        "Docker"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [],
+      "profile_evidence": {
+        "Testing": {
+          "confidence": 1.0,
+          "evidence_count": 5,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "reelautofly",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "Python": {
+          "confidence": 1.0,
+          "evidence_count": 4,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "Data Engineering": {
+          "confidence": 0.95,
+          "evidence_count": 3,
+          "repositories": [
+            "ResearchOS",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "Docker": {
+          "confidence": 0.575,
+          "evidence_count": 2,
+          "repositories": [
+            "fb-planner-audit",
+            "true-roas-complete"
+          ]
+        }
+      },
+      "description_excerpt": "🚀 About WRITER WRITER is where the world's leading enterprises orchestrate AI-powered work. Our vision is to expand human capacity through superintelligence. And we're proving it's possible – through powerful, trustworthy AI that unites IT and business teams together to unlock enterprise-wide transformation. With WRITER's end-to-end platform, hundreds of companies like Mars, Marriott, Uber, and Vanguard are building and deploying AI agents that are grounded in their company's data and fueled by "
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Senior Data Engineer",
+      "company": "Liqid Lig",
+      "url": "https://www.arbeitnow.com/jobs/companies/liqid-lig/senior-data-engineer-berlin-462279",
+      "posted_at": "2026-09-05T05:40:04+00:00",
+      "location": "Berlin",
+      "salary": "",
+      "evidence_mode": "explicit_mentions_only",
+      "score": 0.4,
+      "required_profile_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "Testing",
+        "Python",
+        "Data Engineering"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [],
+      "profile_evidence": {
+        "Testing": {
+          "confidence": 1.0,
+          "evidence_count": 5,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "reelautofly",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "Python": {
+          "confidence": 1.0,
+          "evidence_count": 4,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "Data Engineering": {
+          "confidence": 0.95,
+          "evidence_count": 3,
+          "repositories": [
+            "ResearchOS",
+            "trader",
+            "true-roas-complete"
+          ]
+        }
+      },
+      "description_excerpt": "Your Role We are looking for a Senior Data Engineer (f/m/d) at LIQID, who will play a pivotal role in building and scaling data infrastructure that powers decision-making. You will design scalable, high-performance data pipelines, ensure data integrity, and drive efficient data processing across the organization. Working closely with our Head of Data, Analytics Engineers, and cross-functional teams, you will develop robust data architectures, enhance data security, and implement best practices t"
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Senior AI Systems Engineer – Robotics/Swarming (all genders)",
+      "company": "Stark",
+      "url": "https://www.arbeitnow.com/jobs/companies/stark/senior-ai-systems-engineer-robotics-swarming-all-genders-munich-229092",
+      "posted_at": "2026-09-05T02:09:08+00:00",
+      "location": "Munich",
+      "salary": "",
+      "evidence_mode": "explicit_mentions_only",
+      "score": 0.4,
+      "required_profile_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "Testing",
+        "Python",
+        "C++"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [],
+      "profile_evidence": {
+        "Testing": {
+          "confidence": 1.0,
+          "evidence_count": 5,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "reelautofly",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "Python": {
+          "confidence": 1.0,
+          "evidence_count": 4,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "C++": {
+          "confidence": 0.85,
+          "evidence_count": 1,
+          "repositories": [
+            "ResearchOS"
+          ]
+        }
+      },
+      "description_excerpt": "About Us STARK is a new kind of defence technology company revolutionizing the way autonomous systems are deployed across multiple domains. We design, develop and manufacture high-performance unmanned systems that are software-defined, mass-scalable, and cost-effective. This provides our operators with a decisive edge in highly contested environments. We're focused on delivering deployable, high-performance systems - not future promises. In a time of rising threats, STARK is bolstering the techn"
+    },
+    {
+      "source": "arbeitnow",
+      "title": "Security engineer, application security (UK)",
+      "company": "Writer",
+      "url": "https://www.arbeitnow.co.uk/jobs/companies/writer/security-engineer-application-security-uk-london-420016",
+      "posted_at": "2026-09-05T03:40:07+00:00",
+      "location": "London, UK",
+      "salary": "",
+      "evidence_mode": "explicit_mentions_only",
+      "score": 0.4,
+      "required_profile_skills": [],
+      "preferred_profile_skills": [],
+      "other_explicit_mentions": [
+        "Testing",
+        "Python",
+        "Data Engineering"
+      ],
+      "declared_required_skills": [],
+      "declared_preferred_skills": [],
+      "profile_evidence": {
+        "Testing": {
+          "confidence": 1.0,
+          "evidence_count": 5,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "reelautofly",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "Python": {
+          "confidence": 1.0,
+          "evidence_count": 4,
+          "repositories": [
+            "ResearchOS",
+            "fb-planner-audit",
+            "trader",
+            "true-roas-complete"
+          ]
+        },
+        "Data Engineering": {
+          "confidence": 0.95,
+          "evidence_count": 3,
+          "repositories": [
+            "ResearchOS",
+            "trader",
+            "true-roas-complete"
+          ]
+        }
+      },
+      "description_excerpt": "🚀 About WRITER WRITER is where the world's leading enterprises orchestrate AI-powered work. Our vision is to expand human capacity through superintelligence. And we're proving it's possible – through powerful, trustworthy AI that unites IT and business teams together to unlock enterprise-wide transformation. With WRITER's end-to-end platform, hundreds of companies like Mars, Marriott, Uber, and Vanguard are building and deploying AI agents that are grounded in their company's data and fueled by "
+    }
+  ]
+}
