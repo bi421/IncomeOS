@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from .github_analyzer import RepositoryEvidence
 from .models import EvidenceDimension, EvidenceType, SkillEvidence
@@ -162,6 +162,9 @@ def _calculate_strength(
         EvidenceDimension.IMPLEMENTATION: 0.75,
     }[evidence.dimension]
 
+    if evidence.evidence_type == "deployment":
+        base = 1.0
+
     if evidence.evidence_type == "direct_code":
         base += 0.10
 
@@ -169,7 +172,6 @@ def _calculate_strength(
         base += 0.05
 
     return min(round(base, 4), 1.0)
-
 
 def _map_evidence_type(
     evidence: RepositoryEvidence,

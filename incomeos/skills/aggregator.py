@@ -11,7 +11,7 @@ from.portfolio import build_portfolio
 DIMENSION_WEIGHTS: dict[EvidenceDimension, float] = {
     EvidenceDimension.PRESENCE: 0.40,
     EvidenceDimension.USAGE: 0.70,
-    EvidenceDimension.ENGINEERING: 0.75,
+    EvidenceDimension.ENGINEERING: 0.85,
     EvidenceDimension.VALIDATION: 0.90,
     EvidenceDimension.IMPLEMENTATION: 1.00,
 }
