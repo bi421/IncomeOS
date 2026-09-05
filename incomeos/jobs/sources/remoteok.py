@@ -27,11 +27,14 @@ class RemoteOKSource(JobSourceAdapter):
         for record in payload:
             if not isinstance(record, dict):
                 continue
+            position = str(record.get("position", "")).strip()
+            if position.lower() in {"legal notice", "legal disclaimer"}:
+                continue
             ts = _safe_int(record.get("epoch"))
             created_at = datetime.fromtimestamp(ts, tz=timezone.utc).isoformat() if ts else observed_at
             yield Job(
                 source=self.source_name,
-                title=record.get("position", "Untitled"),
+                title=position or "Untitled",
                 source_url=record.get("url", ""),
                 company=record.get("company", ""),
                 description=record.get("description", ""),

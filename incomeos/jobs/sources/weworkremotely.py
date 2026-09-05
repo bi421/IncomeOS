@@ -50,6 +50,10 @@ class WeWorkRemotelySource(JobSourceAdapter):
             if not title:
                 continue
 
+            company = ""
+            if ":" in title:
+                company, title = (part.strip() for part in title.split(":", 1))
+
             link = _text(item, "link")
             description = _text(item, "description")
             region = _text(item, "region")
@@ -66,7 +70,7 @@ class WeWorkRemotelySource(JobSourceAdapter):
 
             yield Job(
                 title=title,
-                company="",
+                company=company,
                 description=description,
                 source=self.source_name,
                 source_url=link,

@@ -308,6 +308,7 @@ def parse_job_record(
     title: str = "",
     company: str = "",
     url: str = "",
+    description: str | None = None,
     raw_data: str | dict | None = None,
     available_skills: tuple[str, ...] = tuple(SKILL_ALIASES),
 ) -> ParsedJob:
@@ -326,12 +327,20 @@ def parse_job_record(
         raw_data or {}
     )
 
-    raw_description = str(
-        data.get(
+    if description is None:
+        for key in (
             "description",
-            "",
-        )
-    )
+            "description_html",
+            "job_description",
+            "content",
+            "body",
+        ):
+            if data.get(key):
+                description = str(data[key])
+                break
+        else:
+            description = ""
+    raw_description = str(description)
 
     description = clean_html(
         raw_description
@@ -366,4 +375,3 @@ def parse_job_record(
         required_skills=required,
         preferred_skills=preferred,
     )
-
