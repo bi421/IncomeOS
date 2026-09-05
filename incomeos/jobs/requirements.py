@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import ast
 import html
@@ -112,7 +112,7 @@ def extract_requirements(*, description: str, available_skills: tuple[str,...]) 
     preferred = tuple(skill for skill in preferred if skill not in required)
     return required, preferred
 
-def parse_job_record(job_id: str | int | dict, *, title: str = "", company: str = "", url: str = "", raw_data: str | dict | None = None, available_skills: tuple[str,...] = tuple(SKILL_ALIASES),) -> ParsedJob:
+def parse_job_record(job_id: str | int | dict, *, title: str = "", company: str = "", url: str = "", description: str = "", raw_data: str | dict | None = None, available_skills: tuple[str,...] = tuple(SKILL_ALIASES),) -> ParsedJob:
     legacy_job: dict = job_id if isinstance(job_id, dict) else {}
     if isinstance(job_id, dict):
         job_id = legacy_job.get("id", "")
@@ -122,15 +122,26 @@ def parse_job_record(job_id: str | int | dict, *, title: str = "", company: str 
     if raw_data is None:
         raw_data = legacy_job
     data = parse_raw_job(raw_data or {})
-    raw_description = str(data.get("description", ""))
-    description = clean_html(raw_description)
-    required, preferred = extract_requirements(description=description, available_skills=available_skills)
+    # Prefer an explicitly supplied description (e.g. a normalized DB
+    # column). Otherwise fall back to whichever source-specific key the
+    # raw payload actually uses - different job APIs name this field
+    # differently (Remotive/Arbeitnow use "description", Jobicy uses
+    # "jobDescription" or "jobExcerpt").
+    raw_description = description or ""
+    if not raw_description:
+        for key in ("description", "jobDescription", "job_description", "jobExcerpt"):
+            value = data.get(key)
+            if value:
+                raw_description = str(value)
+                break
+    cleaned_description = clean_html(raw_description)
+    required, preferred = extract_requirements(description=cleaned_description, available_skills=available_skills)
     return ParsedJob(
         job_id=str(job_id),
         title=str(data.get("title", title)),
         company=str(data.get("company_name", company)),
         url=str(data.get("url", url)),
-        description=description,
+        description=cleaned_description,
         required_skills=required,
         preferred_skills=preferred,
     )

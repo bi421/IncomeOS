@@ -1,4 +1,4 @@
-﻿"""We Work Remotely RSS source adapter."""
+"""We Work Remotely RSS source adapter."""
 
 import html
 import urllib.request
@@ -64,14 +64,26 @@ class WeWorkRemotelySource(JobSourceAdapter):
                 if value
             ]
 
+            # WWR's RSS titles are usually "Company: Job Title" - split
+            # so downstream skill matching sees a clean title, and the
+            # company isn't silently dropped.
+            company = ""
+            clean_title = title
+            if ":" in title:
+                maybe_company, _, rest = title.partition(":")
+                if maybe_company.strip() and rest.strip():
+                    company = maybe_company.strip()
+                    clean_title = rest.strip()
+
             yield Job(
-                title=title,
-                company=None,
-                description=description,
                 source=self.source_name,
+                title=clean_title,
                 source_url=link,
-                posted_at=posted_at or observed_at,
-                location=", ".join(location_parts) or None,
-                employment_type=employment_type or None,
-                compensation=None,
+                company=company,
+                description=description,
+                created_at=posted_at or observed_at,
+                raw_data={
+                    "location": ", ".join(location_parts) or None,
+                    "employment_type": employment_type or None,
+                },
             )

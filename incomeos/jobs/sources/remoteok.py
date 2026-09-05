@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 import json
 import urllib.request
 from datetime import datetime, timezone
@@ -26,6 +26,8 @@ class RemoteOKSource(JobSourceAdapter):
         observed_at = datetime.now(timezone.utc).isoformat()
         for record in payload:
             if not isinstance(record, dict):
+                continue
+            if not record.get("position") and not record.get("url"):
                 continue
             ts = _safe_int(record.get("epoch"))
             created_at = datetime.fromtimestamp(ts, tz=timezone.utc).isoformat() if ts else observed_at
