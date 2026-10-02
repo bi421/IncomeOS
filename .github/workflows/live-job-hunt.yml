@@ -46,9 +46,20 @@ jobs:
             exit "$status"
           fi
 
+      - name: Build application-ready queue
+        run: |
+          python scripts/application_ready.py --limit 25 --minimum-fit 0.70 --target-country Mongolia | tee artifacts/application_ready.txt
+
       - name: Publish hunt result
         uses: actions/upload-artifact@v4
         with:
           name: incomeos-live-job-hunt
           path: artifacts/live_job_hunt.txt
+          if-no-files-found: error
+
+      - name: Publish application-ready result
+        uses: actions/upload-artifact@v4
+        with:
+          name: incomeos-application-ready
+          path: artifacts/application_ready.txt
           if-no-files-found: error
