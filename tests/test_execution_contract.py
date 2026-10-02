@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sqlite3
 import subprocess
+from types import SimpleNamespace
 
 import pytest
 
@@ -36,7 +37,8 @@ def test_placeholder_is_disabled_and_persisted(monkeypatch, tmp_path, isolated_t
         difficulty=0.2,
     )
     match = OpportunityMatch(opportunity, 1.0, 0.8, ("Python",), ())
-    monkeypatch.setattr(orchestrator, "build_master_profile", lambda _: object())
+    monkeypatch.setattr(orchestrator, "build_master_profile", lambda _: SimpleNamespace(skills=()))
+    monkeypatch.setattr(orchestrator, "build_capabilities", lambda _: ())
     monkeypatch.setattr(orchestrator, "match_opportunities", lambda _: (match,))
 
     result = orchestrator.run_opportunity(tmp_path, force=True)

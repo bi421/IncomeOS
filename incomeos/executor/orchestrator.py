@@ -9,6 +9,7 @@ from incomeos.decision.service import decision_from_job_fit
 from incomeos.jobs.fit import JobFit
 from incomeos.opportunities.engine import match_opportunities
 from incomeos.skills.aggregator import build_master_profile
+from incomeos.skills.capabilities import build_capabilities
 from incomeos.tracking.database import get_recent_execution, log_finish, log_start
 from incomeos.tracking.models import ActionResult, ActionState
 
@@ -97,7 +98,12 @@ def run_opportunity(
 ) -> ActionResult | None:
     """Persist an opportunity decision and stop at the human-action boundary."""
     root = Path(repos_root)
-    profile = build_master_profile(root)
+    master_profile = build_master_profile(root)
+    capabilities = build_capabilities(root)
+    profile = {
+        "skills": master_profile.skills,
+        "capabilities": capabilities,
+    }
     matches = match_opportunities(profile)
     if not matches:
         return None

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from types import SimpleNamespace
+
 from incomeos.executor import orchestrator
 from incomeos.opportunities.engine import (
     IncomeOpportunity,
@@ -33,8 +35,9 @@ def test_live_opportunity_persists_decision(
     monkeypatch.setattr(
         orchestrator,
         "build_master_profile",
-        lambda _: object(),
+        lambda _: SimpleNamespace(skills=()),
     )
+    monkeypatch.setattr(orchestrator, "build_capabilities", lambda _: ({"name": "Python", "skills": ["Python"], "confidence": 1.0, "level": "A"},),)
 
     monkeypatch.setattr(
         orchestrator,
@@ -115,7 +118,7 @@ def test_runtime_decision_does_not_claim_submission(
     monkeypatch.setattr(
         orchestrator,
         "build_master_profile",
-        lambda _: object(),
+        lambda _: SimpleNamespace(skills=()),
     )
 
     monkeypatch.setattr(
@@ -180,7 +183,8 @@ def test_runtime_decision_rejects_without_audit_evidence(monkeypatch, tmp_path):
         missing_skills=("Testing",),
         readiness_basis="skill_confidence",
     )
-    monkeypatch.setattr(orchestrator, "build_master_profile", lambda _: object())
+    monkeypatch.setattr(orchestrator, "build_master_profile", lambda _: SimpleNamespace(skills=()))
+    monkeypatch.setattr(orchestrator, "build_capabilities", lambda _: ())
     monkeypatch.setattr(orchestrator, "match_opportunities", lambda _: (match,))
     monkeypatch.setattr(orchestrator, "log_start", lambda *_: 1)
     monkeypatch.setattr(orchestrator, "log_finish", lambda *_: None)
@@ -207,7 +211,8 @@ def test_runtime_decision_prepares_cover_letter_after_explicit_audit_pass(monkey
         matched_skills=("Python",), missing_skills=("Testing",),
         readiness_basis="skill_confidence",
     )
-    monkeypatch.setattr(orchestrator, "build_master_profile", lambda _: object())
+    monkeypatch.setattr(orchestrator, "build_master_profile", lambda _: SimpleNamespace(skills=()))
+    monkeypatch.setattr(orchestrator, "build_capabilities", lambda _: ())
     monkeypatch.setattr(orchestrator, "match_opportunities", lambda _: (match,))
     monkeypatch.setattr(orchestrator, "log_start", lambda *_: 1)
     monkeypatch.setattr(orchestrator, "log_finish", lambda *_: None)
@@ -218,3 +223,36 @@ def test_runtime_decision_prepares_cover_letter_after_explicit_audit_pass(monkey
     )
     assert record is not None
     assert record.decision == "PREPARE_COVER_LETTER"
+
+
+def test_runtime_matching_uses_capability_level_not_raw_confidence(monkeypatch, tmp_path):
+    monkeypatch.setattr(
+        orchestrator,
+        "build_master_profile",
+        lambda _: SimpleNamespace(skills=(SimpleNamespace(name="Python", confidence=1.0),)),
+    )
+    monkeypatch.setattr(
+        orchestrator,
+        "build_capabilities",
+        lambda _: (
+            {"name": "Python", "skills": ["Python"], "confidence": 1.0, "level": "UNKNOWN"},
+        ),
+    )
+    monkeypatch.setattr(orchestrator, "log_start", lambda *_: 1)
+    monkeypatch.setattr(orchestrator, "log_finish", lambda *_: None)
+
+    db = tmp_path / "decisions.db"
+    result = orchestrator.run_opportunity(
+        tmp_path,
+        force=True,
+        decision_db_path=db,
+        audit_pass=True,
+    )
+
+    assert result is not None
+    record = DecisionStore(db).get(
+        next(row[0] for row in DecisionStore(db)._connect().execute("SELECT decision_id FROM decisions"))
+    )
+    assert record is not None
+    assert record.decision == "REJECT"
+    assert record.score == 0.0
