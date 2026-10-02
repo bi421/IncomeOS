@@ -221,3 +221,36 @@ def test_runtime_decision_prepares_cover_letter_after_explicit_audit_pass(monkey
     )
     assert record is not None
     assert record.decision == "PREPARE_COVER_LETTER"
+
+
+def test_runtime_matching_uses_capability_level_not_raw_confidence(monkeypatch, tmp_path):
+    monkeypatch.setattr(
+        orchestrator,
+        "build_master_profile",
+        lambda _: SimpleNamespace(skills=(SimpleNamespace(name="Python", confidence=1.0),)),
+    )
+    monkeypatch.setattr(
+        orchestrator,
+        "build_capabilities",
+        lambda _: (
+            {"name": "Python", "skills": ["Python"], "confidence": 1.0, "level": "UNKNOWN"},
+        ),
+    )
+    monkeypatch.setattr(orchestrator, "log_start", lambda *_: 1)
+    monkeypatch.setattr(orchestrator, "log_finish", lambda *_: None)
+
+    db = tmp_path / "decisions.db"
+    result = orchestrator.run_opportunity(
+        tmp_path,
+        force=True,
+        decision_db_path=db,
+        audit_pass=True,
+    )
+
+    assert result is not None
+    record = DecisionStore(db).get(
+        next(row[0] for row in DecisionStore(db)._connect().execute("SELECT decision_id FROM decisions"))
+    )
+    assert record is not None
+    assert record.decision == "REJECT"
+    assert record.score == 0.0
