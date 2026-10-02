@@ -183,7 +183,8 @@ def test_runtime_decision_rejects_without_audit_evidence(monkeypatch, tmp_path):
         missing_skills=("Testing",),
         readiness_basis="skill_confidence",
     )
-    monkeypatch.setattr(orchestrator, "build_master_profile", lambda _: object())
+    monkeypatch.setattr(orchestrator, "build_master_profile", lambda _: SimpleNamespace(skills=()))
+    monkeypatch.setattr(orchestrator, "build_capabilities", lambda _: ())
     monkeypatch.setattr(orchestrator, "match_opportunities", lambda _: (match,))
     monkeypatch.setattr(orchestrator, "log_start", lambda *_: 1)
     monkeypatch.setattr(orchestrator, "log_finish", lambda *_: None)
