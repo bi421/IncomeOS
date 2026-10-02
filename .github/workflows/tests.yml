@@ -28,5 +28,14 @@ jobs:
           python -m pip install -r requirements.txt
           python -m pip install pytest
 
+      - name: Build repository evidence fixture
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p data/github_repos
+          for repo in ResearchOS fb-planner-audit reelautofly trader true-roas-complete; do
+            gh repo clone "bi421/$repo" "data/github_repos/$repo" -- --depth 1
+          done
+
       - name: Run test suite
         run: python -m pytest -q
