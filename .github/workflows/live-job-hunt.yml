@@ -1,0 +1,54 @@
+name: IncomeOS Live Job Hunt
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hunt:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Build evidence fixture
+        run: |
+          mkdir -p data/github_repos
+          for repo in ResearchOS fb-planner-audit reelautofly trader true-roas-complete; do
+            gh repo clone "bi421/$repo" "data/github_repos/$repo" -- --depth 1
+          done
+
+      - name: Hunt real public job sources
+        run: |
+          mkdir -p artifacts
+          set +e
+          python scripts/job_hunt.py --limit 25 --minimum-fit 0.50 | tee artifacts/live_job_hunt.txt
+          status=${PIPESTATUS[0]}
+          set -e
+          if [ "$status" -gt 1 ]; then
+            exit "$status"
+          fi
+
+      - name: Publish hunt result
+        uses: actions/upload-artifact@v4
+        with:
+          name: incomeos-live-job-hunt
+          path: artifacts/live_job_hunt.txt
+          if-no-files-found: error
