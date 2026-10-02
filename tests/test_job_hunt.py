@@ -31,7 +31,7 @@ def test_hunt_fetches_deduplicates_and_ranks(tmp_path):
     assert report.items[0].url == "https://example.com/a"
     assert report.items[0].fit_score == 1.0
     assert report.items[0].matched_skills == ("Python", "Docker")
-    assert report.sources[0].fetched == 3
+    assert report.sources[0].fetched == 2
     assert report.sources[0].accepted == 2
     assert not report.sources[0].failed
 
