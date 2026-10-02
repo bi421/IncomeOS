@@ -40,7 +40,9 @@ class JobHunter:
 
     def __init__(self, data_dir: str | Path = "data") -> None:
         self.data_dir = Path(data_dir)
-        self.db = JobDatabase(self.data_dir / "jobs" / "incomeos_jobs.sqlite3")
+        db_path = self.data_dir / "jobs" / "incomeos_jobs.sqlite3"
+        db_path.parent.mkdir(parents=True, exist_ok=True)
+        self.db = JobDatabase(db_path)
 
     def hunt(
         self,
