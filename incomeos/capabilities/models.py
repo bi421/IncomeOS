@@ -39,6 +39,7 @@ class Capability:
     level: str
     evidence: tuple[CapabilityEvidence, ...] = field(default_factory=tuple)
     evidence_count: int = 0
+    repository_count: int = 0
     repositories: tuple[str, ...] = ()
     category: str = "other"
     level_reason: str = ""
