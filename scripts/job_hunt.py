@@ -18,11 +18,27 @@ def main() -> int:
     if not skills:
         raise SystemExit("No evidence-backed skills meet the 0.60 confidence threshold.")
 
-    report = JobHunter(args.data_dir).hunt(skills, limit=args.limit, minimum_fit=args.minimum_fit)
-    print(f"SOURCES={len(report.sources)} FAILED={len(report.failed_sources)} FETCHED={report.total_fetched}")
+    report = JobHunter(args.data_dir).hunt(
+        skills,
+        limit=args.limit,
+        minimum_fit=args.minimum_fit,
+    )
+    print(
+        f"SOURCES={len(report.sources)} "
+        f"FAILED={len(report.failed_sources)} "
+        f"FETCHED={report.total_fetched}"
+    )
     for item in report.items:
-        print(f"{item.fit_score:.3f} | {item.title} | {item.company} | {item.source} | {item.url}")
-    return 1 if not report.items else 0
+        print(
+            f"{item.fit_score:.3f} | {item.title} | {item.company} | "
+            f"{item.source} | {item.url}"
+        )
+    if not report.items:
+        print("RESULT=NO_JOBS")
+    else:
+        print(f"RESULT=JOBS_FOUND COUNT={len(report.items)}")
+    # No-jobs is a valid hunt result. Runtime errors still raise and fail the job.
+    return 0
 
 
 if __name__ == "__main__":
