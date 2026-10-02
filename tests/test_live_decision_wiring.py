@@ -118,7 +118,7 @@ def test_runtime_decision_does_not_claim_submission(
     monkeypatch.setattr(
         orchestrator,
         "build_master_profile",
-        lambda _: object(),
+        lambda _: SimpleNamespace(skills=()),
     )
 
     monkeypatch.setattr(
