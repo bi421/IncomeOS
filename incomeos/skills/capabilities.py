@@ -1,40 +1,10 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 from pathlib import Path
 
 from incomeos.skills.aggregator import build_master_profile
-from incomeos.skills.levels import (
-    CapabilityLevel,
-    classify_capability_level,
-)
-from incomeos.skills.github_analyzer import analyze_repository
-from incomeos.skills.detector import detect_skills
-
-
-@dataclass(frozen=True)
-class Capability:
-    """
-    A capability is a higher-level professional ability supported by
-    one or more verified skills.
-
-    ``confidence`` measures evidence confidence.
-
-    ``level`` measures evidence-backed capability breadth.
-
-    These are intentionally separate concepts.
-    """
-
-    name: str
-    category: str
-    skills: tuple[str, ...]
-    evidence_count: int
-    repository_count: int
-    confidence: float
-    level: CapabilityLevel = CapabilityLevel.UNKNOWN
-    level_reason: str = ""
-
-
+from incomeos.skills.levels import classify_capability_level
+from incomeos.capabilities.models import Capability
 CAPABILITY_RULES: dict[str, tuple[str, ...]] = {
     "Python Application Development": (
         "Python",
@@ -120,12 +90,12 @@ def build_capabilities(root: str | Path) -> tuple[Capability, ...]:
         capabilities.append(
             Capability(
                 name=capability_name,
-                category=CAPABILITY_CATEGORIES[capability_name],
                 skills=tuple(required_skills),
                 evidence_count=evidence_count,
                 repository_count=repository_count,
                 confidence=confidence,
-                level=level,
+                level=level.value,
+                category=CAPABILITY_CATEGORIES[capability_name],
                 level_reason=reason,
             )
         )
@@ -155,7 +125,7 @@ def main() -> None:
     for capability in capabilities:
         print(
             f"{capability.name}: "
-            f"{capability.level.value} "
+            f"{capability.level} "
             f"confidence={capability.confidence:.2f} "
             f"(category={capability.category}; "
             f"evidence={capability.evidence_count}; "
