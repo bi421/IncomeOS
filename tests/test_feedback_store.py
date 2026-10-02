@@ -130,3 +130,19 @@ def test_feedback_persists_signals(tmp_path):
     ) == 2
 
     assert feedback.feedback_id is not None
+
+
+
+def test_feedback_persists_match_analysis_signals(tmp_path):
+    store = FeedbackStore(tmp_path / "feedback.db")
+    feedback = build_feedback(
+        decision_id="dec_match",
+        job_id="job_match",
+        outcomes=(outcome(OutcomeType.REJECTION),),
+        decision="APPLY",
+        missing_requirements=("Testing",),
+        store=store,
+    )
+
+    assert "missing capability evidence at decision time: Testing" in feedback.signals
+    assert "potential false-positive match: positive decision followed by externally evidenced rejection" in feedback.signals
