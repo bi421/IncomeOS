@@ -74,3 +74,30 @@ def test_empty_feedback_is_explicit():
     assert signals == (
         "no outcome evidence collected",
     )
+
+
+
+def test_match_feedback_identifies_potential_false_positive():
+    from incomeos.insights.feedback import analyze_match_feedback
+
+    signals = analyze_match_feedback(
+        decision="APPLY",
+        outcomes=(outcome(OutcomeType.REJECTION),),
+    )
+
+    assert signals == (
+        "potential false-positive match: positive decision followed by externally evidenced rejection",
+    )
+
+
+def test_match_feedback_identifies_missing_capability_evidence():
+    from incomeos.insights.feedback import analyze_match_feedback
+
+    signals = analyze_match_feedback(
+        decision="REJECT",
+        missing_requirements=("Testing", "Docker", "Testing"),
+    )
+
+    assert signals == (
+        "missing capability evidence at decision time: Testing, Docker",
+    )

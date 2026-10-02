@@ -87,6 +87,8 @@ def run() -> None:
             job_id="dry-job-001",
             outcomes=observed,
             skills=("Python",),
+            decision=decision.record.decision,
+            missing_requirements=fit.missing_requirements,
             store=feedback_store,
         )
 

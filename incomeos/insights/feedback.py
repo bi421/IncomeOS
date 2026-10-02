@@ -130,3 +130,33 @@ def identify_feedback_signals(
         )
 
     return tuple(signals)
+
+
+def analyze_match_feedback(
+    *,
+    decision: str,
+    missing_requirements: Iterable[str] = (),
+    outcomes: Iterable[OutcomeRecord] = (),
+) -> tuple[str, ...]:
+    """Identify auditable post-decision match signals without claiming causality."""
+    signals: list[str] = []
+    missing = tuple(dict.fromkeys(
+        item.strip() for item in missing_requirements if item.strip()
+    ))
+    if missing:
+        signals.append(
+            "missing capability evidence at decision time: "
+            + ", ".join(missing)
+        )
+
+    externally_evidenced_rejection = any(
+        item.outcome_type is OutcomeType.REJECTION
+        and item.evidence_source.strip()
+        for item in outcomes
+    )
+    if decision in {"APPLY", "PREPARE_COVER_LETTER"} and externally_evidenced_rejection:
+        signals.append(
+            "potential false-positive match: positive decision followed by externally evidenced rejection"
+        )
+
+    return tuple(signals)

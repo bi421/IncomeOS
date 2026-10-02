@@ -8,7 +8,10 @@ import sqlite3
 from pathlib import Path
 from typing import Any, Iterable
 
-from incomeos.insights.feedback import identify_feedback_signals
+from incomeos.insights.feedback import (
+    analyze_match_feedback,
+    identify_feedback_signals,
+)
 from incomeos.tracking.outcomes import (
     OutcomeRecord,
     OutcomeType,
@@ -221,6 +224,8 @@ def build_feedback(
     job_id: str,
     outcomes: Iterable[OutcomeRecord],
     skills: Iterable[str] = (),
+    decision: str | None = None,
+    missing_requirements: Iterable[str] = (),
     store: FeedbackStore | None = None,
 ) -> FeedbackRecord:
     """
@@ -244,11 +249,16 @@ def build_feedback(
         if skill.strip()
     )
 
-    signals = tuple(
-        identify_feedback_signals(
-            outcomes
+    signals_list = list(identify_feedback_signals(outcomes))
+    if decision is not None:
+        signals_list.extend(
+            analyze_match_feedback(
+                decision=decision,
+                missing_requirements=missing_requirements,
+                outcomes=outcomes,
+            )
         )
-    )
+    signals = tuple(dict.fromkeys(signals_list))
 
     proposal_ids: list[int] = []
 
