@@ -27,9 +27,9 @@ def main() -> int:
 
     profile = build_master_profile(profile_root)
     skills = tuple(
-        str(item.get("name", "")).strip()
-        for item in profile.skills
-        if isinstance(item, dict) and float(item.get("confidence", 0.0)) >= 0.60
+        skill.name.strip()
+        for skill in profile.skills
+        if skill.name.strip() and skill.confidence >= 0.60
     )
     hunter = JobHunter(args.data_dir)
     report = hunter.hunt(skills, limit=args.limit, minimum_fit=args.minimum_fit)
