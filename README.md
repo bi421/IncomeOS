@@ -60,7 +60,7 @@ Git working tree:      clean; local recovery archive ignored
 **Status legend**
 - **PROVEN / COMMITTED** â€” main contains the Phase 1â€“5 evidence-driven job-search implementation, including repository hygiene, evidence-bound application generation, deterministic decision gates, human-gated outreach/tracking, and the STAR mock-interview CLI.
 - **HUMAN-IN-THE-LOOP** â€” application preparation and outreach are local/draft actions only. External submission requires explicit user confirmation; no external submission is performed by the executor.
-- **CI VERIFIED** â€” GitHub Actions run #6 on commit `5700ebe` completed successfully with **190 passed in 2.10s** on Python 3.11.
+- **CI VERIFIED** â€” GitHub Actions run #6 on commit `c2ff1ab` completed successfully with **191 passed in 2.16s** on Python 3.11.
 - **EVIDENCE BOUND** â€” generated application/interview claims are restricted to entries in `data/profile/master_skill_profile.json`'s `verified_evidence` list.
 
 Latest commits:
