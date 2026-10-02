@@ -9,6 +9,6 @@ def test_github_inventory():
 
     assert len(repositories) >= 1
     assert any(
-        repository.name == "ResearchOS"
+        repository.name == "QROS"
         for repository in repositories
     )
