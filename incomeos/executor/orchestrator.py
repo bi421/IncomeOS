@@ -3,8 +3,9 @@ from __future__ import annotations
 import subprocess
 from pathlib import Path
 
+from incomeos.decision.engine import DecisionInput, decide_application
 from incomeos.decision.persistence import DecisionStore
-from incomeos.decision.service import evaluate_and_persist
+from incomeos.decision.service import decision_from_job_fit
 from incomeos.jobs.fit import JobFit
 from incomeos.opportunities.engine import match_opportunities
 from incomeos.skills.aggregator import build_master_profile
@@ -108,10 +109,18 @@ def run_opportunity(
 
     fit = _build_runtime_job_fit(top)
     store = DecisionStore(decision_db_path)
-    decision = evaluate_and_persist(
+    decision_action = decide_application(
+        DecisionInput(
+            match_score=top.opportunity_score,
+            audit_pass=True,
+            skill_gap_verified=not bool(top.missing_skills),
+            opportunity_name=opportunity_name,
+        )
+    )
+    decision = decision_from_job_fit(
         fit=fit,
         opportunity_name=opportunity_name,
-        apply_threshold=1.0,
+        decision=decision_action.value,
         store=store,
     )
 

@@ -159,4 +159,37 @@ def test_runtime_decision_does_not_claim_submission(
     )
 
     assert record is not None
-    assert record.decision == "REVIEW"
+    assert record.decision == "REJECT"
+
+
+def test_runtime_decision_prepares_cover_letter_for_verified_gap(monkeypatch, tmp_path):
+    opportunity = IncomeOpportunity(
+        name="Python Automation",
+        description="Test opportunity.",
+        required_skills=("Python", "Testing"),
+        skill_weights=(0.5, 0.5),
+        base_value=0.9,
+        difficulty=0.2,
+    )
+    match = OpportunityMatch(
+        opportunity=opportunity,
+        readiness=0.75,
+        opportunity_score=0.75,
+        matched_skills=("Python",),
+        missing_skills=("Testing",),
+        readiness_basis="skill_confidence",
+    )
+    monkeypatch.setattr(orchestrator, "build_master_profile", lambda _: object())
+    monkeypatch.setattr(orchestrator, "match_opportunities", lambda _: (match,))
+    monkeypatch.setattr(orchestrator, "log_start", lambda *_: 1)
+    monkeypatch.setattr(orchestrator, "log_finish", lambda *_: None)
+
+    db = tmp_path / "decisions.db"
+    result = orchestrator.run_opportunity(tmp_path, force=True, decision_db_path=db)
+
+    assert result is not None
+    record = DecisionStore(db).get(
+        next(row[0] for row in DecisionStore(db)._connect().execute("SELECT decision_id FROM decisions"))
+    )
+    assert record is not None
+    assert record.decision == "PREPARE_COVER_LETTER"

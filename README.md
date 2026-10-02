@@ -58,16 +58,22 @@ Git working tree:      clean; local recovery archive ignored
 
 
 **Status legend**
-- **PROVEN / COMMITTED** â€” HEAD `15bb99b`, 57 tests pass. Layers: Foundation â†’ Capability â†’ Opportunity â†’ Search/Audit (includes the audit engine bug fix and its regression tests).
-- **INERT / COMMITTED-BUT-DISCONNECTED** â€” `incomeos/executor/` and `incomeos/tracking/` are committed in HEAD but NOT imported by the package, NOT scheduled by committed code, and perform NO autonomous income or financial action. Prototype scaffold only.
-- **COMMITTED BUT PARTIALLY DISABLED** â€” `incomeos/jobs/`, `tests/jobs/`, and `update_readme.py` are all committed in HEAD. `scripts/apply_browser.py` raises RuntimeError requiring manual review before any application action. See `docs/skill_profile.md` for approved workflow.
-- **PLACEHOLDER / COMMITTED-BUT-INERT** â€” `incomeos/decision/engine.py`'s `ACTION_MAP` contains only print-based stub commands. They perform no real work, generate no income. Do not schedule `make_decision()` autonomously until real actions are implemented.
+- **PROVEN / COMMITTED** â€” main contains the Phase 1â€“5 evidence-driven job-search implementation, including repository hygiene, evidence-bound application generation, deterministic decision gates, human-gated outreach/tracking, and the STAR mock-interview CLI.
+- **HUMAN-IN-THE-LOOP** â€” application preparation and outreach are local/draft actions only. External submission requires explicit user confirmation; no external submission is performed by the executor.
+- **CI VERIFIED** â€” GitHub Actions run #6 on commit `5700ebe` completed successfully with **190 passed in 2.10s** on Python 3.11.
+- **EVIDENCE BOUND** â€” generated application/interview claims are restricted to entries in `data/profile/master_skill_profile.json`'s `verified_evidence` list.
 
 Latest commits:
 
 
 
 ```text
+
+5700ebe test: update GitHub integration expectation to QROS migration
+
+e20e307 ci: expose GitHub token to integration test step
+
+0b7984f ci: materialize repository evidence fixture before pytest
 
 15bb99b docs: add evidence-based skill profile (human-verified, separate from auto-generated master_skill_profile.json)
 
