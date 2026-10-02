@@ -10,7 +10,7 @@ from incomeos.tracking.tracker import ApplicationStatus, ApplicationTracker
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Human-controlled application action recorder.")
-    parser.add_argument("action", choices=("approve", "open", "submitted"))
+    parser.add_argument("action", choices=("approve", "record-opened", "record-submitted"))
     parser.add_argument("--job-id", required=True)
     parser.add_argument("--decision-id", default="job-hunt")
     parser.add_argument("--evidence-source", default="")
@@ -28,7 +28,7 @@ def main() -> int:
     if queue.status(args.job_id) != "APPROVED":
         raise SystemExit("job must be APPROVED before an external application action")
 
-    if args.action == "open":
+    if args.action == "record-opened":
         ingest_local_application_state(
             decision_id=args.decision_id,
             job_id=args.job_id,
@@ -38,7 +38,7 @@ def main() -> int:
         print(f"URL={args.job_id}")
         return 0
 
-    if not args.evidence_source.strip() or not args.evidence_text.strip():
+    if args.action == "record-submitted" and (not args.evidence_source.strip() or not args.evidence_text.strip()):
         raise SystemExit("submitted requires --evidence-source and --evidence-text")
     ingest_external_outcome(
         decision_id=args.decision_id,
