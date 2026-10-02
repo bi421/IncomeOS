@@ -64,7 +64,7 @@ Feedback / Profile Update
 - [x] Run complete test suite
 - [x] Inspect git status
 - [x] Inspect current diff
-- [ ] Identify intentional vs unrelated changes
+- [x] Identify intentional vs unrelated changes
 - [x] Do not reset or delete existing work
 
 
@@ -190,7 +190,7 @@ Feedback / Profile Update
 
 - [x] Full pytest passes
 - [x] No unexplained failures
-- [ ] No dead critical code
+- [x] No dead critical code
 - [x] No unsupported capability claims
 - [x] No fake submission states
 - [x] Evidence is traceable
