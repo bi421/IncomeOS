@@ -26,6 +26,11 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+_backup_*/
+*.bak
+*.tmp.*
+*.orig
+*.rej
 
 # Local secrets
 .env
