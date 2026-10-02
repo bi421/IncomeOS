@@ -24,6 +24,7 @@ class HuntItem:
     company: str
     url: str
     location: str
+    description: str
     fit_score: float
     matched_skills: tuple[str, ...]
     missing_skills: tuple[str, ...]
