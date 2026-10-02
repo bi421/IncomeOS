@@ -93,6 +93,7 @@ def run_opportunity(
     repos_root: str | Path,
     force: bool = False,
     decision_db_path: str | Path = "data/decisions.db",
+    audit_pass: bool = False,
 ) -> ActionResult | None:
     """Persist an opportunity decision and stop at the human-action boundary."""
     root = Path(repos_root)
@@ -112,7 +113,7 @@ def run_opportunity(
     decision_action = decide_application(
         DecisionInput(
             match_score=top.opportunity_score,
-            audit_pass=True,
+            audit_pass=audit_pass,
             skill_gap_verified=not bool(top.missing_skills),
             opportunity_name=opportunity_name,
         )
