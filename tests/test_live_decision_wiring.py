@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from types import SimpleNamespace
+
 from incomeos.executor import orchestrator
 from incomeos.opportunities.engine import (
     IncomeOpportunity,
@@ -33,8 +35,9 @@ def test_live_opportunity_persists_decision(
     monkeypatch.setattr(
         orchestrator,
         "build_master_profile",
-        lambda _: object(),
+        lambda _: SimpleNamespace(skills=()),
     )
+    monkeypatch.setattr(orchestrator, "build_capabilities", lambda _: ({"name": "Python", "skills": ["Python"], "confidence": 1.0, "level": "A"},),)
 
     monkeypatch.setattr(
         orchestrator,
