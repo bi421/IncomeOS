@@ -26,6 +26,12 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+_backup_*/
+_incomeos_migration_backup/
+*.bak
+*.tmp.*
+*.orig
+*.rej
 
 # Local secrets
 .env

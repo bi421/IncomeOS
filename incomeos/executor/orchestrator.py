@@ -3,28 +3,25 @@ from __future__ import annotations
 import subprocess
 from pathlib import Path
 
-from incomeos.skills.aggregator import build_master_profile
-from incomeos.opportunities.engine import match_opportunities
-from incomeos.tracking.database import log_start, log_finish, get_recent_execution
-from incomeos.tracking.models import ActionResult, ActionState
 from incomeos.decision.persistence import DecisionStore
 from incomeos.decision.service import evaluate_and_persist
 from incomeos.jobs.fit import JobFit
-
+from incomeos.opportunities.engine import match_opportunities
+from incomeos.skills.aggregator import build_master_profile
+from incomeos.tracking.database import get_recent_execution, log_finish, log_start
+from incomeos.tracking.models import ActionResult, ActionState
 
 ACTION_MAP = {
-    "Python Automation": "python -c 'print(\"Python Automation executed\")'",
-    "Data Engineering Support": "python -c 'print(\"Data Engineering executed\")'",
-    "C++ Quant / Performance Engineering": "python -c 'print(\"C++ Quant executed\")'",
-    "Docker Deployment Support": "docker --version",
-    "Build System Engineering": "cmake --version",
+    "Python Automation": "PREPARE_COVER_LETTER",
+    "Data Engineering Support": "PREPARE_COVER_LETTER",
+    "C++ Quant / Performance Engineering": "PREPARE_COVER_LETTER",
+    "Docker Deployment Support": "PREPARE_COVER_LETTER",
+    "Build System Engineering": "PREPARE_COVER_LETTER",
 }
 
 
-def plan_action(
-    action_name: str,
-    command: str,
-) -> ActionResult:
+def plan_action(action_name: str, command: str) -> ActionResult:
+    """Create a local plan without executing or contacting an external service."""
     return ActionResult(
         action_name=action_name,
         requested_command=command,
@@ -37,10 +34,8 @@ def execute_local_command(
     command: tuple[str, ...],
     timeout: float = 300,
 ) -> ActionResult:
-    """Run a controlled local command without claiming external completion."""
-
+    """Run an explicitly supplied local command without external submission."""
     requested_command = " ".join(command)
-
     try:
         completed = subprocess.run(
             command,
@@ -55,9 +50,7 @@ def execute_local_command(
             requested_command=requested_command,
             state=ActionState.FAILED,
             executed_command=command,
-            error_log=(
-                f"command timed out after {timeout} seconds: {error}"
-            ),
+            error_log=f"command timed out after {timeout} seconds: {error}",
         )
     except OSError as error:
         return ActionResult(
@@ -67,15 +60,10 @@ def execute_local_command(
             executed_command=command,
             error_log=str(error),
         )
-
     return ActionResult(
         action_name=action_name,
         requested_command=requested_command,
-        state=(
-            ActionState.EXECUTED
-            if completed.returncode == 0
-            else ActionState.FAILED
-        ),
+        state=ActionState.EXECUTED if completed.returncode == 0 else ActionState.FAILED,
         executed_command=command,
         exit_code=completed.returncode,
         output_log=completed.stdout,
@@ -84,30 +72,19 @@ def execute_local_command(
 
 
 def _build_runtime_job_fit(top) -> JobFit:
-    """
-    Convert the live opportunity result into the common JobFit contract.
-
-    The current runtime operates at opportunity level, not at a concrete
-    external job record. Therefore the identifier is explicitly namespaced
-    as an opportunity decision and is never presented as a submitted job.
-    """
-
-    opportunity_id = f"opportunity:{top.opportunity.name}"
-
-    reasons = (
-        f"readiness={top.readiness:.6f}",
-        f"score={top.opportunity_score:.6f}",
-        f"matched={','.join(top.matched_skills) or 'none'}",
-        f"missing={','.join(top.missing_skills) or 'none'}",
-        f"basis={top.readiness_basis}",
-    )
-
+    """Convert an opportunity match into the shared JobFit contract."""
     return JobFit(
-        job_id=opportunity_id,
+        job_id=f"opportunity:{top.opportunity.name}",
         fit_score=top.readiness,
         matched_requirements=tuple(top.matched_skills),
         missing_requirements=tuple(top.missing_skills),
-        reasons=reasons,
+        reasons=(
+            f"readiness={top.readiness:.6f}",
+            f"score={top.opportunity_score:.6f}",
+            f"matched={','.join(top.matched_skills) or 'none'}",
+            f"missing={','.join(top.missing_skills) or 'none'}",
+            f"basis={top.readiness_basis}",
+        ),
     )
 
 
@@ -116,108 +93,57 @@ def run_opportunity(
     force: bool = False,
     decision_db_path: str | Path = "data/decisions.db",
 ) -> ActionResult | None:
-    """
-    Live IncomeOS runtime path.
-
-    Flow:
-
-        evidence
-          -> skill confidence
-          -> capability
-          -> opportunity match
-          -> persistent decision
-          -> execution boundary
-
-    External submission is never claimed here.
-    """
-
+    """Persist an opportunity decision and stop at the human-action boundary."""
     root = Path(repos_root)
-
     profile = build_master_profile(root)
     matches = match_opportunities(profile)
-
     if not matches:
-        print("No opportunities found.")
         return None
 
     top = matches[0]
-    opp_name = top.opportunity.name
-    command = ACTION_MAP.get(opp_name)
-
-    if not command:
-        print(
-            f"No action defined for {opp_name}"
-        )
+    opportunity_name = top.opportunity.name
+    plan = ACTION_MAP.get(opportunity_name)
+    if plan is None:
         return None
 
     fit = _build_runtime_job_fit(top)
-
-    decision_store = DecisionStore(
-        decision_db_path
-    )
-
-    decision_result = evaluate_and_persist(
+    store = DecisionStore(decision_db_path)
+    decision = evaluate_and_persist(
         fit=fit,
-        opportunity_name=opp_name,
+        opportunity_name=opportunity_name,
         apply_threshold=1.0,
-        store=decision_store,
-    )
-
-    print(
-        "Decision persisted: "
-        f"{decision_result.record.decision_id} | "
-        f"{decision_result.record.decision} | "
-        f"score={decision_result.record.score:.3f}"
+        store=store,
     )
 
     if not force:
-        recent = get_recent_execution(
-            opp_name,
-            hours=6,
-        )
-
-        if (
-            recent
-            and recent.state is ActionState.CONFIRMED
-        ):
-            print(
-                f"{opp_name} already succeeded recently. Skipping."
-            )
+        recent = get_recent_execution(opportunity_name, hours=6)
+        if recent and recent.state is ActionState.CONFIRMED:
             return None
 
-    print(
-        f"Preparing: {opp_name} "
-        f"(score={top.opportunity_score:.3f})"
-    )
-
-    log_id = log_start(
-        opp_name,
-        command,
-    )
-
+    log_id = log_start(opportunity_name, plan)
     result = ActionResult(
-        action_name=opp_name,
-        requested_command=command,
+        action_name=opportunity_name,
+        requested_command=plan,
         state=ActionState.DISABLED,
         error_log=(
-            "IncomeOS has no real action implementation "
-            "for this opportunity."
+            f"Decision={decision.record.decision}; "
+            "external action requires explicit human confirmation."
         ),
     )
-
-    log_finish(
-        log_id,
-        result,
-    )
-
-    print(
-        "Disabled: no real business action was executed."
-    )
-
+    log_finish(log_id, result)
     return result
 
 
+def prepare_application_action(
+    *,
+    action_name: str,
+    job_id: str,
+) -> ActionResult:
+    """Prepare an application action; submission remains outside this function."""
+    if not action_name.strip() or not job_id.strip():
+        raise ValueError("action_name and job_id are required")
+    return plan_action(action_name, f"{action_name}:{job_id}")
+
+
 if __name__ == "__main__":
-    run_opportunity(
-        "data/github_repos"
-    )
+    run_opportunity("data/github_repos")
