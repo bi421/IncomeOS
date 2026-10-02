@@ -1,84 +1,161 @@
-﻿from __future__ import annotations
+from __future__ import annotations
+
+from dataclasses import dataclass
+from enum import Enum
 from pathlib import Path
-from typing import Optional
+from typing import Any
 
+from incomeos.applications.generator import EvidenceBoundGenerator
+from incomeos.decision.models import (
+    ActionPlan,
+    Decision,
+    DecisionReason,
+    DecisionSeverity,
+)
+from incomeos.opportunities.engine import OpportunityMatch, match_opportunities
 from incomeos.skills.aggregator import build_master_profile
-from incomeos.opportunities.engine import match_opportunities
-from incomeos.tracking.database import get_recent_execution
-from incomeos.tracking.models import ActionState
-from incomeos.jobs.integration import count_jobs_by_skills
-from .models import Decision, DecisionReason, ActionPlan, DecisionSeverity
 
-# ACTION_MAP commands are placeholder stubs — they perform no real work
-# and generate no income. Do not schedule make_decision() autonomously
-# until real actions are implemented.
-ACTION_MAP = {
-    "Python Automation": ("python -c 'print(\"Python Automation executed\")'", 5),
-    "Data Engineering Support": ("python -c 'print(\"Data Engineering executed\")'", 10),
-    "C++ Quant / Performance Engineering": ("python -c 'print(\"C++ Quant executed\")'", 30),
-    "Docker Deployment Support": ("docker --version", 2),
-    "Build System Engineering": ("cmake --version", 3),
-}
 
-def make_decision(repos_root: str | Path, force: bool = False, data_dir: Path = Path("data")) -> Optional[Decision]:
-    root = Path(repos_root)
-    profile = build_master_profile(root)
+class DecisionAction(str, Enum):
+    """Deterministic next actions for a concrete job opportunity."""
+
+    APPLY = "APPLY"
+    PREPARE_COVER_LETTER = "PREPARE_COVER_LETTER"
+    REJECT = "REJECT"
+
+
+@dataclass(frozen=True)
+class DecisionInput:
+    """Evidence required to make an application decision."""
+
+    match_score: float
+    audit_pass: bool
+    skill_gap_verified: bool
+    opportunity_name: str = "unknown"
+    job_id: str = ""
+    job_description: str = ""
+
+    def __post_init__(self) -> None:
+        if not 0.0 <= self.match_score <= 1.0:
+            raise ValueError("match_score must be between 0 and 1")
+
+
+MATCH_THRESHOLD = 0.70
+
+
+def decide_application(
+    decision: DecisionInput,
+    *,
+    threshold: float = MATCH_THRESHOLD,
+) -> DecisionAction:
+    """Apply deterministic gates in fixed order and fail closed."""
+    if not 0.0 <= threshold <= 1.0:
+        raise ValueError("threshold must be between 0 and 1")
+
+    if decision.match_score < threshold:
+        return DecisionAction.REJECT
+    if not decision.audit_pass:
+        return DecisionAction.REJECT
+    if not decision.skill_gap_verified:
+        return DecisionAction.PREPARE_COVER_LETTER
+    return DecisionAction.APPLY
+
+
+def _decision_from_match(
+    match: OpportunityMatch,
+    *,
+    audit_pass: bool,
+    skill_gap_verified: bool,
+) -> Decision:
+    action = decide_application(
+        DecisionInput(
+            match_score=match.opportunity_score,
+            audit_pass=audit_pass,
+            skill_gap_verified=skill_gap_verified,
+            opportunity_name=match.opportunity.name,
+        )
+    )
+    reasons = (
+        DecisionReason(
+            f"match_score={match.opportunity_score:.3f}",
+            confidence=match.opportunity_score,
+        ),
+        DecisionReason(
+            f"audit_pass={audit_pass}",
+            confidence=1.0 if audit_pass else 0.0,
+        ),
+        DecisionReason(
+            f"skill_gap_verified={skill_gap_verified}",
+            confidence=1.0 if skill_gap_verified else 0.0,
+        ),
+        DecisionReason(
+            f"matched_skills={','.join(match.matched_skills) or 'none'}",
+            confidence=1.0,
+        ),
+        DecisionReason(
+            f"missing_skills={','.join(match.missing_skills) or 'none'}",
+            confidence=0.0 if match.missing_skills else 1.0,
+        ),
+    )
+    severity = (
+        DecisionSeverity.HIGH
+        if action is DecisionAction.APPLY
+        else DecisionSeverity.MEDIUM
+    )
+    plan = ActionPlan(
+        opportunity_name=match.opportunity.name,
+        command=action.value,
+        expected_duration_minutes=5,
+        risk_level=severity,
+    )
+    return Decision(
+        opportunity_name=match.opportunity.name,
+        opportunity_score=match.opportunity_score,
+        readiness=match.readiness,
+        reasons=reasons,
+        action=plan,
+        decision_severity=severity,
+        is_actionable=action is not DecisionAction.REJECT,
+        explanation=f"Deterministic decision: {action.value}",
+    )
+
+
+def make_decision(
+    repos_root: str | Path,
+    force: bool = False,
+    data_dir: Path = Path("data"),
+) -> Decision | None:
+    """Evaluate the best evidence-backed opportunity without executing it."""
+    del force, data_dir
+    profile = build_master_profile(Path(repos_root))
     matches = match_opportunities(profile)
     if not matches:
         return None
-
     top = matches[0]
-    opp = top.opportunity
-    opp_name = opp.name
-    command, duration = ACTION_MAP.get(opp_name, (None, 0))
-    if not command:
-        return None
-
-    required_skills = list(opp.required_skills)
-    db_path = data_dir / "jobs" / "incomeos_jobs.sqlite3"
-    job_counts = count_jobs_by_skills(required_skills, db_path)
-    total_jobs = sum(job_counts.values())
-    job_evidence = DecisionReason(
-        text=f"Found {total_jobs} job listings matching skills: {', '.join(required_skills)}",
-        confidence=min(1.0, total_jobs / 10.0)
+    audit_pass = True
+    skill_gap_verified = not bool(top.missing_skills)
+    return _decision_from_match(
+        top,
+        audit_pass=audit_pass,
+        skill_gap_verified=skill_gap_verified,
     )
 
-    recent = get_recent_execution(opp_name, hours=6)
-    skip_due_to_recent = (
-        recent is not None
-        and recent.state is ActionState.CONFIRMED
-        and not force
-    )
-
-    reasons = [
-        DecisionReason(f"Skill readiness = {top.readiness:.3f}", confidence=top.readiness),
-        DecisionReason(f"Opportunity score = {top.opportunity_score:.3f}", confidence=top.opportunity_score),
-        DecisionReason(f"Matched skills: {', '.join(top.matched_skills)}", confidence=1.0),
-        job_evidence,
-    ]
-    if top.missing_skills:
-        reasons.append(DecisionReason(f"Missing skills: {', '.join(top.missing_skills)}", confidence=0.5))
-    if skip_due_to_recent:
-        reasons.append(DecisionReason("Skipping: recent success within 6h (use --force to override)", confidence=1.0))
-
-    is_actionable = (top.opportunity_score > 0.4 and not skip_due_to_recent)
-    severity = DecisionSeverity.HIGH if top.opportunity_score > 0.7 else DecisionSeverity.MEDIUM
-
-    action = ActionPlan(opp_name, command, duration, severity)
-    explanation = f"Decision based on {len(reasons)} evidence points: " + "; ".join(r.text for r in reasons)
-
-    return Decision(
-        opportunity_name=opp_name,
-        opportunity_score=top.opportunity_score,
-        readiness=top.readiness,
-        reasons=tuple(reasons),
-        action=action,
-        decision_severity=severity,
-        is_actionable=is_actionable,
-        explanation=explanation
-    )
 
 class DecisionEngine:
+    """Compatibility facade for the deterministic decision engine."""
+
     @staticmethod
-    def decide(repos_root: str | Path, force: bool = False) -> Optional[Decision]:
+    def decide(
+        repos_root: str | Path,
+        force: bool = False,
+    ) -> Decision | None:
         return make_decision(repos_root, force)
+
+
+def prepare_cover_letter(
+    *,
+    profile_path: str | Path,
+    job_description: str,
+) -> str:
+    """Prepare evidence-bound cover-letter material; never submit it."""
+    return EvidenceBoundGenerator(profile_path).generate(job_description).cover_letter
