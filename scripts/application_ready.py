@@ -44,7 +44,7 @@ def main() -> int:
             title=item.title,
             source_url=item.url,
             company=item.company,
-            description=" ".join(item.matched_skills),
+            description=item.description,
             raw_data={"location": item.location},
         )
         eligibility = assess_eligibility(job, args.target_country)
