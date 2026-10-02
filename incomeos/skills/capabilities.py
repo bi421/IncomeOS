@@ -4,10 +4,6 @@ from pathlib import Path
 
 from incomeos.skills.aggregator import build_master_profile
 from incomeos.skills.levels import classify_capability_level
-from incomeos.skills.github_analyzer import analyze_repository
-from incomeos.skills.detector import detect_skills
-
-
 from incomeos.capabilities.models import Capability
 CAPABILITY_RULES: dict[str, tuple[str, ...]] = {
     "Python Application Development": (
@@ -94,7 +90,6 @@ def build_capabilities(root: str | Path) -> tuple[Capability, ...]:
         capabilities.append(
             Capability(
                 name=capability_name,
-                category=CAPABILITY_CATEGORIES[capability_name],
                 skills=tuple(required_skills),
                 evidence_count=evidence_count,
                 repository_count=repository_count,
@@ -130,7 +125,7 @@ def main() -> None:
     for capability in capabilities:
         print(
             f"{capability.name}: "
-            f"{capability.level.value} "
+            f"{capability.level} "
             f"confidence={capability.confidence:.2f} "
             f"(category={capability.category}; "
             f"evidence={capability.evidence_count}; "
