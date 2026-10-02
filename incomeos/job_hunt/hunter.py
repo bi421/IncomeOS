@@ -28,7 +28,7 @@ def _canonical_url(value: str) -> str:
 
 
 def _job_id(job: Job) -> str:
-    return f"{job.source}:{_canonical_url(job.source_url)}"
+    return _canonical_url(job.source_url)
 
 
 def _valid(job: Job) -> bool:
