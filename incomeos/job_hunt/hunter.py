@@ -105,6 +105,7 @@ class JobHunter:
                 company=job.company,
                 url=_canonical_url(job.source_url),
                 location=str(job.raw_data.get("location", "")),
+                description=job.description,
                 fit_score=score,
                 matched_skills=matched,
                 missing_skills=missing,
