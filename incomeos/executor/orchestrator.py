@@ -3,7 +3,7 @@ from __future__ import annotations
 import subprocess
 from pathlib import Path
 
-from incomeos.decision.engine import DecisionAction, DecisionInput, decide_application
+from incomeos.decision.engine import DecisionInput, decide_application
 from incomeos.decision.persistence import DecisionStore
 from incomeos.decision.service import decision_from_job_fit
 from incomeos.jobs.fit import JobFit
