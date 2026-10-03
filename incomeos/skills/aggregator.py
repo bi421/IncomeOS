@@ -1,4 +1,3 @@
-﻿
 from __future__ import annotations
 
 import json
@@ -18,8 +17,10 @@ DIMENSION_WEIGHTS: dict[EvidenceDimension, float] = {
     EvidenceDimension.IMPLEMENTATION: 1.00,
 }
 
-VERIFIED_EVIDENCE_BONUS = 0.05
-MAX_VERIFIED_EVIDENCE_BONUS = 0.15
+VERIFIED_EVIDENCE_BONUS = 0.10
+MAX_VERIFIED_EVIDENCE_BONUS = 0.30
+UNVERIFIED_MAX_CONFIDENCE = 0.65
+UNVERIFIED_PENALTY = 0.70
 
 
 @dataclass(frozen=True)
@@ -151,9 +152,10 @@ def build_master_profile(
             strongest_score = max(
                 repository_scores.values()
             )
-
+            avg_score = sum(repository_scores.values()) / len(repository_scores)
             repository_count = len(repository_scores)
 
+            base_score = avg_score * 0.7 + strongest_score * 0.3
             repetition_bonus = min(
                 0.20,
                 0.05 * max(repository_count - 1, 0),
@@ -161,7 +163,7 @@ def build_master_profile(
 
             raw_confidence = min(
                 1.0,
-                strongest_score + repetition_bonus,
+                base_score + repetition_bonus,
             )
 
         verified_records = verified_by_skill.get(
@@ -179,10 +181,16 @@ def build_master_profile(
             * verified_count,
         )
 
-        confidence = min(
-            1.0,
-            raw_confidence + verified_bonus,
-        )
+        if verified_count == 0:
+            confidence = min(
+                UNVERIFIED_MAX_CONFIDENCE,
+                raw_confidence * UNVERIFIED_PENALTY,
+            )
+        else:
+            confidence = min(
+                1.0,
+                raw_confidence + verified_bonus,
+            )
 
         master_skills.append(
             MasterSkill(
@@ -265,4 +273,3 @@ def save_master_profile(
     )
 
     return output_path
-
