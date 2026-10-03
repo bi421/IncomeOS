@@ -123,7 +123,11 @@ def assess_eligibility(job: Job, target_country: str | None = None) -> Eligibili
                     "FAIL", f"{key} excludes the target country", None, location
                 )
         elif _as_text(value):
-            status = _allowed_location_status(value, target) if target else None
+            if target is None:
+                return EligibilityResult(
+                    "PASS", f"{key} provides an explicit geographic scope in global mode", True, location
+                )
+            status = _allowed_location_status(value, target)
             if status == "PASS":
                 return EligibilityResult(
                     "PASS", f"{key} explicitly permits the target scope", True, location
@@ -134,19 +138,26 @@ def assess_eligibility(job: Job, target_country: str | None = None) -> Eligibili
                 )
 
     countries = raw.get("countries")
-    if target and isinstance(countries, (list, tuple, set)):
+    if isinstance(countries, (list, tuple, set)):
         normalized = {_as_text(x).lower() for x in countries if _as_text(x)}
-        if normalized and target not in normalized and not any(
-            _WORLDWIDE.search(x) for x in normalized
-        ):
-            return EligibilityResult(
-                "FAIL", "target country not listed in allowed countries", None, location
-            )
+        if normalized:
+            if target is None:
+                return EligibilityResult(
+                    "PASS", "explicit allowed-country scope is present in global mode", True, location
+                )
+            if target not in normalized and not any(_WORLDWIDE.search(x) for x in normalized):
+                return EligibilityResult(
+                    "FAIL", "target country not listed in allowed countries", None, location
+                )
 
     region = _as_text(raw.get("region"))
     country = _as_text(raw.get("country"))
     for value, label in ((region, "region"), (country, "country")):
         if value:
+            if target is None:
+                return EligibilityResult(
+                    "PASS", f"{label} provides an explicit geographic scope in global mode", True, location
+                )
             status = _allowed_location_status(value, target)
             if status == "FAIL":
                 return EligibilityResult(
