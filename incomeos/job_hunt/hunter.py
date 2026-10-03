@@ -13,7 +13,7 @@ from incomeos.jobs.sources.registry import build_sources
 from .matcher import match_job
 from .models import HuntItem, HuntReport, SourceHealth
 from .source_evidence import descriptor_for, observed_now
-from .scoring import score_job
+from .scoring import MAX_ACCEPTED_JOB_AGE_DAYS, posted_age_days, score_job
 
 _TRACKING_KEYS = {
     "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content",
@@ -128,6 +128,13 @@ class JobHunter:
                     if not matched or score < minimum_fit:
                         continue
 
+                    # A job is not user-facing evidence unless its source
+                    # supplies a parseable publication timestamp and that
+                    # timestamp is recent enough to represent a live opening.
+                    age_days = posted_age_days(job.created_at)
+                    if age_days is None or age_days > MAX_ACCEPTED_JOB_AGE_DAYS:
+                        continue
+
                     eligibility = assess_eligibility(job, target_country)
                     # UNKNOWN is deliberately excluded from the user-facing
                     # result: absence of location evidence is not proof of
@@ -229,6 +236,10 @@ class JobHunter:
                     "eligibility_status": eligibility_status,
                     "eligibility_reason": eligibility_reason,
                     "fit_basis": "matched requested skills / requested skills",
+                    "posted_at": job.created_at,
+                    "posted_age_days": posted_age_days(job.created_at),
+                    "freshness_policy": f"accepted only when posted within {MAX_ACCEPTED_JOB_AGE_DAYS} days",
+                    "source_endpoint": descriptor_for(job.source).endpoint,
                 },
             )
             for (
