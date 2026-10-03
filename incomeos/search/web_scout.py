@@ -1,17 +1,31 @@
 from __future__ import annotations
+
 import json
 from datetime import datetime
-from typing import List, Dict, Tuple
-import requests
+from typing import Dict, List, Tuple
+from urllib.parse import urlsplit, urlunsplit
+
 import feedparser
+import requests
+
+from incomeos.jobs.filters import is_relevant
 from incomeos.skills.aggregator import build_master_profile
 from incomeos.tracking.database import get_db
-from incomeos.jobs.filters import is_relevant
+
+
+def _canonical_url(value: str) -> str:
+    parts = urlsplit((value or "").strip())
+    if not parts.scheme or not parts.netloc:
+        return (value or "").strip()
+    return urlunsplit(
+        (parts.scheme.lower(), parts.netloc.lower(), parts.path, parts.query, "")
+    )
 
 
 def _ensure_web_table() -> None:
     conn = get_db()
-    conn.execute("""
+    conn.execute(
+        """
         CREATE TABLE IF NOT EXISTS web_opportunities (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
@@ -21,25 +35,16 @@ def _ensure_web_table() -> None:
             source TEXT DEFAULT 'general',
             found_at TEXT NOT NULL
         )
-    """)
+        """
+    )
     conn.commit()
     conn.close()
 
 
-# ---------------------------------------------------------------------------
-# Individual job-posting sources
-#
-# Each source function returns (opportunities, error_message).
-# error_message is None on success (even if 0 matches were found — that is a
-# legitimate "no match" result, not a failure). It is set to a human-readable
-# string when the source could not be reached or returned something unusable,
-# so failures are visible to the caller instead of silently producing an
-# empty list that looks identical to "genuinely no jobs found".
-# ---------------------------------------------------------------------------
-
-def _search_remotive_api(skill_names: List[str], max_results: int = 15) -> Tuple[List[Dict], str | None]:
-    """Remotive-ийн үнэгүй, нээлттэй API-аас бодит, тусдаа ажлын зар авах.
-    Баримт бичиг: https://remotive.com/api/remote-jobs (auth шаардахгүй)."""
+def _search_remotive_api(
+    skill_names: List[str], max_results: int = 15
+) -> Tuple[List[Dict], str | None]:
+    """Fetch real Remotive listings; source failure remains visible to caller."""
     print("🌐 Remotive API-аас хайж байна...")
     opportunities: List[Dict] = []
     try:
@@ -56,27 +61,34 @@ def _search_remotive_api(skill_names: List[str], max_results: int = 15) -> Tuple
         jobs = resp.json().get("jobs", [])
         for job in jobs:
             if not skill_names or is_relevant(
-                job.get('title', ''), job.get('description', ''), None, skill_names
+                job.get("title", ""),
+                job.get("description", ""),
+                None,
+                skill_names,
             ):
-                opportunities.append({
-                    "title": job.get("title", "Unknown"),
-                    "url": job.get("url", ""),
-                    "snippet": f"{job.get('company_name', '')} — {job.get('candidate_required_location', '')}",
-                    "matched_skills": skill_names,
-                    "source": "remotive_api",
-                    "found_at": datetime.now().isoformat(),
-                })
+                opportunities.append(
+                    {
+                        "title": job.get("title", "Unknown"),
+                        "url": job.get("url", ""),
+                        "snippet": f"{job.get('company_name', '')} — "
+                        f"{job.get('candidate_required_location', '')}",
+                        "matched_skills": skill_names,
+                        "source": "remotive_api",
+                        "found_at": datetime.now().isoformat(),
+                    }
+                )
         print(f"  ✅ Remotive: {len(opportunities)} тохирох ажлын зар")
         return opportunities, None
-    except requests.exceptions.RequestException as e:
-        return [], f"Remotive request failed: {e}"
-    except (ValueError, KeyError) as e:
-        return [], f"Remotive response parse failed: {e}"
+    except requests.exceptions.RequestException as exc:
+        return [], f"Remotive request failed: {exc}"
+    except (ValueError, KeyError) as exc:
+        return [], f"Remotive response parse failed: {exc}"
 
 
-def _search_arbeitnow_api(skill_names: List[str], max_results: int = 15) -> Tuple[List[Dict], str | None]:
-    """Arbeitnow-ийн үнэгүй, нээлттэй API-аас бодит ажлын зар авах.
-    Баримт бичиг: https://www.arbeitnow.com/api/job-board-api (auth шаардахгүй)."""
+def _search_arbeitnow_api(
+    skill_names: List[str], max_results: int = 15
+) -> Tuple[List[Dict], str | None]:
+    """Fetch real Arbeitnow listings; source failure remains visible to caller."""
     print("🌐 Arbeitnow API-аас хайж байна...")
     opportunities: List[Dict] = []
     try:
@@ -91,29 +103,36 @@ def _search_arbeitnow_api(skill_names: List[str], max_results: int = 15) -> Tupl
         jobs = resp.json().get("data", [])
         for job in jobs:
             if not skill_names or is_relevant(
-                job.get('title', ''), job.get('description', ''),
-                job.get('tags', []), skill_names,
+                job.get("title", ""),
+                job.get("description", ""),
+                job.get("tags", []),
+                skill_names,
             ):
-                opportunities.append({
-                    "title": job.get("title", "Unknown"),
-                    "url": job.get("url", ""),
-                    "snippet": f"{job.get('company_name', '')} — {job.get('location', '')}",
-                    "matched_skills": skill_names,
-                    "source": "arbeitnow_api",
-                    "found_at": datetime.now().isoformat(),
-                })
+                opportunities.append(
+                    {
+                        "title": job.get("title", "Unknown"),
+                        "url": job.get("url", ""),
+                        "snippet": f"{job.get('company_name', '')} — "
+                        f"{job.get('location', '')}",
+                        "matched_skills": skill_names,
+                        "source": "arbeitnow_api",
+                        "found_at": datetime.now().isoformat(),
+                    }
+                )
                 if len(opportunities) >= max_results:
                     break
         print(f"  ✅ Arbeitnow: {len(opportunities)} тохирох ажлын зар")
         return opportunities, None
-    except requests.exceptions.RequestException as e:
-        return [], f"Arbeitnow request failed: {e}"
-    except (ValueError, KeyError) as e:
-        return [], f"Arbeitnow response parse failed: {e}"
+    except requests.exceptions.RequestException as exc:
+        return [], f"Arbeitnow request failed: {exc}"
+    except (ValueError, KeyError) as exc:
+        return [], f"Arbeitnow response parse failed: {exc}"
 
 
-def _search_rss_feeds(skill_names: List[str], max_per_feed: int = 10) -> Tuple[List[Dict], str | None]:
-    """RSS feed-үүдээс ажлын заруудыг авах."""
+def _search_rss_feeds(
+    skill_names: List[str], max_per_feed: int = 10
+) -> Tuple[List[Dict], str | None]:
+    """Fetch matching jobs from RSS feeds."""
     print("📡 RSS Feeds-ээс хайж байна...")
 
     feeds = [
@@ -123,7 +142,7 @@ def _search_rss_feeds(skill_names: List[str], max_per_feed: int = 10) -> Tuple[L
 
     opportunities: List[Dict] = []
     errors: List[str] = []
-    
+
     for name, feed_url in feeds:
         try:
             feed = feedparser.parse(feed_url)
@@ -139,32 +158,44 @@ def _search_rss_feeds(skill_names: List[str], max_per_feed: int = 10) -> Tuple[L
                 link = entry.get("link", "")
 
                 if not skill_names or is_relevant(title, summary, None, skill_names):
-                    opportunities.append({
-                        "title": title,
-                        "url": link,
-                        "snippet": summary[:200] if summary else "",
-                        "matched_skills": skill_names,
-                        "source": f"rss_{name.lower().replace(' ', '_')}",
-                        "found_at": datetime.now().isoformat(),
-                    })
+                    opportunities.append(
+                        {
+                            "title": title,
+                            "url": link,
+                            "snippet": summary[:200] if summary else "",
+                            "matched_skills": skill_names,
+                            "source": f"rss_{name.lower().replace(' ', '_')}",
+                            "found_at": datetime.now().isoformat(),
+                        }
+                    )
                     count += 1
                     if count >= max_per_feed:
                         break
             print(f"  ✅ {name}: {count} тохирох ажлын зар олдлоо")
-        except Exception as e:
-            errors.append(f"{name}: {e}")
-            print(f"  ⚠️ {name}: {e}")
+        except Exception as exc:
+            errors.append(f"{name}: {exc}")
+            print(f"  ⚠️ {name}: {exc}")
 
     return opportunities, "; ".join(errors) if errors else None
 
 
 def search_opportunities(repos_root: str, max_results: int = 15) -> List[Dict]:
+    """Return at most max_results unique opportunities across all sources.
+
+    max_results is a global output bound, not a per-source bound. A new call
+    performs a fresh source fetch; this function does not terminate after the
+    first successful result set.
+    """
+    if max_results < 1:
+        raise ValueError("max_results must be >= 1")
+
     _ensure_web_table()
     profile = build_master_profile(repos_root)
 
     top_skills = sorted(
         [(s.name, s.confidence) for s in profile.skills if s.confidence > 0.6],
-        key=lambda x: x[1], reverse=True
+        key=lambda x: x[1],
+        reverse=True,
     )[:3]
 
     if not top_skills:
@@ -183,24 +214,44 @@ def search_opportunities(repos_root: str, max_results: int = 15) -> List[Dict]:
         if err:
             source_errors.append(f"[{search_fn.__name__}] {err}")
 
-    if all_opportunities:
+    unique: List[Dict] = []
+    seen_urls: set[str] = set()
+    for opp in all_opportunities:
+        url = _canonical_url(str(opp.get("url", "")))
+        if not url or url in seen_urls:
+            continue
+        seen_urls.add(url)
+        normalized = dict(opp)
+        normalized["url"] = url
+        unique.append(normalized)
+        if len(unique) >= max_results:
+            break
+
+    if unique:
         conn = get_db()
-        for opp in all_opportunities:
+        for opp in unique:
             conn.execute(
-                "INSERT INTO web_opportunities (title, url, snippet, matched_skills, source, found_at) "
+                "INSERT INTO web_opportunities "
+                "(title, url, snippet, matched_skills, source, found_at) "
                 "VALUES (?, ?, ?, ?, ?, ?)",
-                (opp["title"], opp["url"], opp["snippet"], json.dumps(opp["matched_skills"]),
-                 opp["source"], opp["found_at"]),
+                (
+                    opp["title"],
+                    opp["url"],
+                    opp["snippet"],
+                    json.dumps(opp["matched_skills"]),
+                    opp["source"],
+                    opp["found_at"],
+                ),
             )
         conn.commit()
         conn.close()
 
     if source_errors:
         print("\n⚠️  Дараах эх сурвалжуудаас алдаа гарсан тул дүн бүрэн биш байж болзошгүй:")
-        for e in source_errors:
-            print(f"   - {e}")
+        for error in source_errors:
+            print(f"   - {error}")
 
-    return all_opportunities
+    return unique
 
 
 if __name__ == "__main__":
@@ -210,16 +261,18 @@ if __name__ == "__main__":
     print(f"\n✅ Нийт {len(results)} боломж олдлоо:\n")
 
     by_source: Dict[str, List[Dict]] = {}
-    for r in results:
-        src = r.get("source", "unknown")
-        by_source.setdefault(src, []).append(r)
+    for result in results:
+        source = result.get("source", "unknown")
+        by_source.setdefault(source, []).append(result)
 
     for source, items in by_source.items():
         print(f"📦 {source.upper()} ({len(items)}):")
-        for i, r in enumerate(items[:5], 1):
-            print(f"  [{i}] {r['title']}")
-            print(f"      🔗 {r['url']}\n")
+        for index, result in enumerate(items[:5], 1):
+            print(f"  [{index}] {result['title']}")
+            print(f"      🔗 {result['url']}\n")
 
     if not results:
-        print("Илэрц олдоогүй тохиолдолд дээрх алдааны мэдээллийг шалгана уу — "
-              "хайлт нэг ч эх сурвалжид хүрч чадаагүй байж магадгүй.")
+        print(
+            "Илэрц олдоогүй тохиолдолд дээрх алдааны мэдээллийг шалгана уу — "
+            "хайлт нэг ч эх сурвалжид хүрч чадаагүй байж магадгүй."
+        )
