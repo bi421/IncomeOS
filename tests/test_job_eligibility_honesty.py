@@ -35,3 +35,13 @@ def test_us_only_is_fail():
         job("", candidate_required_location=["United States only"]), "Mongolia"
     )
     assert result.status == "FAIL"
+
+
+def test_global_mode_accepts_explicit_worldwide():
+    result = assess_eligibility(job("Worldwide Python developer"))
+    assert result.status == "PASS"
+
+
+def test_global_mode_does_not_treat_generic_remote_as_worldwide():
+    result = assess_eligibility(job("Remote Python developer"))
+    assert result.status == "UNKNOWN"
