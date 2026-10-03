@@ -53,6 +53,17 @@ def test_restricted_job_is_not_prepared(tmp_path):
     ) is None
 
 
+def test_citizenship_restriction_fails_closed(tmp_path):
+    job = Job(
+        source="fixture",
+        title="Software Engineer",
+        source_url="https://example.com/jobs/4",
+        description="Remote - USA. This position requires US citizenship.",
+    )
+    eligibility = assess_eligibility(job, "Mongolia")
+    assert eligibility.status == "FAIL"
+
+
 def test_unknown_eligibility_fails_closed(tmp_path):
     job = Job(
         source="fixture",
