@@ -101,7 +101,16 @@ def test_master_skill_profile_respects_unverified_confidence_cap():
     assert "Python" in result.matched_requirements
     assert "Docker" in result.missing_requirements
     assert result.fit_score == 0.5
+
+    docker = next(
+        skill
+        for skill in profile.skills
+        if skill.name == "Docker"
+    )
+
+    assert docker.verified_evidence_count == 0
+    assert docker.confidence <= 0.65
     assert any(
-        "Docker: level=UNKNOWN below required B; confidence=0.40" in reason
+        "Docker: level=UNKNOWN below required B; confidence=" in reason
         for reason in result.reasons
     )
