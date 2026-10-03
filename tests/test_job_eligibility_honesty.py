@@ -45,3 +45,12 @@ def test_global_mode_accepts_explicit_worldwide():
 def test_global_mode_does_not_treat_generic_remote_as_worldwide():
     result = assess_eligibility(job("Remote Python developer"))
     assert result.status == "UNKNOWN"
+
+def test_global_mode_accepts_explicit_country_scope():
+    result = assess_eligibility(job("", country="United States"))
+    assert result.status == "PASS"
+
+
+def test_global_mode_accepts_explicit_allowed_countries():
+    result = assess_eligibility(job("", countries=["United States", "Canada"]))
+    assert result.status == "PASS"
