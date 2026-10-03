@@ -13,6 +13,7 @@ from incomeos.jobs.sources.registry import build_sources
 from .matcher import match_job
 from .models import HuntItem, HuntReport, SourceHealth
 from .source_evidence import descriptor_for, observed_now
+from .scoring import score_job
 
 _TRACKING_KEYS = {
     "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content",
@@ -61,6 +62,20 @@ def _display_location(job: Job) -> str:
     if isinstance(restrictions, (list, tuple, set)):
         values.extend(str(x).strip() for x in restrictions if str(x).strip())
     return " | ".join(dict.fromkeys(values))
+
+
+def _job_check_score(
+    job: Job,
+    matched: tuple[str, ...],
+    requested_skill_count: int,
+    eligibility_reason: str,
+):
+    return score_job(
+        job,
+        matched_skills=matched,
+        requested_skill_count=requested_skill_count,
+        eligibility_reason=eligibility_reason,
+    )
 
 
 class JobHunter:
@@ -177,6 +192,24 @@ class JobHunter:
                 location=_display_location(job),
                 description=job.description,
                 fit_score=score,
+                overall_score=_job_check_score(
+                    job, matched, len(unique_skills), eligibility_reason
+                ).overall_score,
+                score_breakdown=tuple(
+                    {
+                        "name": component.name,
+                        "points": component.points,
+                        "maximum": component.maximum,
+                        "status": component.status,
+                        "reason": component.reason,
+                    }
+                    for component in _job_check_score(
+                        job, matched, len(unique_skills), eligibility_reason
+                    ).components
+                ),
+                score_warnings=_job_check_score(
+                    job, matched, len(unique_skills), eligibility_reason
+                ).warnings,
                 matched_skills=matched,
                 missing_skills=missing,
                 raw_data={
