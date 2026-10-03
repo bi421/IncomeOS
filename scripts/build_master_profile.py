@@ -14,9 +14,9 @@ from incomeos.skills.aggregator import build_master_profile, save_master_profile
 
 VERIFIED_EVIDENCE = [
     {
-        "id": "incomeos-tests-168",
-        "claim": "The repository README documents 168 passing tests.",
-        "source": "README.md",
+        "id": "incomeos-ci-automation",
+        "claim": "The repository contains automated CI tests for regression validation.",
+        "source": ".github/workflows/tests.yml; tests/",
     },
     {
         "id": "incomeos-shell-risk",

@@ -38,6 +38,10 @@ jobs:
             gh repo clone "bi421/$repo" "data/github_repos/$repo" -- --depth 1
           done
 
+      - name: Build current master skill profile
+        run: |
+          python scripts/build_master_profile.py
+
       - name: Hunt real public job sources
         run: |
           mkdir -p artifacts
