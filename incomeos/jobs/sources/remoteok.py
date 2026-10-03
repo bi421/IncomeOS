@@ -23,7 +23,6 @@ class RemoteOKSource(JobSourceAdapter):
         req = urllib.request.Request(url, headers={"User-Agent": "IncomeOS/1.0"})
         with urllib.request.urlopen(req, timeout=20) as resp:
             payload = json.loads(resp.read().decode("utf-8"))
-        observed_at = datetime.now(timezone.utc).isoformat()
         for record in payload:
             if not isinstance(record, dict):
                 continue
@@ -31,7 +30,8 @@ class RemoteOKSource(JobSourceAdapter):
             if position.lower() in {"legal notice", "legal disclaimer"}:
                 continue
             ts = _safe_int(record.get("epoch"))
-            created_at = datetime.fromtimestamp(ts, tz=timezone.utc).isoformat() if ts else observed_at
+            # Do not substitute fetch time for publication time. That would make an old/undated listing appear newly posted.
+            created_at = datetime.fromtimestamp(ts, tz=timezone.utc).isoformat() if ts else ""
             yield Job(
                 source=self.source_name,
                 title=position or "Untitled",
