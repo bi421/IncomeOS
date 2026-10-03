@@ -178,8 +178,29 @@ class JobHunter:
             )
         self.db.upsert_many(rows)
 
-        candidates.sort(
-            key=lambda x: (-x[1], x[0].created_at or "", x[0].source, x[0].source_url)
+        scored_candidates = [
+            (
+                job,
+                score,
+                matched,
+                missing,
+                eligibility_status,
+                eligibility_reason,
+                _job_check_score(
+                    job, matched, len(unique_skills), eligibility_reason
+                ),
+            )
+            for job, score, matched, missing, eligibility_status, eligibility_reason
+            in candidates
+        ]
+        scored_candidates.sort(
+            key=lambda x: (
+                -x[6].overall_score,
+                -x[1],
+                x[0].created_at or "",
+                x[0].source,
+                x[0].source_url,
+            )
         )
 
         items = tuple(
@@ -192,9 +213,7 @@ class JobHunter:
                 location=_display_location(job),
                 description=job.description,
                 fit_score=score,
-                overall_score=_job_check_score(
-                    job, matched, len(unique_skills), eligibility_reason
-                ).overall_score,
+                overall_score=job_score.overall_score,
                 score_breakdown=tuple(
                     {
                         "name": component.name,
@@ -203,13 +222,9 @@ class JobHunter:
                         "status": component.status,
                         "reason": component.reason,
                     }
-                    for component in _job_check_score(
-                        job, matched, len(unique_skills), eligibility_reason
-                    ).components
+                    for component in job_score.components
                 ),
-                score_warnings=_job_check_score(
-                    job, matched, len(unique_skills), eligibility_reason
-                ).warnings,
+                score_warnings=job_score.warnings,
                 matched_skills=matched,
                 missing_skills=missing,
                 raw_data={
@@ -219,7 +234,14 @@ class JobHunter:
                     "fit_basis": "matched requested skills / requested skills",
                 },
             )
-            for job, score, matched, missing, eligibility_status, eligibility_reason
-            in candidates[:limit]
+            for (
+                job,
+                score,
+                matched,
+                missing,
+                eligibility_status,
+                eligibility_reason,
+                job_score,
+            ) in scored_candidates[:limit]
         )
         return HuntReport(items=items, sources=tuple(health))
