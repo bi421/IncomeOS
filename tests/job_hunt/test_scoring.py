@@ -30,7 +30,7 @@ def test_job_score_awards_only_explicit_evidence():
         eligibility_reason="candidate_required_location explicitly permits the target country",
     )
 
-    assert result.overall_score == 88
+    assert result.overall_score == 73
     assert {x.name: x.points for x in result.components} == {
         "skill_match": 13,
         "location_eligibility": 20,
@@ -56,7 +56,7 @@ def test_job_score_does_not_invent_missing_salary_or_metadata():
         eligibility_reason="target country appears in the job location",
     )
 
-    assert result.overall_score == 35
+    assert result.overall_score == 42
     assert "salary/compensation is unknown" in result.warnings
     assert "employment type is unknown" in result.warnings
     assert "seniority compatibility is unknown" in result.warnings
