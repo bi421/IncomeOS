@@ -3,8 +3,9 @@ from __future__ import annotations
 from collections.abc import Iterable, Sequence
 from pathlib import Path
 from typing import Protocol
-from urllib.parse import urlsplit, urlunsplit
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
+from incomeos.job_hunt.eligibility import assess_eligibility
 from incomeos.jobs.database import JobDatabase
 from incomeos.jobs.models.job import Job
 from incomeos.jobs.sources.registry import build_sources
@@ -13,20 +14,28 @@ from .matcher import match_job
 from .models import HuntItem, HuntReport, SourceHealth
 from .source_evidence import descriptor_for, observed_now
 
+_TRACKING_KEYS = {
+    "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content",
+    "ref", "referrer", "source",
+}
+
 
 class JobSource(Protocol):
     source_name: str
-
     def fetch(self) -> Iterable[Job]: ...
 
 
 def _canonical_url(value: str) -> str:
-    """Normalize only URL presentation; never alter the source destination."""
     parts = urlsplit(value.strip())
-    if not parts.scheme or not parts.netloc:
-        return value.strip()
+    if parts.scheme.lower() not in {"http", "https"} or not parts.netloc:
+        return ""
+    query = [
+        (k, v) for k, v in parse_qsl(parts.query, keep_blank_values=True)
+        if k.lower() not in _TRACKING_KEYS and not k.lower().startswith("utm_")
+    ]
     return urlunsplit(
-        (parts.scheme.lower(), parts.netloc.lower(), parts.path, parts.query, "")
+        (parts.scheme.lower(), parts.netloc.lower(),
+         parts.path.rstrip("/") or "/", urlencode(query), "")
     )
 
 
@@ -42,13 +51,8 @@ def _display_location(job: Job) -> str:
     raw = job.raw_data if isinstance(job.raw_data, dict) else {}
     values: list[str] = []
     for key in (
-        "location",
-        "candidate_required_location",
-        "candidate_location",
-        "job_location",
-        "country",
-        "region",
-        "state",
+        "location", "candidate_required_location", "candidate_location",
+        "job_location", "country", "region", "state",
     ):
         value = raw.get(key)
         if value is not None and str(value).strip():
@@ -60,7 +64,7 @@ def _display_location(job: Job) -> str:
 
 
 class JobHunter:
-    """Run a bounded, fail-visible hunt across real public job sources."""
+    """Fail-closed real-job hunt: valid URL + skill match + location eligibility."""
 
     def __init__(self, data_dir: str | Path = "data") -> None:
         self.data_dir = Path(data_dir)
@@ -75,16 +79,22 @@ class JobHunter:
         sources: Sequence[JobSource] | None = None,
         limit: int = 25,
         minimum_fit: float = 0.0,
+        target_country: str = "Mongolia",
     ) -> HuntReport:
-        """Fetch, validate, persist, deduplicate, and rank real job postings."""
         if limit < 1:
             raise ValueError("limit must be >= 1")
         if not 0.0 <= minimum_fit <= 1.0:
             raise ValueError("minimum_fit must be between 0 and 1")
+        if not target_country.strip():
+            raise ValueError("target_country must not be empty")
 
         selected = tuple(sources) if sources is not None else tuple(build_sources())
+        unique_skills = tuple(dict.fromkeys(s.strip() for s in skills if s.strip()))
+        if not unique_skills:
+            raise ValueError("at least one non-empty skill is required")
+
         seen: set[str] = set()
-        candidates: list[tuple[Job, float, tuple[str, ...], tuple[str, ...]]] = []
+        candidates = []
         health: list[SourceHealth] = []
 
         for source in selected:
@@ -100,16 +110,28 @@ class JobHunter:
                     if key in seen:
                         continue
                     seen.add(key)
+
+                    score, matched, missing = match_job(job, unique_skills)
+                    # minimum_fit=0 must never mean "accept unrelated jobs".
+                    if not matched or score < minimum_fit:
+                        continue
+
+                    eligibility = assess_eligibility(job, target_country)
+                    # UNKNOWN is deliberately excluded from the user-facing
+                    # result: absence of location evidence is not proof of
+                    # Mongolia eligibility.
+                    if eligibility.status != "PASS":
+                        continue
+
                     accepted += 1
-                    score, matched, missing = match_job(job, skills)
-                    if score >= minimum_fit:
-                        candidates.append((job, score, matched, missing))
+                    candidates.append(
+                        (job, score, matched, missing,
+                         eligibility.status, eligibility.reason)
+                    )
+
                 health.append(
                     SourceHealth(
-                        source.source_name,
-                        fetched,
-                        accepted,
-                        False,
+                        source.source_name, fetched, accepted, False,
                         endpoint=descriptor.endpoint,
                         protocol=descriptor.protocol,
                         provider_type=descriptor.provider_type,
@@ -119,20 +141,14 @@ class JobHunter:
             except Exception as exc:
                 health.append(
                     SourceHealth(
-                        source.source_name,
-                        fetched,
-                        accepted,
-                        True,
-                        str(exc),
-                        descriptor.endpoint,
-                        descriptor.protocol,
-                        descriptor.provider_type,
-                        observed_at,
+                        source.source_name, fetched, accepted, True, str(exc),
+                        descriptor.endpoint, descriptor.protocol,
+                        descriptor.provider_type, observed_at,
                     )
                 )
 
         rows = []
-        for job, score, matched, missing in candidates:
+        for job, score, matched, missing, _, _ in candidates:
             rows.append(
                 {
                     "source": job.source,
@@ -148,8 +164,9 @@ class JobHunter:
         self.db.upsert_many(rows)
 
         candidates.sort(
-            key=lambda x: (-x[1], x[0].created_at or "", x[0].source_url)
+            key=lambda x: (-x[1], x[0].created_at or "", x[0].source, x[0].source_url)
         )
+
         items = tuple(
             HuntItem(
                 job_id=_job_id(job),
@@ -162,8 +179,14 @@ class JobHunter:
                 fit_score=score,
                 matched_skills=matched,
                 missing_skills=missing,
-                raw_data=dict(job.raw_data),
+                raw_data={
+                    **dict(job.raw_data),
+                    "eligibility_status": eligibility_status,
+                    "eligibility_reason": eligibility_reason,
+                    "fit_basis": "matched requested skills / requested skills",
+                },
             )
-            for job, score, matched, missing in candidates[:limit]
+            for job, score, matched, missing, eligibility_status, eligibility_reason
+            in candidates[:limit]
         )
         return HuntReport(items=items, sources=tuple(health))

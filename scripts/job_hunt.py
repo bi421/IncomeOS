@@ -9,8 +9,9 @@ from incomeos.skills.aggregator import build_master_profile
 def main() -> int:
     parser = argparse.ArgumentParser(description="IncomeOS real public job hunt")
     parser.add_argument("--data-dir", default="data")
-    parser.add_argument("--limit", type=int, default=25)
+    parser.add_argument("--limit", type=int, default=2)
     parser.add_argument("--minimum-fit", type=float, default=0.0)
+    parser.add_argument("--target-country", default="Mongolia")
     args = parser.parse_args()
 
     if args.limit < 1:
@@ -40,6 +41,7 @@ def main() -> int:
         skills,
         limit=args.limit,
         minimum_fit=args.minimum_fit,
+        target_country=args.target_country,
     )
     print(
         f"SOURCES={len(report.sources)} "

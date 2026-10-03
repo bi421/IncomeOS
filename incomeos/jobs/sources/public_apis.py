@@ -6,18 +6,9 @@ import urllib.request
 from datetime import datetime, timezone
 from typing import Any, Iterable
 
-from incomeos.jobs.filters import is_relevant
 from incomeos.jobs.models.job import Job
+from incomeos.jobs.filters import is_relevant
 from .base import JobSourceAdapter
-
-_FOCUS_KEYWORDS = tuple(
-    alias
-    for skill in ("Python", "Docker", "C++", "CMake", "Testing", "Data Engineering")
-    for alias in {
-        skill.lower(),
-        *({"data engineering", "data engineer", "data pipeline", "data pipelines", "etl"} if skill == "Data Engineering" else set()),
-    }
-)
 
 
 class JsonApiSource(JobSourceAdapter):
@@ -55,9 +46,9 @@ class HimalayasSource(JsonApiSource):
                 description = str(record.get("description", ""))
                 if not title or not link or link in seen:
                     continue
-                seen.add(link)
-                if not is_relevant(title, description, record.get("categories", []), list(_FOCUS_KEYWORDS)):
+                if not is_relevant(title, description, record.get("categories", []), []):
                     continue
+                seen.add(link)
                 yield Job(
                     source=self.source_name,
                     title=title,
@@ -90,7 +81,7 @@ class RemotiveSource(JsonApiSource):
             if not title or not link:
                 continue
             tags = record.get("tags", []) or [record.get("category", "")]
-            if not is_relevant(title, description, tags, list(_FOCUS_KEYWORDS)):
+            if not is_relevant(title, description, tags, []):
                 continue
             yield Job(
                 source=self.source_name,
