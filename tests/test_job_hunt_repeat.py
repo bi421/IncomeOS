@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 from incomeos.job_hunt.hunter import JobHunter
 from incomeos.jobs.models.job import Job
 
@@ -16,6 +18,7 @@ class RotatingSource:
             f"https://example.com/jobs/{self.calls}",
             "Example",
             "Python",
+            created_at=datetime.now(timezone.utc).isoformat(),
             raw_data={"candidate_required_location": ["Mongolia"]},
         )
 
