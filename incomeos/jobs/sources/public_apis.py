@@ -6,18 +6,8 @@ import urllib.request
 from datetime import datetime, timezone
 from typing import Any, Iterable
 
-from incomeos.jobs.filters import is_relevant
 from incomeos.jobs.models.job import Job
 from .base import JobSourceAdapter
-
-_FOCUS_KEYWORDS = tuple(
-    alias
-    for skill in ("Python", "Docker", "C++", "CMake", "Testing", "Data Engineering")
-    for alias in {
-        skill.lower(),
-        *({"data engineering", "data engineer", "data pipeline", "data pipelines", "etl"} if skill == "Data Engineering" else set()),
-    }
-)
 
 
 class JsonApiSource(JobSourceAdapter):
