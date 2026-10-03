@@ -163,6 +163,11 @@ def assess_eligibility(job: Job, target_country: str = "Mongolia") -> Eligibilit
     if target_excluded:
         return EligibilityResult("FAIL", "target country is explicitly excluded", None, location)
 
+    if _WORLDWIDE.search(combined):
+        return EligibilityResult(
+            "PASS", "worldwide eligibility is explicitly stated", True, location
+        )
+
     remote = bool(_EXPLICIT_REMOTE.search(combined))
     match = _COUNTRY_RE.search(combined)
     if match and target not in match.group(1).lower() and not remote:
