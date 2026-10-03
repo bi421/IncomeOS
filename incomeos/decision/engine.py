@@ -124,6 +124,7 @@ def make_decision(
     repos_root: str | Path,
     force: bool = False,
     data_dir: Path = Path("data"),
+    audit_pass: bool = False,
 ) -> Decision | None:
     """Evaluate the best evidence-backed opportunity without executing it."""
     del force, data_dir
@@ -132,7 +133,6 @@ def make_decision(
     if not matches:
         return None
     top = matches[0]
-    audit_pass = True
     skill_gap_verified = not bool(top.missing_skills)
     return _decision_from_match(
         top,
@@ -148,8 +148,9 @@ class DecisionEngine:
     def decide(
         repos_root: str | Path,
         force: bool = False,
+        audit_pass: bool = False,
     ) -> Decision | None:
-        return make_decision(repos_root, force)
+        return make_decision(repos_root, force, audit_pass=audit_pass)
 
 
 def prepare_cover_letter(
