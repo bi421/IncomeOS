@@ -74,7 +74,7 @@ def test_job_score_never_exceeds_100():
 
 def test_job_score_parses_rfc822_publication_date():
     result = score_job(
-        _job(created_at="Fri, 03 Oct 2026 00:00:00 +0000"),
+        _job(created_at="Sun, 14 Sep 2026 00:00:00 +0000"),
         matched_skills=("Python", "Data Engineering"),
         requested_skill_count=6,
         eligibility_reason="worldwide eligibility is explicitly stated",
