@@ -47,3 +47,24 @@ def test_remotive_source_normalizes_real_shape(monkeypatch):
     assert jobs[0].source == "remotive"
     assert jobs[0].company == "Acme Data"
     assert jobs[0].created_at.startswith("2026-09-05")
+
+
+def test_remotive_source_does_not_use_fetch_time_when_publication_date_missing(monkeypatch):
+    monkeypatch.setattr(
+        RemotiveSource,
+        "_get_json",
+        lambda self, url: {
+            "jobs": [
+                {
+                    "title": "Data Engineer",
+                    "url": "https://example.com/undated",
+                    "company_name": "Acme Data",
+                    "description": "Work on ETL and data pipelines.",
+                    "category": "software development",
+                }
+            ]
+        },
+    )
+    jobs = list(RemotiveSource().fetch())
+    assert len(jobs) == 1
+    assert jobs[0].created_at == ""

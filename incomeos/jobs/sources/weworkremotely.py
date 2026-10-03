@@ -1,9 +1,8 @@
-﻿"""We Work Remotely RSS source adapter."""
+"""We Work Remotely RSS source adapter."""
 
 import html
 import urllib.request
 import xml.etree.ElementTree as ET
-from datetime import datetime, timezone
 from typing import Iterable
 
 from incomeos.jobs.models.job import Job
@@ -42,8 +41,6 @@ class WeWorkRemotelySource(JobSourceAdapter):
         if channel is None:
             return
 
-        observed_at = datetime.now(timezone.utc).isoformat()
-
         for item in channel.findall("item"):
             title = _text(item, "title")
 
@@ -74,7 +71,7 @@ class WeWorkRemotelySource(JobSourceAdapter):
                 description=description,
                 source=self.source_name,
                 source_url=link,
-                created_at=posted_at or observed_at,
+                created_at=posted_at,
                 raw_data={
                     "region": region,
                     "country": country,

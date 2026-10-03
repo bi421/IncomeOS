@@ -3,7 +3,6 @@ from __future__ import annotations
 import json
 import urllib.parse
 import urllib.request
-from datetime import datetime, timezone
 from typing import Any, Iterable
 
 from incomeos.jobs.models.job import Job
@@ -71,7 +70,6 @@ class RemotiveSource(JsonApiSource):
 
     def fetch(self) -> Iterable[Job]:
         payload = self._get_json(self.url)
-        observed_at = datetime.now(timezone.utc).isoformat()
         for record in payload.get("jobs", []):
             if not isinstance(record, dict):
                 continue
@@ -89,6 +87,6 @@ class RemotiveSource(JsonApiSource):
                 source_url=link,
                 company=str(record.get("company_name", "")),
                 description=description,
-                created_at=str(record.get("publication_date", "") or observed_at),
+                created_at=str(record.get("publication_date", "")),
                 raw_data=record,
             )
