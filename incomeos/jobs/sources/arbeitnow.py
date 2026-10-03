@@ -5,7 +5,6 @@ from datetime import datetime, timezone
 from typing import Iterable
 
 from incomeos.jobs.models.job import Job
-from incomeos.jobs.filters import is_relevant
 from .base import JobSourceAdapter
 
 def _safe_int(value):
@@ -26,12 +25,6 @@ class ArbeitnowSource(JobSourceAdapter):
             payload = json.loads(resp.read().decode("utf-8"))
         observed_at = datetime.now(timezone.utc).isoformat()
         for record in payload.get("data", []):
-            if not is_relevant(
-                record.get("title", ""),
-                record.get("description", ""),
-                record.get("tags", []),
-            ):
-                continue
             ts = _safe_int(record.get("created_at"))
             created_at = datetime.fromtimestamp(ts, tz=timezone.utc).isoformat() if ts else observed_at
             yield Job(
@@ -57,8 +50,6 @@ class ArbeitnowUKSource(ArbeitnowSource):
             payload = json.loads(resp.read().decode("utf-8"))
         observed_at = datetime.now(timezone.utc).isoformat()
         for record in payload.get("data", []):
-            if not is_relevant(record.get("title", ""), record.get("description", ""), record.get("tags", [])):
-                continue
             ts = _safe_int(record.get("created_at"))
             created_at = datetime.fromtimestamp(ts, tz=timezone.utc).isoformat() if ts else observed_at
             yield Job(
