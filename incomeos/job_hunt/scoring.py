@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 import re
 from typing import Any
 
@@ -20,6 +21,8 @@ _SENIORITY = re.compile(
 )
 _EMPLOYMENT_KEYS = ("employment_type", "employmentType", "job_type", "jobType", "type")
 _SALARY_KEYS = ("salary", "salary_range", "salaryRange", "compensation", "pay")
+MAX_ACCEPTED_JOB_AGE_DAYS = 30
+
 _DATE_FORMATS = (
     "%Y-%m-%dT%H:%M:%S%z",
     "%Y-%m-%dT%H:%M:%S.%f%z",
@@ -60,27 +63,45 @@ def _first_value(raw: dict[str, Any], keys: tuple[str, ...]) -> Any:
     return None
 
 
-def _freshness_points(created_at: str) -> tuple[int, str]:
-    value = (created_at or "").strip()
+def parse_posted_at(value: str) -> datetime | None:
+    value = (value or "").strip()
     if not value:
-        return 0, "created_at is missing"
-    parsed: datetime | None = None
+        return None
     for fmt in _DATE_FORMATS:
         try:
             parsed = datetime.strptime(value.replace("Z", "+00:00"), fmt)
-            break
+            return parsed.replace(tzinfo=parsed.tzinfo or timezone.utc)
         except ValueError:
             continue
+    try:
+        parsed = parsedate_to_datetime(value)
+        return parsed.replace(tzinfo=parsed.tzinfo or timezone.utc)
+    except (TypeError, ValueError, OverflowError):
+        return None
+
+
+def posted_age_days(created_at: str) -> float | None:
+    parsed = parse_posted_at(created_at)
     if parsed is None:
-        return 0, "created_at could not be parsed"
-    if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=timezone.utc)
-    age_days = max(0.0, (datetime.now(timezone.utc) - parsed.astimezone(timezone.utc)).total_seconds() / 86400)
+        return None
+    return max(
+        0.0,
+        (datetime.now(timezone.utc) - parsed.astimezone(timezone.utc)).total_seconds() / 86400,
+    )
+
+
+def _freshness_points(created_at: str) -> tuple[int, str]:
+    value = (created_at or "").strip()
+    if not value:
+        return 0, "posted_at is missing"
+    age_days = posted_age_days(value)
+    if age_days is None:
+        return 0, "posted_at could not be parsed"
     if age_days <= 7:
         return 5, f"posted {age_days:.1f} days ago"
     if age_days <= 14:
         return 4, f"posted {age_days:.1f} days ago"
-    if age_days <= 30:
+    if age_days <= MAX_ACCEPTED_JOB_AGE_DAYS:
         return 3, f"posted {age_days:.1f} days ago"
     if age_days <= 60:
         return 2, f"posted {age_days:.1f} days ago"
