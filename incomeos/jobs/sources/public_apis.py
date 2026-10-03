@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from typing import Any, Iterable
 
 from incomeos.jobs.models.job import Job
+from incomeos.jobs.filters import is_relevant
 from .base import JobSourceAdapter
 
 
@@ -45,6 +46,8 @@ class HimalayasSource(JsonApiSource):
                 description = str(record.get("description", ""))
                 if not title or not link or link in seen:
                     continue
+                if not is_relevant(title, description, record.get("categories", []), []):
+                    continue
                 seen.add(link)
                 yield Job(
                     source=self.source_name,
@@ -76,6 +79,9 @@ class RemotiveSource(JsonApiSource):
             link = str(record.get("url", "")).strip()
             description = str(record.get("description", ""))
             if not title or not link:
+                continue
+            tags = record.get("tags", []) or [record.get("category", "")]
+            if not is_relevant(title, description, tags, []):
                 continue
             yield Job(
                 source=self.source_name,
