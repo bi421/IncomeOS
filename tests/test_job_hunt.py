@@ -1,3 +1,5 @@
+from datetime import datetime, timezone, timedelta
+
 from incomeos.job_hunt.hunter import JobHunter
 from incomeos.jobs.models.job import Job
 
@@ -15,7 +17,15 @@ class FakeSource:
 
 
 def _job(title, url, company, description, **raw):
-    return Job("fake", title, url, company, description, raw_data=raw)
+    return Job(
+        "fake",
+        title,
+        url,
+        company,
+        description,
+        created_at=datetime.now(timezone.utc).isoformat(),
+        raw_data=raw,
+    )
 
 
 def test_hunt_fetches_deduplicates_ranks_and_requires_eligibility(tmp_path):
@@ -110,3 +120,19 @@ def test_known_source_descriptor_is_explicit():
     descriptor = descriptor_for("himalayas")
     assert descriptor.endpoint == "https://himalayas.app/jobs/api"
     assert descriptor.protocol == "HTTPS JSON API"
+
+def test_hunt_rejects_stale_or_undated_jobs(tmp_path):
+    stale = _job(
+        "Python Developer", "https://example.com/stale", "A", "Python",
+        candidate_required_location=["Mongolia"],
+    )
+    stale.created_at = (datetime.now(timezone.utc) - timedelta(days=31)).isoformat()
+    undated = Job(
+        "fake", "Python Developer", "https://example.com/undated", "A", "Python",
+        raw_data={"candidate_required_location": ["Mongolia"]},
+    )
+    report = JobHunter(tmp_path).hunt(
+        ["Python"], sources=[FakeSource("fake", [stale, undated])], limit=10
+    )
+    assert report.items == ()
+    assert report.sources[0].accepted == 0
