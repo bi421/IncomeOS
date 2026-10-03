@@ -66,8 +66,8 @@ def main() -> int:
             if skill.name in item.matched_skills
         )
         print(
-            f"{item.fit_score:.3f} | {item.title} | {item.company} | "
-            f"{item.source} | {item.url} | "
+            f"CHECK_SCORE={item.overall_score}/100 | FIT={item.fit_score:.3f} | "
+            f"{item.title} | {item.company} | {item.source} | {item.url} | "
             f"MATCHED_MODES={matched_modes}"
         )
 
