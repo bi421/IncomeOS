@@ -16,6 +16,7 @@ class RotatingSource:
             f"https://example.com/jobs/{self.calls}",
             "Example",
             "Python",
+            raw_data={"candidate_required_location": ["Mongolia"]},
         )
 
 
