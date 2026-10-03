@@ -14,12 +14,6 @@ class SourceDescriptor:
 
 
 SOURCE_DESCRIPTORS = {
-    "arbeitnow": SourceDescriptor(
-        "https://www.arbeitnow.com/api/job-board-api", "HTTPS JSON API", "job board/provider"
-    ),
-    "arbeitnow_uk": SourceDescriptor(
-        "https://www.arbeitnow.co.uk/api/job-board-api", "HTTPS JSON API", "job board/provider"
-    ),
     "himalayas": SourceDescriptor(
         "https://himalayas.app/jobs/api", "HTTPS JSON API", "remote job board"
     ),
