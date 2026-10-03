@@ -3,6 +3,8 @@ name: IncomeOS Live Job Hunt
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: "0 */6 * * *"
   workflow_dispatch:
 
 permissions:
@@ -13,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PYTHONPATH: ${{ github.workspace }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,13 +41,7 @@ jobs:
       - name: Hunt real public job sources
         run: |
           mkdir -p artifacts
-          set +e
           python scripts/job_hunt.py --limit 25 --minimum-fit 0.50 | tee artifacts/live_job_hunt.txt
-          status=${PIPESTATUS[0]}
-          set -e
-          if [ "$status" -gt 1 ]; then
-            exit "$status"
-          fi
 
       - name: Build application-ready queue
         run: |
