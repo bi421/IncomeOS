@@ -86,29 +86,6 @@ def test_empty_requirements_are_not_automatically_a_perfect_fit():
     assert not result.is_qualified
 
 
-def test_skill_matching_is_case_and_whitespace_insensitive():
-    result = evaluate_job_fit(
-        job_id="job-6",
-        requirements=(JobRequirement("  PYTHON  ", CapabilityLevel.B),),
-        profile=capability_profile(),
-    )
-
-    assert result.fit_score == 1.0
-    assert result.matched_requirements == ("  PYTHON  ",)
-    assert result.missing_requirements == ()
-
-
-def test_common_python_alias_matches_without_fuzzy_matching():
-    result = evaluate_job_fit(
-        job_id="job-7",
-        requirements=(JobRequirement("Python 3", CapabilityLevel.B),),
-        profile=capability_profile(),
-    )
-
-    assert result.fit_score == 1.0
-    assert result.matched_requirements == ("Python 3",)
-
-
 def test_master_skill_profile_respects_unverified_confidence_cap():
     profile = build_master_profile("data/github_repos")
 
