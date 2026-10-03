@@ -73,3 +73,11 @@ def test_hunt_reports_source_provenance_and_acceptance_rate(tmp_path):
     assert health.endpoint == ""
     assert health.observed_at
     assert health.acceptance_rate == 1.0
+
+
+def test_known_source_descriptor_is_explicit():
+    from incomeos.job_hunt.source_evidence import descriptor_for
+
+    descriptor = descriptor_for("himalayas")
+    assert descriptor.endpoint == "https://himalayas.app/jobs/api"
+    assert descriptor.protocol == "HTTPS JSON API"
