@@ -65,7 +65,7 @@ def test_save_master_profile(tmp_path):
     assert payload["repository_count"] == 1
     assert payload["skill_record_count"] == 1
     assert payload["unique_skill_count"] == 0
-    assert "confidence does not imply independent mastery" in payload[
+    assert "Confidence does not imply independent mastery." in payload[
         "profile_truth_policy"
     ]
 
