@@ -13,6 +13,11 @@ def main() -> int:
     parser.add_argument("--minimum-fit", type=float, default=0.0)
     args = parser.parse_args()
 
+    if args.limit < 1:
+        raise SystemExit("--limit must be >= 1")
+    if not 0.0 <= args.minimum_fit <= 1.0:
+        raise SystemExit("--minimum-fit must be between 0 and 1")
+
     profile = build_master_profile("data/github_repos")
     eligible_skills = tuple(
         skill
@@ -49,6 +54,9 @@ def main() -> int:
             f"PROTOCOL={health.protocol} ENDPOINT={health.endpoint} "
             f"OBSERVED_AT={health.observed_at}"
         )
+        if health.error:
+            print(f"SOURCE_ERROR={health.source} {health.error}")
+
     for item in report.items:
         matched_modes = tuple(
             skill.evidence_mode
@@ -60,11 +68,24 @@ def main() -> int:
             f"{item.source} | {item.url} | "
             f"MATCHED_MODES={matched_modes}"
         )
+
     if not report.items:
         print("RESULT=NO_JOBS")
     else:
         print(f"RESULT=JOBS_FOUND COUNT={len(report.items)}")
-    # No-jobs is a valid hunt result. Runtime errors still raise and fail the job.
+
+    # A completely unavailable source set is an operational failure, not
+    # evidence that no jobs exist. Partial source failure remains a valid,
+    # explicitly visible partial result.
+    if report.sources and len(report.failed_sources) == len(report.sources):
+        print("RESULT_STATUS=ALL_SOURCES_FAILED")
+        return 2
+
+    if report.failed_sources:
+        print("RESULT_STATUS=PARTIAL_SOURCE_FAILURE")
+    else:
+        print("RESULT_STATUS=COMPLETE_SOURCE_SET")
+
     return 0
 
 
