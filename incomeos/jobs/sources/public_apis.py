@@ -46,8 +46,6 @@ class HimalayasSource(JsonApiSource):
                 if not title or not link or link in seen:
                     continue
                 seen.add(link)
-                if not is_relevant(title, description, record.get("categories", []), list(_FOCUS_KEYWORDS)):
-                    continue
                 yield Job(
                     source=self.source_name,
                     title=title,
@@ -78,9 +76,6 @@ class RemotiveSource(JsonApiSource):
             link = str(record.get("url", "")).strip()
             description = str(record.get("description", ""))
             if not title or not link:
-                continue
-            tags = record.get("tags", []) or [record.get("category", "")]
-            if not is_relevant(title, description, tags, list(_FOCUS_KEYWORDS)):
                 continue
             yield Job(
                 source=self.source_name,
