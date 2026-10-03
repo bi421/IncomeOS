@@ -29,11 +29,12 @@ def main() -> int:
         raise SystemExit("missing data/github_repos evidence fixture")
 
     profile = build_master_profile(profile_root)
-    skills = tuple(
-        skill.name.strip()
+    eligible_profile_skills = tuple(
+        skill
         for skill in profile.skills
         if skill.name.strip() and skill.confidence >= 0.60
     )
+    skills = tuple(skill.name for skill in eligible_profile_skills)
     hunter = JobHunter(args.data_dir)
     report = hunter.hunt(skills, limit=args.limit, minimum_fit=args.minimum_fit)
 
@@ -63,6 +64,12 @@ def main() -> int:
         if prepared is None:
             continue
 
+        matched_modes = {
+            skill.name: skill.evidence_mode
+            for skill in eligible_profile_skills
+            if skill.name in item.matched_skills
+        }
+
         ready.append(
             {
                 "title": prepared.title,
@@ -71,6 +78,7 @@ def main() -> int:
                 "location": item.location,
                 "fit_score": prepared.fit_score,
                 "matched_skills": list(item.matched_skills),
+                "matched_skill_modes": matched_modes,
                 "missing_skills": list(item.missing_skills),
                 "eligibility": prepared.eligibility.status,
                 "eligibility_reason": prepared.eligibility.reason,
@@ -85,6 +93,10 @@ def main() -> int:
     payload = {
         "target_country": args.target_country,
         "minimum_fit": args.minimum_fit,
+        "profile_truth_policy": (
+            "Repository evidence is AI-assisted unless separately verified; "
+            "confidence does not imply independent mastery."
+        ),
         "sources_failed": list(report.failed_sources),
         "total_fetched": report.total_fetched,
         "ready_count": len(ready),
