@@ -82,8 +82,7 @@ class EvidenceBoundGenerator:
         """Build a strict prompt whose allowed claims are explicit."""
         if not job_description.strip():
             raise ValueError("job_description must not be empty")
-        evidence = "
-".join(
+        evidence = "\n".join(
             f"- [{claim.claim_id}] {claim.text} (source: {claim.source})"
             for claim in self.claims
         ) or "- No metric-level evidence is available; make no metric claims."
