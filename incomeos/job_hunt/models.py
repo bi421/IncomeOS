@@ -33,6 +33,9 @@ class HuntItem:
     location: str
     description: str
     fit_score: float
+    overall_score: int
+    score_breakdown: tuple[dict[str, Any], ...]
+    score_warnings: tuple[str, ...]
     matched_skills: tuple[str, ...]
     missing_skills: tuple[str, ...]
     raw_data: dict[str, Any] = field(default_factory=dict)
