@@ -159,7 +159,7 @@ def assess_eligibility(job: Job, target_country: str = "Mongolia") -> Eligibilit
                     "PASS", f"{label} explicitly permits the target country", True, location
                 )
 
-    target_excluded = bool(re.search(rf"\\b(?:except|excluding|not available in|unavailable in|no hiring in)\\s+(?:[a-z ,/&-]*\\b)?{re.escape(target)}\\b", combined, re.I))
+    target_excluded = bool(re.search(rf"\b(?:except|excluding|not available in|unavailable in|no hiring in)\s+(?:[a-z ,/&-]*\b)?{re.escape(target)}\b", combined, re.I))
     if target_excluded:
         return EligibilityResult("FAIL", "target country is explicitly excluded", None, location)
 
