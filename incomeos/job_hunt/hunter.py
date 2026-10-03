@@ -94,15 +94,12 @@ class JobHunter:
         sources: Sequence[JobSource] | None = None,
         limit: int = 25,
         minimum_fit: float = 0.0,
-        target_country: str = "Mongolia",
+        target_country: str | None = None,
     ) -> HuntReport:
         if limit < 1:
             raise ValueError("limit must be >= 1")
         if not 0.0 <= minimum_fit <= 1.0:
             raise ValueError("minimum_fit must be between 0 and 1")
-        if not target_country.strip():
-            raise ValueError("target_country must not be empty")
-
         selected = tuple(sources) if sources is not None else tuple(build_sources())
         unique_skills = tuple(dict.fromkeys(s.strip() for s in skills if s.strip()))
         if not unique_skills:

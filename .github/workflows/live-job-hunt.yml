@@ -49,7 +49,7 @@ jobs:
 
       - name: Build application-ready queue
         run: |
-          python scripts/application_ready.py --limit 25 --minimum-fit 0.70 --target-country Mongolia | tee artifacts/application_ready.txt
+          python scripts/application_ready.py --limit 25 --minimum-fit 0.70 | tee artifacts/application_ready.txt
 
       - name: Publish hunt result
         uses: actions/upload-artifact@v4

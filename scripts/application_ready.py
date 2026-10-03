@@ -2,7 +2,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from incomeos.applications.generator import EvidenceBoundGenerator
 from incomeos.job_hunt.eligibility import assess_eligibility
@@ -17,7 +22,11 @@ def main() -> int:
     parser.add_argument("--limit", type=int, default=25)
     parser.add_argument("--ready-limit", type=int, default=3)
     parser.add_argument("--minimum-fit", type=float, default=0.70)
-    parser.add_argument("--target-country", default="Mongolia")
+    parser.add_argument(
+        "--target-country",
+        default=None,
+        help="Target country; omit to run in global/worldwide mode.",
+    )
     parser.add_argument("--data-dir", default="data")
     parser.add_argument("--profile", default="data/profile/master_skill_profile.json")
     args = parser.parse_args()
@@ -39,7 +48,12 @@ def main() -> int:
     )
     skills = tuple(skill.name for skill in eligible_profile_skills)
     hunter = JobHunter(args.data_dir)
-    report = hunter.hunt(skills, limit=args.limit, minimum_fit=args.minimum_fit)
+    report = hunter.hunt(
+        skills,
+        limit=args.limit,
+        minimum_fit=args.minimum_fit,
+        target_country=args.target_country,
+    )
 
     generator = EvidenceBoundGenerator(args.profile)
     queue = ApplicationQueue(Path(args.data_dir) / "application_queue.db")

@@ -97,12 +97,10 @@ def _text(job: Job) -> tuple[str, str]:
     return combined, location
 
 
-def assess_eligibility(job: Job, target_country: str = "Mongolia") -> EligibilityResult:
+def assess_eligibility(job: Job, target_country: str | None = None) -> EligibilityResult:
     """Conservative eligibility gate: explicit restrictions override generic remote text."""
     combined, location = _text(job)
-    target = target_country.strip().lower()
-    if not target:
-        raise ValueError("target_country must not be empty")
+    target = target_country.strip().lower() if target_country else None
 
     for pattern in _RESTRICTED:
         if pattern.search(combined):
@@ -117,7 +115,7 @@ def assess_eligibility(job: Job, target_country: str = "Mongolia") -> Eligibilit
         if isinstance(value, (list, tuple, set)):
             values = tuple(_as_text(item) for item in value if _as_text(item))
             if values:
-                if any(_WORLDWIDE.search(item.lower()) or target in item.lower() for item in values):
+                if any(_WORLDWIDE.search(item.lower()) or (target and target in item.lower()) for item in values):
                     return EligibilityResult(
                         "PASS", f"{key} explicitly permits the target country", True, location
                     )
@@ -125,10 +123,10 @@ def assess_eligibility(job: Job, target_country: str = "Mongolia") -> Eligibilit
                     "FAIL", f"{key} excludes the target country", None, location
                 )
         elif _as_text(value):
-            status = _allowed_location_status(value, target)
+            status = _allowed_location_status(value, target) if target else None
             if status == "PASS":
                 return EligibilityResult(
-                    "PASS", f"{key} explicitly permits the target country", True, location
+                    "PASS", f"{key} explicitly permits the target scope", True, location
                 )
             if status == "FAIL":
                 return EligibilityResult(
@@ -136,7 +134,7 @@ def assess_eligibility(job: Job, target_country: str = "Mongolia") -> Eligibilit
                 )
 
     countries = raw.get("countries")
-    if isinstance(countries, (list, tuple, set)):
+    if target and isinstance(countries, (list, tuple, set)):
         normalized = {_as_text(x).lower() for x in countries if _as_text(x)}
         if normalized and target not in normalized and not any(
             _WORLDWIDE.search(x) for x in normalized
@@ -159,7 +157,7 @@ def assess_eligibility(job: Job, target_country: str = "Mongolia") -> Eligibilit
                     "PASS", f"{label} explicitly permits the target country", True, location
                 )
 
-    target_excluded = bool(re.search(rf"\b(?:except|excluding|not available in|unavailable in|no hiring in)\s+(?:[a-z ,/&-]*\b)?{re.escape(target)}\b", combined, re.I))
+    target_excluded = bool(target and re.search(rf"\b(?:except|excluding|not available in|unavailable in|no hiring in)\s+(?:[a-z ,/&-]*\b)?{re.escape(target)}\b", combined, re.I))
     if target_excluded:
         return EligibilityResult("FAIL", "target country is explicitly excluded", None, location)
 
@@ -183,7 +181,7 @@ def assess_eligibility(job: Job, target_country: str = "Mongolia") -> Eligibilit
             location,
         )
 
-    if _contains_target(location, target):
+    if target and _contains_target(location, target):
         return EligibilityResult(
             "PASS", "target country appears in the job location", False, location
         )

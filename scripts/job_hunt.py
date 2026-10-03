@@ -1,6 +1,12 @@
 from __future__ import annotations
 
 import argparse
+import sys
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from incomeos.job_hunt import JobHunter
 from incomeos.skills.aggregator import build_master_profile
@@ -11,7 +17,11 @@ def main() -> int:
     parser.add_argument("--data-dir", default="data")
     parser.add_argument("--limit", type=int, default=2)
     parser.add_argument("--minimum-fit", type=float, default=0.0)
-    parser.add_argument("--target-country", default="Mongolia")
+    parser.add_argument(
+        "--target-country",
+        default=None,
+        help="Target country; omit to run in global/worldwide mode.",
+    )
     args = parser.parse_args()
 
     if args.limit < 1:
