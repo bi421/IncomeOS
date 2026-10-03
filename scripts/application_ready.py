@@ -15,6 +15,7 @@ from incomeos.jobs.models.job import Job
 def main() -> int:
     parser = argparse.ArgumentParser(description="Build human-reviewable application-ready packages.")
     parser.add_argument("--limit", type=int, default=25)
+    parser.add_argument("--ready-limit", type=int, default=3)
     parser.add_argument("--minimum-fit", type=float, default=0.70)
     parser.add_argument("--target-country", default="Mongolia")
     parser.add_argument("--data-dir", default="data")
@@ -23,6 +24,8 @@ def main() -> int:
 
     if not 0.0 <= args.minimum_fit <= 1.0:
         raise SystemExit("--minimum-fit must be between 0 and 1")
+    if args.ready_limit < 1:
+        raise SystemExit("--ready-limit must be >= 1")
 
     profile_root = Path("data/github_repos")
     if not profile_root.exists():
@@ -49,7 +52,7 @@ def main() -> int:
             source_url=item.url,
             company=item.company,
             description=item.description,
-            raw_data={"location": item.location},
+            raw_data=item.raw_data,
         )
         eligibility = assess_eligibility(job, args.target_country)
         if eligibility.status != "PASS":
@@ -89,10 +92,13 @@ def main() -> int:
                 "resume_summary": prepared.application.resume_summary,
             }
         )
+        if len(ready) >= args.ready_limit:
+            break
 
     payload = {
         "target_country": args.target_country,
         "minimum_fit": args.minimum_fit,
+        "ready_limit": args.ready_limit,
         "profile_truth_policy": (
             "Repository evidence is AI-assisted unless separately verified; "
             "confidence does not imply independent mastery."
