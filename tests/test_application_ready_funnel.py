@@ -82,3 +82,52 @@ def test_unknown_eligibility_fails_closed(tmp_path):
         eligibility=eligibility,
         generator=EvidenceBoundGenerator(profile),
     ) is None
+
+
+def test_himalayas_location_restriction_fails_for_mongolia():
+    job = Job(
+        source="himalayas",
+        title="Python Engineer",
+        source_url="https://example.com/jobs/5",
+        description="Remote engineering role using Python.",
+        raw_data={"locationRestrictions": ["Romania"]},
+    )
+    result = assess_eligibility(job, "Mongolia")
+    assert result.status == "FAIL"
+    assert "locationRestrictions" in result.reason
+
+
+def test_remotive_allowed_location_fails_when_mongolia_is_absent():
+    job = Job(
+        source="remotive",
+        title="Python Engineer",
+        source_url="https://example.com/jobs/6",
+        description="Remote engineering role using Python.",
+        raw_data={"candidate_required_location": "Europe, USA, UK, Canada"},
+    )
+    result = assess_eligibility(job, "Mongolia")
+    assert result.status == "FAIL"
+
+
+def test_remotive_worldwide_passes():
+    job = Job(
+        source="remotive",
+        title="Python Engineer",
+        source_url="https://example.com/jobs/7",
+        description="Remote engineering role using Python.",
+        raw_data={"candidate_required_location": "Worldwide"},
+    )
+    result = assess_eligibility(job, "Mongolia")
+    assert result.status == "PASS"
+
+
+def test_weworkremotely_worldwide_region_passes():
+    job = Job(
+        source="weworkremotely",
+        title="Python Engineer",
+        source_url="https://example.com/jobs/8",
+        description="Engineering role using Python.",
+        raw_data={"region": "Anywhere in the World"},
+    )
+    result = assess_eligibility(job, "Mongolia")
+    assert result.status == "PASS"
