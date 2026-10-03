@@ -25,7 +25,9 @@ def _canonical_url(value: str) -> str:
     parts = urlsplit(value.strip())
     if not parts.scheme or not parts.netloc:
         return value.strip()
-    return urlunsplit((parts.scheme.lower(), parts.netloc.lower(), parts.path, parts.query, ""))
+    return urlunsplit(
+        (parts.scheme.lower(), parts.netloc.lower(), parts.path, parts.query, "")
+    )
 
 
 def _job_id(job: Job) -> str:
@@ -34,6 +36,27 @@ def _job_id(job: Job) -> str:
 
 def _valid(job: Job) -> bool:
     return bool(job.title.strip() and _canonical_url(job.source_url))
+
+
+def _display_location(job: Job) -> str:
+    raw = job.raw_data if isinstance(job.raw_data, dict) else {}
+    values: list[str] = []
+    for key in (
+        "location",
+        "candidate_required_location",
+        "candidate_location",
+        "job_location",
+        "country",
+        "region",
+        "state",
+    ):
+        value = raw.get(key)
+        if value is not None and str(value).strip():
+            values.append(str(value).strip())
+    restrictions = raw.get("locationRestrictions")
+    if isinstance(restrictions, (list, tuple, set)):
+        values.extend(str(x).strip() for x in restrictions if str(x).strip())
+    return " | ".join(dict.fromkeys(values))
 
 
 class JobHunter:
@@ -81,25 +104,52 @@ class JobHunter:
                     score, matched, missing = match_job(job, skills)
                     if score >= minimum_fit:
                         candidates.append((job, score, matched, missing))
-                health.append(SourceHealth(source.source_name, fetched, accepted, False, endpoint=descriptor.endpoint, protocol=descriptor.protocol, provider_type=descriptor.provider_type, observed_at=observed_at))
+                health.append(
+                    SourceHealth(
+                        source.source_name,
+                        fetched,
+                        accepted,
+                        False,
+                        endpoint=descriptor.endpoint,
+                        protocol=descriptor.protocol,
+                        provider_type=descriptor.provider_type,
+                        observed_at=observed_at,
+                    )
+                )
             except Exception as exc:
-                health.append(SourceHealth(source.source_name, fetched, accepted, True, str(exc), descriptor.endpoint, descriptor.protocol, descriptor.provider_type, observed_at))
+                health.append(
+                    SourceHealth(
+                        source.source_name,
+                        fetched,
+                        accepted,
+                        True,
+                        str(exc),
+                        descriptor.endpoint,
+                        descriptor.protocol,
+                        descriptor.provider_type,
+                        observed_at,
+                    )
+                )
 
         rows = []
         for job, score, matched, missing in candidates:
-            rows.append({
-                "source": job.source,
-                "title": job.title,
-                "company": job.company,
-                "url": _canonical_url(job.source_url),
-                "description": job.description,
-                "created_at": job.created_at,
-                "location": str(job.raw_data.get("location", "")),
-                "raw_data": job.raw_data,
-            })
+            rows.append(
+                {
+                    "source": job.source,
+                    "title": job.title,
+                    "company": job.company,
+                    "url": _canonical_url(job.source_url),
+                    "description": job.description,
+                    "created_at": job.created_at,
+                    "location": _display_location(job),
+                    "raw_data": job.raw_data,
+                }
+            )
         self.db.upsert_many(rows)
 
-        candidates.sort(key=lambda x: (-x[1], x[0].created_at or "", x[0].source_url))
+        candidates.sort(
+            key=lambda x: (-x[1], x[0].created_at or "", x[0].source_url)
+        )
         items = tuple(
             HuntItem(
                 job_id=_job_id(job),
@@ -107,11 +157,12 @@ class JobHunter:
                 title=job.title,
                 company=job.company,
                 url=_canonical_url(job.source_url),
-                location=str(job.raw_data.get("location", "")),
+                location=_display_location(job),
                 description=job.description,
                 fit_score=score,
                 matched_skills=matched,
                 missing_skills=missing,
+                raw_data=dict(job.raw_data),
             )
             for job, score, matched, missing in candidates[:limit]
         )
