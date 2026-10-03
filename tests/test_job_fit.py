@@ -2,6 +2,7 @@ from incomeos.jobs.fit import (
     JobRequirement,
     evaluate_job_fit,
 )
+from incomeos.skills.aggregator import build_master_profile
 from incomeos.skills.levels import CapabilityLevel
 
 
@@ -28,36 +29,22 @@ def test_job_fit_matches_required_capabilities():
     result = evaluate_job_fit(
         job_id="job-1",
         requirements=(
-            JobRequirement(
-                "Python",
-                CapabilityLevel.B,
-            ),
-            JobRequirement(
-                "C++",
-                CapabilityLevel.B,
-            ),
+            JobRequirement("Python", CapabilityLevel.B),
+            JobRequirement("C++", CapabilityLevel.B),
         ),
         profile=capability_profile(),
     )
 
     assert result.fit_score == 1.0
     assert result.missing_requirements == ()
-    assert set(result.matched_requirements) == {
-        "Python",
-        "C++",
-    }
+    assert set(result.matched_requirements) == {"Python", "C++"}
     assert result.is_qualified
 
 
 def test_a_capability_satisfies_b_requirement():
     result = evaluate_job_fit(
         job_id="job-2",
-        requirements=(
-            JobRequirement(
-                "Python",
-                CapabilityLevel.B,
-            ),
-        ),
+        requirements=(JobRequirement("Python", CapabilityLevel.B),),
         profile=capability_profile(),
     )
 
@@ -67,12 +54,7 @@ def test_a_capability_satisfies_b_requirement():
 def test_b_capability_does_not_satisfy_a_requirement():
     result = evaluate_job_fit(
         job_id="job-3",
-        requirements=(
-            JobRequirement(
-                "C++",
-                CapabilityLevel.A,
-            ),
-        ),
+        requirements=(JobRequirement("C++", CapabilityLevel.A),),
         profile=capability_profile(),
     )
 
@@ -84,21 +66,13 @@ def test_b_capability_does_not_satisfy_a_requirement():
 def test_missing_requirement_is_explained():
     result = evaluate_job_fit(
         job_id="job-4",
-        requirements=(
-            JobRequirement(
-                "Docker",
-                CapabilityLevel.B,
-            ),
-        ),
+        requirements=(JobRequirement("Docker", CapabilityLevel.B),),
         profile=capability_profile(),
     )
 
     assert result.fit_score == 0.0
     assert "Docker" in result.missing_requirements
-    assert any(
-        "no capability evidence" in reason
-        for reason in result.reasons
-    )
+    assert any("no capability evidence" in reason for reason in result.reasons)
 
 
 def test_empty_requirements_are_not_automatically_a_perfect_fit():
@@ -111,10 +85,8 @@ def test_empty_requirements_are_not_automatically_a_perfect_fit():
     assert result.fit_score == 0.0
     assert not result.is_qualified
 
-from incomeos.skills.aggregator import build_master_profile
 
-
-def test_master_skill_profile_matches_job_requirements():
+def test_master_skill_profile_respects_unverified_confidence_cap():
     profile = build_master_profile("data/github_repos")
 
     result = evaluate_job_fit(
@@ -127,6 +99,9 @@ def test_master_skill_profile_matches_job_requirements():
     )
 
     assert "Python" in result.matched_requirements
-    assert "Docker" in result.matched_requirements
-    assert result.missing_requirements == ()
-    assert result.fit_score == 1.0
+    assert "Docker" in result.missing_requirements
+    assert result.fit_score == 0.5
+    assert any(
+        "Docker: level=UNKNOWN below required B; confidence=0.44" in reason
+        for reason in result.reasons
+    )
