@@ -140,7 +140,7 @@ def is_relevant(
     if any(term in title_l for term in _EXCLUDE_TITLE_TERMS):
         return False
 
-    keywords = tuple(skill_names) if skill_names else DEFAULT_FOCUS_SKILLS
+    keywords = tuple(skill_names) if skill_names is not None else DEFAULT_FOCUS_SKILLS
     if not keywords:
         return True
 
