@@ -22,6 +22,11 @@ MAX_VERIFIED_EVIDENCE_BONUS = 0.30
 UNVERIFIED_MAX_CONFIDENCE = 0.65
 UNVERIFIED_PENALTY = 0.70
 
+# Repository evidence does not imply independent coding ability.
+# The user's current evidence is AI-assisted unless separately verified.
+AI_ASSISTED_UNVERIFIED_MODE = "ai_assisted_unverified"
+VERIFIED_OUTCOME_MODE = "verified_outcome"
+
 
 @dataclass(frozen=True)
 class MasterSkill:
@@ -31,6 +36,7 @@ class MasterSkill:
     repositories: tuple[str, ...]
     verified_evidence_count: int = 0
     verified_decision_ids: tuple[str, ...] = ()
+    evidence_mode: str = AI_ASSISTED_UNVERIFIED_MODE
 
 
 @dataclass(frozen=True)
@@ -186,11 +192,13 @@ def build_master_profile(
                 UNVERIFIED_MAX_CONFIDENCE,
                 raw_confidence * UNVERIFIED_PENALTY,
             )
+            evidence_mode = AI_ASSISTED_UNVERIFIED_MODE
         else:
             confidence = min(
                 1.0,
                 raw_confidence + verified_bonus,
             )
+            evidence_mode = VERIFIED_OUTCOME_MODE
 
         master_skills.append(
             MasterSkill(
@@ -223,6 +231,7 @@ def build_master_profile(
                         }
                     )
                 ),
+                evidence_mode=evidence_mode,
             )
         )
 
@@ -257,6 +266,11 @@ def save_master_profile(
         "repository_count": profile.repository_count,
         "skill_record_count": profile.skill_record_count,
         "unique_skill_count": len(profile.skills),
+        "profile_truth_policy": (
+            "Repository evidence is AI-assisted unless a skill has "
+            "separate verified outcome evidence. Confidence does not "
+            "imply independent mastery."
+        ),
         "skills": [
             asdict(skill)
             for skill in profile.skills
