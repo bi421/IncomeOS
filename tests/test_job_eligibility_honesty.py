@@ -57,5 +57,5 @@ def test_global_mode_accepts_explicit_allowed_countries():
 
 
 def test_global_mode_handles_explicit_location_without_target_country():
-    result = assess_eligibility(job("Location: United States"))
+    result = assess_eligibility(job("", country="United States"))
     assert result.status == "PASS"
