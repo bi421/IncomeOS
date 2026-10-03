@@ -94,7 +94,7 @@ class JobHunter:
         sources: Sequence[JobSource] | None = None,
         limit: int = 25,
         minimum_fit: float = 0.0,
-        target_country: str | None = None,
+        target_country: str = "Mongolia",
     ) -> HuntReport:
         if limit < 1:
             raise ValueError("limit must be >= 1")
