@@ -179,7 +179,7 @@ def assess_eligibility(job: Job, target_country: str | None = None) -> Eligibili
 
     remote = bool(_EXPLICIT_REMOTE.search(combined))
     match = _COUNTRY_RE.search(combined)
-    if match and target not in match.group(1).lower() and not remote:
+    if target is not None and match and target not in match.group(1).lower() and not remote:
         return EligibilityResult(
             "UNKNOWN", "location restriction could not be verified", remote, location
         )
