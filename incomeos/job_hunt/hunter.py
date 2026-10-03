@@ -11,6 +11,7 @@ from incomeos.jobs.sources.registry import build_sources
 
 from .matcher import match_job
 from .models import HuntItem, HuntReport, SourceHealth
+from .source_evidence import descriptor_for, observed_now
 
 
 class JobSource(Protocol):
@@ -65,6 +66,8 @@ class JobHunter:
 
         for source in selected:
             fetched = accepted = 0
+            descriptor = descriptor_for(source.source_name)
+            observed_at = observed_now()
             try:
                 for job in source.fetch():
                     fetched += 1
@@ -78,9 +81,9 @@ class JobHunter:
                     score, matched, missing = match_job(job, skills)
                     if score >= minimum_fit:
                         candidates.append((job, score, matched, missing))
-                health.append(SourceHealth(source.source_name, fetched, accepted, False))
+                health.append(SourceHealth(source.source_name, fetched, accepted, False, endpoint=descriptor.endpoint, protocol=descriptor.protocol, provider_type=descriptor.provider_type, observed_at=observed_at))
             except Exception as exc:
-                health.append(SourceHealth(source.source_name, fetched, accepted, True, str(exc)))
+                health.append(SourceHealth(source.source_name, fetched, accepted, True, str(exc), descriptor.endpoint, descriptor.protocol, descriptor.provider_type, observed_at))
 
         rows = []
         for job, score, matched, missing in candidates:

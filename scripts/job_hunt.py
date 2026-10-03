@@ -28,6 +28,14 @@ def main() -> int:
         f"FAILED={len(report.failed_sources)} "
         f"FETCHED={report.total_fetched}"
     )
+    for health in report.sources:
+        print(
+            f"SOURCE={health.source} FAILED={health.failed} "
+            f"FETCHED={health.fetched} ACCEPTED={health.accepted} "
+            f"ACCEPTANCE_RATE={health.acceptance_rate:.3f} "
+            f"PROTOCOL={health.protocol} ENDPOINT={health.endpoint} "
+            f"OBSERVED_AT={health.observed_at}"
+        )
     for item in report.items:
         print(
             f"{item.fit_score:.3f} | {item.title} | {item.company} | "

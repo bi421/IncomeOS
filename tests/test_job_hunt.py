@@ -57,3 +57,27 @@ def test_hunt_rejects_invalid_bounds(tmp_path):
         assert False
     except ValueError:
         pass
+
+
+
+def test_hunt_reports_source_provenance_and_acceptance_rate(tmp_path):
+    job = Job("fake", "Python Developer", "https://example.com/a", "A", "Python")
+    report = JobHunter(tmp_path).hunt(
+        ["Python"],
+        sources=[FakeSource("fake", [job])],
+        limit=1,
+    )
+    health = report.sources[0]
+    assert health.protocol == "unknown"
+    assert health.provider_type == "unclassified"
+    assert health.endpoint == ""
+    assert health.observed_at
+    assert health.acceptance_rate == 1.0
+
+
+def test_known_source_descriptor_is_explicit():
+    from incomeos.job_hunt.source_evidence import descriptor_for
+
+    descriptor = descriptor_for("himalayas")
+    assert descriptor.endpoint == "https://himalayas.app/jobs/api"
+    assert descriptor.protocol == "HTTPS JSON API"

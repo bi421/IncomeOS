@@ -12,6 +12,17 @@ class SourceHealth:
     accepted: int
     failed: bool
     error: str = ""
+    endpoint: str = ""
+    protocol: str = "unknown"
+    provider_type: str = "unclassified"
+    observed_at: str = ""
+
+    @property
+    def acceptance_rate(self) -> float:
+        """Fraction of fetched records that survived IncomeOS validation."""
+        if self.fetched == 0:
+            return 0.0
+        return self.accepted / self.fetched
 
 
 @dataclass(frozen=True)
