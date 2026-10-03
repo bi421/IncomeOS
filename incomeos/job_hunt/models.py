@@ -1,12 +1,11 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import Any
 
 
 @dataclass(frozen=True)
 class SourceHealth:
-    """Observed result of one real job source during a hunt."""
-
     source: str
     fetched: int
     accepted: int
@@ -19,7 +18,6 @@ class SourceHealth:
 
     @property
     def acceptance_rate(self) -> float:
-        """Fraction of fetched records that survived IncomeOS validation."""
         if self.fetched == 0:
             return 0.0
         return self.accepted / self.fetched
@@ -27,8 +25,6 @@ class SourceHealth:
 
 @dataclass(frozen=True)
 class HuntItem:
-    """A persisted real job with deterministic candidate-fit evidence."""
-
     job_id: str
     source: str
     title: str
@@ -39,12 +35,11 @@ class HuntItem:
     fit_score: float
     matched_skills: tuple[str, ...]
     missing_skills: tuple[str, ...]
+    raw_data: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)
 class HuntReport:
-    """Complete result of one bounded job-hunt run."""
-
     items: tuple[HuntItem, ...]
     sources: tuple[SourceHealth, ...]
 
