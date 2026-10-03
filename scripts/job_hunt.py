@@ -69,15 +69,22 @@ def main() -> int:
         if health.error:
             print(f"SOURCE_ERROR={health.source} {health.error}")
 
+    source_endpoints = {health.source: health.endpoint for health in report.sources}
+
     for item in report.items:
         matched_modes = tuple(
             skill.evidence_mode
             for skill in eligible_skills
             if skill.name in item.matched_skills
         )
+        posted_at = item.raw_data.get("posted_at") or "UNKNOWN"
+        posted_age_days = item.raw_data.get("posted_age_days")
+        age_text = f"{posted_age_days:.1f}" if isinstance(posted_age_days, (int, float)) else "UNKNOWN"
         print(
-            f"CHECK_SCORE={item.overall_score}/100 | FIT={item.fit_score:.3f} | "
-            f"{item.title} | {item.company} | {item.source} | {item.url} | "
+            f"JOB | CHECK_SCORE={item.overall_score}/100 | FIT={item.fit_score:.3f} | "
+            f"TITLE={item.title} | COMPANY={item.company} | SOURCE={item.source} | "
+            f"SOURCE_ENDPOINT={source_endpoints.get(item.source, 'UNKNOWN')} | "
+            f"POSTED_AT={posted_at} | AGE_DAYS={age_text} | URL={item.url} | "
             f"MATCHED_MODES={matched_modes}"
         )
 
