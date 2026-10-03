@@ -13,6 +13,10 @@ def _profile(tmp_path: Path) -> Path:
     path.write_text(
         json.dumps(
             {
+                "profile_truth_policy": (
+                    "Repository evidence is AI-assisted unless separately verified; "
+                    "confidence does not imply independent mastery."
+                ),
                 "skills": [{"name": "Python", "confidence": 1.0}],
                 "verified_evidence": [
                     {
@@ -32,13 +36,16 @@ def test_prompt_contains_only_explicit_evidence(tmp_path: Path) -> None:
     generator = EvidenceBoundGenerator(_profile(tmp_path))
     prompt = generator.build_prompt("Python automation engineer")
     assert "tests-168" in prompt
-    assert "Never invent" in prompt
+    assert "Never claim independent mastery" in prompt
+    assert "AI-assisted" in prompt
 
 
 def test_deterministic_generation_is_grounded(tmp_path: Path) -> None:
     generator = EvidenceBoundGenerator(_profile(tmp_path))
     result = generator.generate("Python automation engineer")
     assert "168 passing tests" in result.cover_letter
+    assert "documented project work" in result.cover_letter
+    assert "verified background" not in result.cover_letter.lower()
     assert result.claim_ids == ("tests-168",)
 
 

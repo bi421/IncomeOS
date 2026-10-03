@@ -17,7 +17,7 @@ class EvidenceClaim:
 
 @dataclass(frozen=True)
 class GeneratedApplication:
-    """Evidence-bound application artifacts."""
+    """Generate application artifacts without introducing unsupported claims."""
 
     cover_letter: str
     resume_summary: str
@@ -69,6 +69,15 @@ class EvidenceBoundGenerator:
                     result.append(name)
         return tuple(result)
 
+    def _truth_policy(self) -> str:
+        raw = str(
+            self.profile.get(
+                "profile_truth_policy",
+                "Repository evidence may be AI-assisted; confidence does not imply independent mastery.",
+            )
+        ).strip()
+        return raw
+
     def build_prompt(self, job_description: str) -> str:
         """Build a strict prompt whose allowed claims are explicit."""
         if not job_description.strip():
@@ -83,21 +92,27 @@ class EvidenceBoundGenerator:
 TARGET JOB DESCRIPTION:
 {job_description.strip()}
 
-PROVEN SKILLS:
+DOCUMENTED PROJECT SKILLS:
 {skills}
+
+PROFILE TRUTH POLICY:
+{self._truth_policy()}
 
 ALLOWED EVIDENCE CLAIMS:
 {evidence}
 
 RULES:
-1. Use only the proven skills and evidence claims above.
-2. Never invent employers, products, metrics, certifications, years, job titles,
-   technologies, deployments, or outcomes.
-3. Do not convert confidence into a claim of mastery.
-4. If evidence is missing, omit the claim rather than filling the gap.
-5. Return JSON with keys: claim_ids, cover_letter, resume_summary.
-6. Every claim_ids value must exactly match an allowed evidence claim id.
-7. The cover letter and resume summary must remain consistent with claim_ids.
+1. Use only the documented project skills and evidence claims above.
+2. Treat repository/project skill evidence as AI-assisted unless separate verified
+   evidence explicitly supports a stronger claim.
+3. Never claim independent mastery, years of experience, employment history,
+   certifications, metrics, deployments, technologies, or outcomes that are not
+   explicitly supported.
+4. Do not convert confidence into a claim of mastery.
+5. If evidence is missing, omit the claim rather than filling the gap.
+6. Return JSON with keys: claim_ids, cover_letter, resume_summary.
+7. Every claim_ids value must exactly match an allowed evidence claim id.
+8. The cover letter and resume summary must remain consistent with claim_ids.
 """
 
     def _validate(
@@ -126,17 +141,17 @@ RULES:
         """Generate deterministic fallback or validate a supplied LLM result."""
         prompt = self.build_prompt(job_description)
         if llm is None:
-            skill_text = ", ".join(self._skills()) or "evidence-backed engineering"
+            skill_text = ", ".join(self._skills()) or "documented engineering project work"
             claims = tuple(self.claims)
             claim_ids = tuple(claim.claim_id for claim in claims)
             evidence_text = " ".join(claim.text for claim in claims)
             cover = (
-                f"I am interested in this role because my verified background includes "
-                f"{skill_text}. {evidence_text}".strip()
+                f"I am interested in this role because my documented project work "
+                f"includes {skill_text}. {evidence_text}".strip()
             )
             resume = (
-                f"Evidence-backed skills: {skill_text}. "
-                f"Verified repository evidence: {evidence_text}".strip()
+                f"Documented project skills: {skill_text}. "
+                f"Verified evidence claims: {evidence_text}".strip()
             )
             return GeneratedApplication(cover, resume, claim_ids, prompt)
 

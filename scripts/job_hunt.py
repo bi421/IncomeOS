@@ -14,9 +14,22 @@ def main() -> int:
     args = parser.parse_args()
 
     profile = build_master_profile("data/github_repos")
-    skills = [skill.name for skill in profile.skills if skill.confidence >= 0.60]
+    eligible_skills = tuple(
+        skill
+        for skill in profile.skills
+        if skill.name.strip() and skill.confidence >= 0.60
+    )
+    skills = [skill.name for skill in eligible_skills]
     if not skills:
         raise SystemExit("No evidence-backed skills meet the 0.60 confidence threshold.")
+
+    print("PROFILE_TRUTH_POLICY=repository evidence is AI-assisted unless separately verified")
+    print("PROFILE_SKILL_MODES:")
+    for skill in eligible_skills:
+        print(
+            f"  {skill.name} | confidence={skill.confidence:.3f} "
+            f"| mode={skill.evidence_mode}"
+        )
 
     report = JobHunter(args.data_dir).hunt(
         skills,
@@ -37,9 +50,15 @@ def main() -> int:
             f"OBSERVED_AT={health.observed_at}"
         )
     for item in report.items:
+        matched_modes = tuple(
+            skill.evidence_mode
+            for skill in eligible_skills
+            if skill.name in item.matched_skills
+        )
         print(
             f"{item.fit_score:.3f} | {item.title} | {item.company} | "
-            f"{item.source} | {item.url}"
+            f"{item.source} | {item.url} | "
+            f"MATCHED_MODES={matched_modes}"
         )
     if not report.items:
         print("RESULT=NO_JOBS")

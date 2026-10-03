@@ -1,4 +1,5 @@
 ﻿from incomeos.skills.aggregator import (
+    AI_ASSISTED_UNVERIFIED_MODE,
     DIMENSION_WEIGHTS,
     MasterSkillProfile,
     build_master_profile,
@@ -33,6 +34,10 @@ def test_master_profile_from_portfolio(tmp_path):
     assert profile.repository_count == 2
     assert profile.skill_record_count >= 2
     assert len(profile.skills) >= 1
+    assert all(
+        skill.evidence_mode == AI_ASSISTED_UNVERIFIED_MODE
+        for skill in profile.skills
+    )
 
 
 def test_save_master_profile(tmp_path):
@@ -60,6 +65,9 @@ def test_save_master_profile(tmp_path):
     assert payload["repository_count"] == 1
     assert payload["skill_record_count"] == 1
     assert payload["unique_skill_count"] == 0
+    assert "Confidence does not imply independent mastery." in payload[
+        "profile_truth_policy"
+    ]
 
 
 def test_dimension_weights_are_ordered():
